@@ -7,11 +7,8 @@ UsefulMethod is an Android Library that can helps you with some common function 
     maven { url <span class="pl-s"><span class="pl-pds">"</span>https://jitpack.io<span class="pl-pds">"</span></span> }
 }</pre></div>
 <div class="highlight highlight-source-groovy"><pre>dependencies {
-    <span class="pl-c"><span class="pl-c">//</span> AndroidX Capable version</span>
-    implementation <span class="pl-s"><span class="pl-pds">'</span>com.github.dodyac:UsefulMethod:$version }
-}<span class="pl-pds">'</span></span>    
-
-
+    implementation <span class="pl-s"><span class="pl-pds">'</span>com.github.dodyac:UsefulMethod:$version'
+}<span class="pl-pds"></span></span></div>
 
 ## Credits
 
