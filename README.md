@@ -24,4 +24,4 @@ UsefulMethod is an Android Library that can helps you with some common function 
 ## License
 
 ```
-Copyright 2018 Dody AC
+Copyright 2020 Dody AC
