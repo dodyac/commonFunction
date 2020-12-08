@@ -8,13 +8,7 @@ UsefulMethod is an Android Library that can helps you with some common function 
 }</pre></div>
 <div class="highlight highlight-source-groovy"><pre>dependencies {
     <span class="pl-c"><span class="pl-c">//</span> AndroidX Capable version</span>
-    implementation <span class="pl-s"><span class="pl-pds">'</span>com.github.dodyac:UsefulMethod:$version<span class="pl-pds">'</span></span>
-    
-    <span class="pl-c"><span class="pl-c">//</span> *** OR ***</span>
-    
-    <span class="pl-c"><span class="pl-c">//</span> Latest version compatible with the old Support Library</span>
-    implementation <span class="pl-s"><span class="pl-pds">'</span>com.github.dodyac:UsefulMethod:$version<span class="pl-pds">'</span></span></pre></div>
-    
+    implementation <span class="pl-s"><span class="pl-pds">'</span>com.github.dodyac:UsefulMethod:$version<span class="pl-pds">'</span></span>    
     
 ## Credits
 
@@ -26,11 +20,6 @@ UsefulMethod is an Android Library that can helps you with some common function 
 * https://github.com/amulyakhare/TextDrawable - Text Drawable
 * https://github.com/TheFinestArtist/FinestWebView-Android - FinestWebView
 * https://github.com/elye/loaderviewlibrary - Loader View for Android
-
-## References
-
-* https://github.com/sharish/ShimmerRecyclerView
-* https://github.com/team-supercharge/ShimmerLayout/
 
 ## License
 
