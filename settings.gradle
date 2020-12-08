@@ -1,0 +1,3 @@
+include ':usefulmethodx'
+include ':app'
+rootProject.name = "Useful Method"
