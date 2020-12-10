@@ -1,5 +1,6 @@
 # UsefulMethod
 [![](https://jitpack.io/v/dodyac/UsefulMethod.svg)](https://jitpack.io/#dodyac/UsefulMethod)
+[![API](https://img.shields.io/badge/API-19%2B-brightgreen.svg?style=flat)](https://android-arsenal.com/api?level=19)
 
 UsefulMethod is an Android Library that can helps you with some common function for your App.
 
