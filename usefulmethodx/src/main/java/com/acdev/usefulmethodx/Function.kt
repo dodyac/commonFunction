@@ -31,6 +31,7 @@ class Function {
             recyclerView?.layoutManager = layoutManager
             recyclerView?.adapter = adapter
             adapter?.notifyDataSetChanged()
+            
         }
 
         fun Context.toasty(isError: Boolean, string: String?) {
