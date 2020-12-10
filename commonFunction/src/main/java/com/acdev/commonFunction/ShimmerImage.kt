@@ -33,7 +33,7 @@ class ShimmerImage : AppCompatImageView, LoaderView {
         showShimmer()
     }
 
-    private fun showShimmer() {
+    fun showShimmer() {
         if (drawable != null) {
             super.setImageDrawable(null)
             loaderController!!.startLoading()

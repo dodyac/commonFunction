@@ -68,38 +68,38 @@ class ShimmerRecycler : RecyclerView {
         showShimmer()
     }
 
-    private fun setBindViewHolderPlugin(plugin: BindViewHolderPlugin?) {
+    fun setBindViewHolderPlugin(plugin: BindViewHolderPlugin?) {
         mShimmerAdapter!!.setBindViewHolderPlugin(plugin)
     }
 
-    private fun setGridChildCount(count: Int) {
+    fun setGridChildCount(count: Int) {
         mGridCount = count
     }
 
-    private fun layoutManager(type: LayoutMangerType?) {
+    fun layoutManager(type: LayoutMangerType?) {
         mLayoutMangerType = type
     }
 
-    private fun setChildCount(count: Int) {
+    fun setChildCount(count: Int) {
         mShimmerAdapter!!.setMinItemCount(count)
     }
 
-    private fun duration(duration: Int) {
+    fun duration(duration: Int) {
         mShimmerAdapter!!.setShimmerDuration(duration)
     }
 
-    private fun maskWidth(maskWidth: Float) {
+     fun maskWidth(maskWidth: Float) {
         mShimmerAdapter!!.setShimmerMaskWidth(maskWidth)
     }
 
-    private fun showShimmer() {
+    fun showShimmer() {
         mCanScroll = false
         if (mShimmerLayoutManager == null) initShimmerManager()
         layoutManager = mShimmerLayoutManager
         adapter = mShimmerAdapter
     }
 
-    private fun hideShimmer() {
+    fun hideShimmer() {
         mCanScroll = true
         layoutManager = mActualLayoutManager
         adapter = mActualAdapter
@@ -117,19 +117,19 @@ class ShimmerRecycler : RecyclerView {
         super.setAdapter(adapter)
     }
 
-    private fun getActualAdapter(): Adapter<*>? {
+    fun getActualAdapter(): Adapter<*>? {
         return mActualAdapter
     }
 
-    private fun getShimmerAdapter(): Adapter<*>? {
+    fun getShimmerAdapter(): Adapter<*>? {
         return mShimmerAdapter
     }
 
-    private fun getLayoutReference(): Int {
+    fun getLayoutReference(): Int {
         return mLayoutReference
     }
 
-    private fun layoutReference(mLayoutReference: Int) {
+    fun layoutReference(mLayoutReference: Int) {
         this.mLayoutReference = mLayoutReference
         mShimmerAdapter!!.setLayoutReference(getLayoutReference())
     }

@@ -43,7 +43,7 @@ class ShimmerText : AppCompatTextView, LoaderView {
         loaderController!!.onSizeChanged()
     }
 
-    private fun showShimmer() {
+    fun showShimmer() {
         if (!TextUtils.isEmpty(text)) {
             super.setText(null)
             loaderController!!.startLoading()
