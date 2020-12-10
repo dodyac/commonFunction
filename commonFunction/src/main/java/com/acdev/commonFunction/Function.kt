@@ -50,7 +50,7 @@ class Function {
         @SuppressLint("ResourceType")
         fun Context.setImage64(base64: String?, imageView: ImageView) {
             GlideApp.with(this.applicationContext).load(Base64.decode(base64, Base64.DEFAULT))
-                .transform(RoundedCorners(resources.getDimensionPixelSize(5))).into(imageView)
+                .transform(RoundedCorners(5)).into(imageView)
         }
 
         fun Context.token(): String {
