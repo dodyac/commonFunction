@@ -3,23 +3,30 @@ package com.acdev.usefulmethodx;
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.LinearGradient;
 import android.graphics.Paint;
 import android.graphics.RectF;
 import android.graphics.Shader;
 import android.view.animation.LinearInterpolator;
 
+import static com.acdev.usefulmethodx.Constant.CORNER_DEFAULT;
+import static com.acdev.usefulmethodx.Constant.MAX_WEIGHT;
+import static com.acdev.usefulmethodx.Constant.MIN_WEIGHT;
+import static com.acdev.usefulmethodx.Constant.USE_GRADIENT_DEFAULT;
+
 class LoaderController implements ValueAnimator.AnimatorUpdateListener {
 
+    private static final int COLOR_DEFAULT_GRADIENT =  Color.rgb(245, 245, 245);
     private final LoaderView loaderView;
     private Paint rectPaint;
     private LinearGradient linearGradient;
     private float progress;
     private ValueAnimator valueAnimator;
-    private float widthWeight = LoaderConstant.MAX_WEIGHT;
-    private float heightWeight = LoaderConstant.MAX_WEIGHT;
-    private boolean useGradient = LoaderConstant.USE_GRADIENT_DEFAULT;
-    private int corners = LoaderConstant.CORNER_DEFAULT;
+    private float widthWeight = MAX_WEIGHT;
+    private float heightWeight = MAX_WEIGHT;
+    private boolean useGradient = USE_GRADIENT_DEFAULT;
+    private int corners = CORNER_DEFAULT;
 
     private final static int MAX_COLOR_CONSTANT_VALUE = 255;
     private final static int ANIMATION_CYCLE_DURATION = 750; //milis
@@ -61,7 +68,7 @@ class LoaderController implements ValueAnimator.AnimatorUpdateListener {
     private void prepareGradient(float width) {
         if (linearGradient == null) {
             linearGradient = new LinearGradient(0, 0, width, 0, rectPaint.getColor(),
-                    LoaderConstant.COLOR_DEFAULT_GRADIENT, Shader.TileMode.MIRROR);
+                    COLOR_DEFAULT_GRADIENT, Shader.TileMode.MIRROR);
         }
         rectPaint.setShader(linearGradient);
     }
@@ -91,9 +98,9 @@ class LoaderController implements ValueAnimator.AnimatorUpdateListener {
     }
 
     private float validateWeight(float weight) {
-        if (weight > LoaderConstant.MAX_WEIGHT)
-            return LoaderConstant.MAX_WEIGHT;
-        return Math.max(weight, LoaderConstant.MIN_WEIGHT);
+        if (weight > MAX_WEIGHT)
+            return MAX_WEIGHT;
+        return Math.max(weight, MIN_WEIGHT);
     }
 
     public void stopLoading() {

@@ -55,14 +55,14 @@ public class ShimmerRecycler extends RecyclerView {
 
     private void init(Context context, AttributeSet attrs) {
         mShimmerAdapter = new ShimmerAdapter();
-        TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.ShimmerRecyclerView, 0, 0);
+        TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.ShimmerRecycler, 0, 0);
 
         try {
-            setDemoLayoutReference(a.getResourceId(R.styleable.ShimmerRecyclerView_shimmer_demo_layout, R.layout.layout_sample_view));
-            setDemoChildCount(a.getInteger(R.styleable.ShimmerRecyclerView_shimmer_demo_child_count, 10));
-            setGridChildCount(a.getInteger(R.styleable.ShimmerRecyclerView_shimmer_demo_grid_child_count, 2));
+            setDemoLayoutReference(a.getResourceId(R.styleable.ShimmerRecycler_layout, R.layout.layout_sample_view));
+            setDemoChildCount(a.getInteger(R.styleable.ShimmerRecycler_child_count, 10));
+            setGridChildCount(a.getInteger(R.styleable.ShimmerRecycler_grid_child_count, 2));
 
-            final int value = a.getInteger(R.styleable.ShimmerRecyclerView_shimmer_demo_layout_manager_type, 0);
+            final int value = a.getInteger(R.styleable.ShimmerRecycler_layout_manager, 0);
             switch (value) {
                 case 0:
                     setDemoLayoutManager(LayoutMangerType.LINEAR_VERTICAL);
@@ -77,12 +77,12 @@ public class ShimmerRecycler extends RecyclerView {
                     throw new IllegalArgumentException("This value for layout manager is not valid!");
             }
 
-            mShimmerAngle = a.getInteger(R.styleable.ShimmerRecyclerView_shimmer_demo_angle, 0);
-            mShimmerColor = a.getColor(R.styleable.ShimmerRecyclerView_shimmer_demo_shimmer_color, getColor(R.color.default_shimmer_color));
-            mShimmerItemBackground = a.getDrawable(R.styleable.ShimmerRecyclerView_shimmer_demo_view_holder_item_background);
-            mShimmerDuration = a.getInteger(R.styleable.ShimmerRecyclerView_shimmer_demo_duration, 1500);
-            mShimmerMaskWidth = a.getFloat(R.styleable.ShimmerRecyclerView_shimmer_demo_mask_width, 0.5f);
-            isAnimationReversed = a.getBoolean(R.styleable.ShimmerRecyclerView_shimmer_demo_reverse_animation, false);
+            mShimmerAngle = a.getInteger(R.styleable.ShimmerRecycler_angle, 0);
+            mShimmerColor = a.getColor(R.styleable.ShimmerRecycler_color, getColor(R.color.color));
+            mShimmerItemBackground = a.getDrawable(R.styleable.ShimmerRecycler_item_background);
+            mShimmerDuration = a.getInteger(R.styleable.ShimmerRecycler_duration, 1500);
+            mShimmerMaskWidth = a.getFloat(R.styleable.ShimmerRecycler_mask_width, 0.5f);
+            isAnimationReversed = a.getBoolean(R.styleable.ShimmerRecycler_reverse_animation, false);
         } finally {
             a.recycle();
         }
@@ -97,7 +97,7 @@ public class ShimmerRecycler extends RecyclerView {
         mShimmerAdapter.setShimmerItemBackground(mShimmerItemBackground);
         mShimmerAdapter.setShimmerDuration(mShimmerDuration);
         mShimmerAdapter.setAnimationReversed(isAnimationReversed);
-        showShimmerAdapter();
+        showShimmer();
     }
 
     public void setBindViewHolderPlugin(BindViewHolderPlugin plugin) {
@@ -124,7 +124,7 @@ public class ShimmerRecycler extends RecyclerView {
         mShimmerAdapter.setShimmerMaskWidth(maskWidth);
     }
 
-    public void showShimmerAdapter() {
+    public void showShimmer() {
         mCanScroll = false;
 
         if (mShimmerLayoutManager == null) {
@@ -135,7 +135,7 @@ public class ShimmerRecycler extends RecyclerView {
         setAdapter(mShimmerAdapter);
     }
 
-    public void hideShimmerAdapter() {
+    public void hideShimmer() {
         mCanScroll = true;
         setLayoutManager(mActualLayoutManager);
         setAdapter(mActualAdapter);

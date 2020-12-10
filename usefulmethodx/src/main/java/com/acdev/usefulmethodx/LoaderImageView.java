@@ -12,6 +12,9 @@ import android.util.AttributeSet;
 import androidx.appcompat.widget.AppCompatImageView;
 import androidx.core.content.ContextCompat;
 
+import static com.acdev.usefulmethodx.Constant.CORNER_DEFAULT;
+import static com.acdev.usefulmethodx.Constant.USE_GRADIENT_DEFAULT;
+
 public class LoaderImageView extends AppCompatImageView implements LoaderView {
 
     private LoaderController loaderController;
@@ -34,15 +37,15 @@ public class LoaderImageView extends AppCompatImageView implements LoaderView {
 
     private void init(AttributeSet attrs) {
         loaderController = new LoaderController(this);
-        TypedArray typedArray = getContext().obtainStyledAttributes(attrs, R.styleable.loader_view, 0, 0);
-        loaderController.setUseGradient(typedArray.getBoolean(R.styleable.loader_view_use_gradient, LoaderConstant.USE_GRADIENT_DEFAULT));
-        loaderController.setCorners(typedArray.getInt(R.styleable.loader_view_corners, LoaderConstant.CORNER_DEFAULT));
-        defaultColorResource = typedArray.getColor(R.styleable.loader_view_custom_color, ContextCompat.getColor(getContext(), R.color.default_color));
+        TypedArray typedArray = getContext().obtainStyledAttributes(attrs, R.styleable.loaderView, 0, 0);
+        loaderController.setUseGradient(typedArray.getBoolean(R.styleable.loaderView_use_gradient, USE_GRADIENT_DEFAULT));
+        loaderController.setCorners(typedArray.getInt(R.styleable.loaderView_corners, CORNER_DEFAULT));
+        defaultColorResource = typedArray.getColor(R.styleable.loaderView_custom_color, ContextCompat.getColor(getContext(), R.color.default_color));
         typedArray.recycle();
-        resetLoader();
+        showShimmer();
     }
 
-    public void resetLoader() {
+    public void showShimmer() {
         if (getDrawable() != null) {
             super.setImageDrawable(null);
             loaderController.startLoading();
