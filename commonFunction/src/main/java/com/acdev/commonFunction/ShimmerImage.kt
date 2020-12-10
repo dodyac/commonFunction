@@ -1,4 +1,4 @@
-package com.acdev.usefulmethodx
+package com.acdev.commonFunction
 
 import android.content.Context
 import android.graphics.Bitmap
@@ -9,8 +9,8 @@ import android.graphics.drawable.Icon
 import android.util.AttributeSet
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.core.content.ContextCompat.getColor
-import com.acdev.usefulmethodx.Constant.Companion.CORNER_DEFAULT
-import com.acdev.usefulmethodx.Constant.Companion.USE_GRADIENT_DEFAULT
+import com.acdev.commonFunction.Constant.Companion.CORNER_DEFAULT
+import com.acdev.commonFunction.Constant.Companion.USE_GRADIENT_DEFAULT
 
 class ShimmerImage : AppCompatImageView, LoaderView {
 

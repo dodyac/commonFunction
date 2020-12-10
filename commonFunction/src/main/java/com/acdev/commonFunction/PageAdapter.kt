@@ -1,4 +1,4 @@
-package com.acdev.usefulmethodx
+package com.acdev.commonFunction
 
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager

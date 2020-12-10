@@ -1,4 +1,4 @@
-package com.acdev.usefulmethodx
+package com.acdev.commonFunction
 
 import android.annotation.SuppressLint
 import android.app.Activity
@@ -15,9 +15,8 @@ import android.widget.ImageView
 import android.widget.Toast
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.acdev.usefulmethodx.Preference.Companion.get
+import com.acdev.commonFunction.Preference.Companion.get
 import com.amulyakhare.textdrawable.TextDrawable
-import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.google.android.material.textfield.MaterialAutoCompleteTextView
 import com.thefinestartist.finestwebview.FinestWebView
@@ -31,7 +30,7 @@ class Function {
             recyclerView?.layoutManager = layoutManager
             recyclerView?.adapter = adapter
             adapter?.notifyDataSetChanged()
-            
+
         }
 
         fun Context.toasty(isError: Boolean, string: String?) {
@@ -50,7 +49,7 @@ class Function {
 
         @SuppressLint("ResourceType")
         fun Context.setImage64(base64: String?, imageView: ImageView) {
-            Glide.with(this.applicationContext).load(Base64.decode(base64, Base64.DEFAULT))
+            GlideApp.with(this.applicationContext).load(Base64.decode(base64, Base64.DEFAULT))
                 .transform(RoundedCorners(resources.getDimensionPixelSize(5))).into(imageView)
         }
 

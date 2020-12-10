@@ -1,4 +1,4 @@
-package com.acdev.usefulmethodx
+package com.acdev.commonFunction
 
 import android.view.LayoutInflater
 import android.view.View

@@ -1,4 +1,4 @@
-package com.acdev.usefulmethodx
+package com.acdev.commonFunction
 
 import android.content.Context
 import android.content.res.TypedArray
@@ -9,9 +9,9 @@ import android.text.TextUtils
 import android.util.AttributeSet
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.content.ContextCompat.getColor
-import com.acdev.usefulmethodx.Constant.Companion.CORNER_DEFAULT
-import com.acdev.usefulmethodx.Constant.Companion.MAX_WEIGHT
-import com.acdev.usefulmethodx.Constant.Companion.USE_GRADIENT_DEFAULT
+import com.acdev.commonFunction.Constant.Companion.CORNER_DEFAULT
+import com.acdev.commonFunction.Constant.Companion.MAX_WEIGHT
+import com.acdev.commonFunction.Constant.Companion.USE_GRADIENT_DEFAULT
 
 class ShimmerText : AppCompatTextView, LoaderView {
 

@@ -1,13 +1,13 @@
-package com.acdev.usefulmethodx
+package com.acdev.commonFunction
 
 import android.animation.ObjectAnimator
 import android.animation.ValueAnimator
 import android.animation.ValueAnimator.AnimatorUpdateListener
 import android.graphics.*
 import android.view.animation.LinearInterpolator
-import com.acdev.usefulmethodx.Constant.Companion.COLOR_DEFAULT_GRADIENT
-import com.acdev.usefulmethodx.Constant.Companion.MAX_WEIGHT
-import com.acdev.usefulmethodx.Constant.Companion.MIN_WEIGHT
+import com.acdev.commonFunction.Constant.Companion.COLOR_DEFAULT_GRADIENT
+import com.acdev.commonFunction.Constant.Companion.MAX_WEIGHT
+import com.acdev.commonFunction.Constant.Companion.MIN_WEIGHT
 
 class LoaderController(view: LoaderView) : AnimatorUpdateListener {
     private var loaderView: LoaderView? = view
