@@ -7,7 +7,7 @@
     <color name="default_color">#D7D7D7</color>
     <declare-styleable name="ShimmerRecycler">
         <attr name="layout" format="reference" />
-        <attr name="empty_layout" format="reference" />
+<!--        <attr name="empty_layout" format="reference" />-->
         <attr name="child_count" format="integer|reference" />
         <attr name="layout_manager" format="enum">
             <enum name="linear_vertical" value="0" />

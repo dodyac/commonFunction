@@ -1,19 +1,15 @@
 package com.acdev.commonFunction
 
 import android.content.Context
-import android.graphics.Canvas
 import android.graphics.drawable.Drawable
 import android.os.Build
 import android.util.AttributeSet
-import android.view.LayoutInflater
 import android.view.View
-import androidx.annotation.LayoutRes
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.mikelau.views.shimmer.BindViewHolderPlugin
 import com.mikelau.views.shimmer.ShimmerAdapter
-import kotlinx.android.synthetic.main.layout_empty.view.*
 
 class ShimmerRecycler : RecyclerView {
 
@@ -45,9 +41,13 @@ class ShimmerRecycler : RecyclerView {
         mShimmerAdapter = ShimmerAdapter()
         val a = context.obtainStyledAttributes(attrs, R.styleable.ShimmerRecycler, 0, 0)
         try {
-            layoutReference(a.getResourceId(R.styleable.ShimmerRecycler_layout, R.layout.layout_sample_view))
+            layoutReference(
+                a.getResourceId(
+                    R.styleable.ShimmerRecycler_layout,
+                    R.layout.layout_sample_view
+                )
+            )
             childCount = a.getInteger(R.styleable.ShimmerRecycler_child_count, 10)
-            a.getResourceId(R.styleable.ShimmerRecycler_empty_layout, 0)
             setGridChildCount(a.getInteger(R.styleable.ShimmerRecycler_grid_child_count, 2))
             when (a.getInteger(R.styleable.ShimmerRecycler_layout_manager, 0)) {
                 0 -> layoutManager(LayoutMangerType.LINEAR_VERTICAL)
@@ -79,6 +79,9 @@ class ShimmerRecycler : RecyclerView {
         mShimmerAdapter!!.setBindViewHolderPlugin(plugin)
     }
 
+    fun setEmptyView(emptyView: View?) {
+        this.emptyView = emptyView
+    }
     fun setGridChildCount(count: Int) {
         mGridCount = count
     }
@@ -112,72 +115,6 @@ class ShimmerRecycler : RecyclerView {
         adapter = mActualAdapter
     }
 
-    fun Context.setLayout(recyclerAdapter: Adapter<*>?, spanCount: Int) {
-        val layoutManagerx: LayoutManager = GridLayoutManager(this, spanCount)
-        layoutManager = layoutManagerx
-        adapter = recyclerAdapter
-        adapter?.notifyDataSetChanged()
-    }
-
-    override fun onMeasure(widthSpec: Int, heightSpec: Int) {
-        val view = emptyView
-        if (view != null && adapter?.itemCount == 0) {
-            view.measure(widthSpec, heightSpec)
-            val width = view.measuredWidth
-            val height = view.measuredHeight
-            setMeasuredDimension(width, height)
-            return
-        }
-
-        super.onMeasure(widthSpec, heightSpec)
-    }
-
-    override fun onLayout(changed: Boolean, l: Int, t: Int, r: Int, b: Int) {
-        super.onLayout(changed, l, t, r, b)
-        emptyView?.layout(l, t, r, b)
-    }
-
-    override fun onDraw(c: Canvas) {
-        super.onDraw(c)
-        if (adapter?.itemCount == 0) {
-            emptyView?.draw(c)
-        }
-    }
-
-
-    @SuppressWarnings("unused")
-    fun setEmptyView(view: View?) {
-        emptyView = view
-
-        invalidate()
-    }
-
-    /**
-     * Set a view to show if the adapter is empty
-     *
-     * @param resId empty view's layout id
-     */
-    @SuppressWarnings("unused")
-    fun setEmptyView(@LayoutRes resId: Int) {
-        if (resId == 0) return
-
-        val view = LayoutInflater.from(context).inflate(resId, null)
-        setEmptyView(view)
-    }
-
-
-    fun setEmptyImage(layout: Int) {
-        icon.setImageResource(layout)
-    }
-
-    fun setEmptyText(string: String) {
-        text.text = string
-    }
-
-    fun setEmptyText(string: Int) {
-        text.text = this.resources.getString(string)
-    }
-
     override fun setLayoutManager(manager: LayoutManager?) {
         if (manager == null) mActualLayoutManager = null
         else if (manager !== mShimmerLayoutManager) mActualLayoutManager = manager
@@ -187,6 +124,21 @@ class ShimmerRecycler : RecyclerView {
     override fun setAdapter(adapter: Adapter<*>?) {
         if (adapter == null) mActualAdapter = null
         else if (adapter !== mShimmerAdapter) mActualAdapter = adapter
+        else if (adapter == mActualAdapter){
+            if (adapter.getItemCount() != 0) {
+                if (emptyView != null) {
+                    emptyView!!.visibility = GONE
+                    visibility = VISIBLE
+                }
+            } else {
+                //If data count is 0 emptyView visibility is set to visible and recycler view
+                // visibility is set to gone
+                if (emptyView != null) {
+                    visibility = GONE
+                    emptyView!!.visibility = VISIBLE
+                }
+            }
+        }
         super.setAdapter(adapter)
     }
 
@@ -209,13 +161,12 @@ class ShimmerRecycler : RecyclerView {
 
     private fun initShimmerManager() {
         when (mLayoutMangerType) {
-            LayoutMangerType.LINEAR_VERTICAL -> mShimmerLayoutManager = object : LinearLayoutManager(context) {
-                    override fun canScrollVertically(): Boolean { return mCanScroll } }
+            LayoutMangerType.LINEAR_VERTICAL -> mShimmerLayoutManager = object : LinearLayoutManager(
+                context) { override fun canScrollVertically(): Boolean { return mCanScroll } }
             LayoutMangerType.LINEAR_HORIZONTAL -> mShimmerLayoutManager = object : LinearLayoutManager(
-                    context, HORIZONTAL, false) {
-                    override fun canScrollHorizontally(): Boolean { return mCanScroll } }
-            LayoutMangerType.GRID -> mShimmerLayoutManager = object : GridLayoutManager(context, mGridCount) {
-                    override fun canScrollVertically(): Boolean { return mCanScroll } }
+                context, HORIZONTAL, false) { override fun canScrollHorizontally(): Boolean { return mCanScroll } }
+            LayoutMangerType.GRID -> mShimmerLayoutManager = object : GridLayoutManager(
+                context, mGridCount) { override fun canScrollVertically(): Boolean { return mCanScroll } }
         }
     }
 
