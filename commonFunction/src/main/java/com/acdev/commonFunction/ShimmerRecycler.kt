@@ -112,7 +112,7 @@ class ShimmerRecycler : RecyclerView {
         adapter = mActualAdapter
     }
 
-    fun Context.setLayoutManager(recyclerAdapter: Adapter<*>?, spanCount: Int) {
+    fun Context.setLayout(recyclerAdapter: Adapter<*>?, spanCount: Int) {
         val layoutManagerx: LayoutManager = GridLayoutManager(this, spanCount)
         layoutManager = layoutManagerx
         adapter = recyclerAdapter
