@@ -13,6 +13,8 @@ import android.view.WindowManager
 import android.widget.ArrayAdapter
 import android.widget.ImageView
 import android.widget.Toast
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.acdev.commonFunction.Preference.Companion.get
 import com.amulyakhare.textdrawable.TextDrawable
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
@@ -23,6 +25,12 @@ import es.dmoral.toasty.Toasty
 class Function {
 
     companion object {
+        fun Context.setLayoutManager(adapter: RecyclerView.Adapter<*>?, recyclerView: RecyclerView?, spanCount: Int) {
+            val layoutManager: RecyclerView.LayoutManager = GridLayoutManager(this, spanCount)
+            recyclerView?.layoutManager = layoutManager
+            recyclerView?.adapter = adapter
+            adapter?.notifyDataSetChanged()
+        }
 
         fun Context.toasty(isError: Boolean, string: String?) {
             if (isError) Toasty.error(this, string!!, Toast.LENGTH_LONG, true).show()
