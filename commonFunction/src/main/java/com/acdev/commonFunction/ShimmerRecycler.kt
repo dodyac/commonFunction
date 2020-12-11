@@ -29,7 +29,6 @@ class ShimmerRecycler : RecyclerView {
     private var mShimmerMaskWidth = 0f
     private var isAnimationReversed = false
     private var mShimmerItemBackground: Drawable? = null
-    private var emptyView: View? = null
 
     constructor(context: Context) : super(context) { init(context, null) }
 
@@ -41,12 +40,7 @@ class ShimmerRecycler : RecyclerView {
         mShimmerAdapter = ShimmerAdapter()
         val a = context.obtainStyledAttributes(attrs, R.styleable.ShimmerRecycler, 0, 0)
         try {
-            layoutReference(
-                a.getResourceId(
-                    R.styleable.ShimmerRecycler_layout,
-                    R.layout.layout_sample_view
-                )
-            )
+            layoutReference(a.getResourceId(R.styleable.ShimmerRecycler_layout, R.layout.layout_sample_view))
             childCount = a.getInteger(R.styleable.ShimmerRecycler_child_count, 10)
             setGridChildCount(a.getInteger(R.styleable.ShimmerRecycler_grid_child_count, 2))
             when (a.getInteger(R.styleable.ShimmerRecycler_layout_manager, 0)) {
@@ -79,9 +73,6 @@ class ShimmerRecycler : RecyclerView {
         mShimmerAdapter!!.setBindViewHolderPlugin(plugin)
     }
 
-    fun setEmptyView(emptyView: View?) {
-        this.emptyView = emptyView
-    }
     fun setGridChildCount(count: Int) {
         mGridCount = count
     }
@@ -124,21 +115,6 @@ class ShimmerRecycler : RecyclerView {
     override fun setAdapter(adapter: Adapter<*>?) {
         if (adapter == null) mActualAdapter = null
         else if (adapter !== mShimmerAdapter) mActualAdapter = adapter
-        else if (adapter == mActualAdapter){
-            if (adapter.getItemCount() != 0) {
-                if (emptyView != null) {
-                    emptyView!!.visibility = GONE
-                    visibility = VISIBLE
-                }
-            } else {
-                //If data count is 0 emptyView visibility is set to visible and recycler view
-                // visibility is set to gone
-                if (emptyView != null) {
-                    visibility = GONE
-                    emptyView!!.visibility = VISIBLE
-                }
-            }
-        }
         super.setAdapter(adapter)
     }
 
