@@ -29,9 +29,7 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
-    kotlinOptions {
-        jvmTarget = '1.8'
-    }
+    kotlinOptions { jvmTarget = '1.8' }
 }
 
 dependencies {
@@ -41,6 +39,8 @@ dependencies {
     implementation 'com.google.android.material:material:1.2.1'
     implementation 'com.github.GrenderG:Toasty:1.5.0'
     implementation 'com.github.bumptech.glide:glide:4.11.0'
+    implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'
+    implementation 'net.danlew:android.joda:2.10.7.1'
     kapt 'com.github.bumptech.glide:compiler:4.11.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
     implementation 'com.amulyakhare:com.amulyakhare.textdrawable:1.0.1'
@@ -52,6 +52,4 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
 }
-repositories {
-    mavenCentral()
-}
+repositories { mavenCentral() }
