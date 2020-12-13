@@ -35,8 +35,8 @@ class Function {
             adapter?.notifyDataSetChanged()
         }
 
-        fun daysBetween(from: String, to: String):Int{
-            return Days.daysBetween(DateMidnight(from), DateMidnight(to)).days
+        fun daysBetween(from: String?, to: String?):Int{
+            return Days.daysBetween(DateMidnight(from!!), DateMidnight(to!!)).days
         }
 
         fun Context.toasty(isError: Boolean?, string: String) {
@@ -60,7 +60,7 @@ class Function {
         }
 
         @SuppressLint("ResourceType")
-        fun Context.setImage64( imageView: ImageView, base64: String) {
+        fun Context.setImage64(imageView: ImageView, base64: String?) {
             GlideApp.with(this.applicationContext).load(Base64.decode(base64, Base64.DEFAULT))
                 .transform(RoundedCorners(5)).into(imageView)
         }
