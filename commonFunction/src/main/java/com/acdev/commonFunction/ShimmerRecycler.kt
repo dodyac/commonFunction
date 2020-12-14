@@ -8,6 +8,8 @@ import android.view.View
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.acdev.commonFunction.Constant.Companion.ANGLE
+import com.acdev.commonFunction.Constant.Companion.CHILD_COUNT
 import com.mikelau.views.shimmer.BindViewHolderPlugin
 import com.mikelau.views.shimmer.ShimmerAdapter
 
@@ -40,8 +42,8 @@ class ShimmerRecycler : RecyclerView {
         mShimmerAdapter = ShimmerAdapter()
         val a = context.obtainStyledAttributes(attrs, R.styleable.ShimmerRecycler, 0, 0)
         try {
-            layoutReference(a.getResourceId(R.styleable.ShimmerRecycler_layout, R.layout.layout_sample_view))
-            childCount = a.getInteger(R.styleable.ShimmerRecycler_child_count, 10)
+            layoutReference(a.getResourceId(R.styleable.ShimmerRecycler_layout, R.layout.layout_shimmer))
+            childCount = a.getInteger(R.styleable.ShimmerRecycler_child_count, CHILD_COUNT)
             setGridChildCount(a.getInteger(R.styleable.ShimmerRecycler_grid_child_count, 2))
             when (a.getInteger(R.styleable.ShimmerRecycler_layout_manager, 0)) {
                 0 -> layoutManager(LayoutMangerType.LINEAR_VERTICAL)
@@ -49,8 +51,8 @@ class ShimmerRecycler : RecyclerView {
                 2 -> layoutManager(LayoutMangerType.GRID)
                 else -> throw IllegalArgumentException("This value for layout manager is not valid!")
             }
-            mShimmerAngle = a.getInteger(R.styleable.ShimmerRecycler_angle, 0)
-            mShimmerColor = a.getColor(R.styleable.ShimmerRecycler_color, getColor(R.color.color))
+            mShimmerAngle = a.getInteger(R.styleable.ShimmerRecycler_angle, ANGLE)
+            mShimmerColor = a.getColor(R.styleable.ShimmerRecycler_color, getColor(R.color.white))
             mShimmerItemBackground = a.getDrawable(R.styleable.ShimmerRecycler_item_background)
             mShimmerDuration = a.getInteger(R.styleable.ShimmerRecycler_duration, 1500)
             mShimmerMaskWidth = a.getFloat(R.styleable.ShimmerRecycler_mask_width, 0.5f)
