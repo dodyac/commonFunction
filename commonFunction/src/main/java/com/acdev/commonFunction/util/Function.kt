@@ -15,17 +15,19 @@ import android.view.WindowManager
 import android.widget.ArrayAdapter
 import android.widget.ImageView
 import android.widget.Toast
+import androidx.annotation.StringRes
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.acdev.commonFunction.model.BankRegion
 import com.acdev.commonFunction.common.Constant.Companion.PATTERN_CURRENCY
 import com.acdev.commonFunction.common.Constant.Companion.PATTERN_CURRENCY_END
 import com.acdev.commonFunction.common.Enqueue.Companion.queue
-import com.acdev.commonFunction.GlideApp
+import com.acdev.commonFunction.common.GlideApp
 import com.acdev.commonFunction.util.Preference.Companion.get
 import com.acdev.commonFunction.R
 import com.acdev.commonFunction.common.Region
 import com.acdev.commonFunction.common.Constant
+import com.acdev.commonFunction.common.Toastx
 import com.amulyakhare.textdrawable.TextDrawable
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.google.android.material.textfield.MaterialAutoCompleteTextView
@@ -50,19 +52,21 @@ class Function {
             return Days.daysBetween(DateMidnight(from!!), DateMidnight(to!!)).days
         }
 
-        fun Context.toasty(isError: Boolean?, string: String) {
-            when (isError) {
-                null -> Toasty.info(this, string, Toast.LENGTH_LONG, true).show()
-                true -> Toasty.error(this, string, Toast.LENGTH_LONG, true).show()
-                else -> Toasty.success(this, string, Toast.LENGTH_LONG, true).show()
+        fun Context.toastx(toastx: Toastx, string: String) {
+            when (toastx) {
+                Toastx.INFO -> Toasty.info(this, string, Toast.LENGTH_LONG, true).show()
+                Toastx.SUCCESS -> Toasty.success(this, string, Toast.LENGTH_LONG, true).show()
+                Toastx.WARNING -> Toasty.warning(this, string, Toast.LENGTH_LONG, true).show()
+                Toastx.ERROR -> Toasty.error(this, string, Toast.LENGTH_LONG, true).show()
             }
         }
 
-        fun Context.toasty(isError: Boolean?, string: Int) {
-            when (isError) {
-                null -> Toasty.info(this, getString(string), Toast.LENGTH_LONG, true).show()
-                true -> Toasty.error(this, getString(string), Toast.LENGTH_LONG, true).show()
-                else -> Toasty.success(this, getString(string), Toast.LENGTH_LONG, true).show()
+        fun Context.toastx(toastx: Toastx, @StringRes string: Int) {
+            when (toastx) {
+                Toastx.INFO -> Toasty.info(this, getString(string), Toast.LENGTH_LONG, true).show()
+                Toastx.SUCCESS -> Toasty.success(this, getString(string), Toast.LENGTH_LONG, true).show()
+                Toastx.WARNING -> Toasty.warning(this, getString(string), Toast.LENGTH_LONG, true).show()
+                Toastx.ERROR -> Toasty.error(this, getString(string), Toast.LENGTH_LONG, true).show()
             }
         }
 
@@ -171,7 +175,7 @@ class Function {
         fun Context.getBank(call: Call<BankRegion?>?, autoComplete: MaterialAutoCompleteTextView?) {
             call?.queue {
                 response = {
-                    if (!it.isSuccessful) toasty(true, getString(R.string.error, it.code(), it.message()))
+                    if (!it.isSuccessful) toastx(Toastx.ERROR, getString(R.string.error, it.code(), it.message()))
                     else {
                         if (it.body()!!.success) {
                             val modelDataArrayList = it.body()!!.data
@@ -181,14 +185,14 @@ class Function {
                         }
                     }
                 }
-                failure = { toasty(true, getString(R.string.cannotConnect)) }
+                failure = { toastx(Toastx.ERROR, getString(R.string.cannotConnect)) }
             }
         }
 
         fun Context.getRegion(call: Call<BankRegion?>?, autoComplete: MaterialAutoCompleteTextView?, region: Region) {
             call?.queue {
                 response = {
-                    if (!it.isSuccessful) toasty(true, getString(R.string.error, it.code(), it.message()))
+                    if (!it.isSuccessful) toastx(Toastx.ERROR, getString(R.string.error, it.code(), it.message()))
                     else {
                         if (it.body()!!.success) {
                             when (region) {
@@ -203,7 +207,7 @@ class Function {
                         }
                     }
                 }
-                failure = { toasty(true, getString(R.string.cannotConnect)) }
+                failure = { toastx(Toastx.ERROR, getString(R.string.cannotConnect)) }
             }
         }
     }
