@@ -1,16 +1,17 @@
-package com.acdev.commonFunction
+package com.acdev.commonFunction.widget
 
 import android.animation.ObjectAnimator
 import android.animation.ValueAnimator
 import android.animation.ValueAnimator.AnimatorUpdateListener
 import android.graphics.*
 import android.view.animation.LinearInterpolator
-import com.acdev.commonFunction.Constant.Companion.COLOR_DEFAULT_GRADIENT
-import com.acdev.commonFunction.Constant.Companion.MAX_WEIGHT
-import com.acdev.commonFunction.Constant.Companion.MIN_WEIGHT
+import com.acdev.commonFunction.common.Constant
+import com.acdev.commonFunction.common.Constant.Companion.COLOR_DEFAULT_GRADIENT
+import com.acdev.commonFunction.common.Constant.Companion.MAX_WEIGHT
+import com.acdev.commonFunction.common.Constant.Companion.MIN_WEIGHT
 
-class LoaderController(view: LoaderView) : AnimatorUpdateListener {
-    private var loaderView: LoaderView? = view
+class ShimmerController(view: ShimmerView) : AnimatorUpdateListener {
+    private var shimmerView: ShimmerView? = view
     private var rectPaint: Paint? = null
     private var linearGradient: LinearGradient? = null
     private var progress = 0f
@@ -20,13 +21,13 @@ class LoaderController(view: LoaderView) : AnimatorUpdateListener {
     private var useGradient = Constant.USE_GRADIENT_DEFAULT
     private var corners = Constant.CORNER_DEFAULT
     private val maxColorConstantValue = 255
-    private val animationCycleDuration = 750 //milis
+    private val animationCycleDuration = 750
 
     init { init() }
 
     private fun init() {
         rectPaint = Paint(Paint.ANTI_ALIAS_FLAG or Paint.FILTER_BITMAP_FLAG)
-        loaderView!!.setRectColor(rectPaint)
+        shimmerView!!.setRectColor(rectPaint)
         setValueAnimator(0.5f, 1f, ObjectAnimator.INFINITE)
     }
 
@@ -56,7 +57,7 @@ class LoaderController(view: LoaderView) : AnimatorUpdateListener {
     }
 
     fun startLoading() {
-        if (valueAnimator != null && !loaderView!!.valueSet()) {
+        if (valueAnimator != null && !shimmerView!!.valueSet()) {
             valueAnimator!!.cancel()
             init()
             valueAnimator!!.start()
@@ -102,7 +103,7 @@ class LoaderController(view: LoaderView) : AnimatorUpdateListener {
 
     override fun onAnimationUpdate(valueAnimator: ValueAnimator) {
         progress = valueAnimator.animatedValue as Float
-        loaderView!!.invalidate()
+        shimmerView!!.invalidate()
     }
 
     fun removeAnimatorUpdateListener() {

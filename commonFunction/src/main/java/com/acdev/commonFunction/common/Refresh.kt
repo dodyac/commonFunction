@@ -1,4 +1,4 @@
-package com.acdev.commonFunction
+package com.acdev.commonFunction.common
 
 import android.content.Context
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout

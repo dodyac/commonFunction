@@ -1,4 +1,4 @@
-package com.acdev.commonFunction
+package com.acdev.commonFunction.common
 
 import retrofit2.Call
 import retrofit2.Callback

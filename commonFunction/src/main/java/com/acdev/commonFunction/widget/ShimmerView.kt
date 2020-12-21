@@ -1,8 +1,8 @@
-package com.acdev.commonFunction
+package com.acdev.commonFunction.widget
 
 import android.graphics.Paint
 
-interface LoaderView {
+interface ShimmerView {
     fun setRectColor(rectPaint: Paint?)
 
     fun invalidate()

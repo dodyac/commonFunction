@@ -1,15 +1,15 @@
-package com.acdev.commonFunction
+package com.acdev.commonFunction.widget
 
 import android.content.Context
 import android.graphics.drawable.Drawable
 import android.os.Build
 import android.util.AttributeSet
-import android.view.View
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.acdev.commonFunction.Constant.Companion.ANGLE
-import com.acdev.commonFunction.Constant.Companion.CHILD_COUNT
+import com.acdev.commonFunction.R
+import com.acdev.commonFunction.common.Constant.Companion.ANGLE
+import com.acdev.commonFunction.common.Constant.Companion.CHILD_COUNT
 import com.mikelau.views.shimmer.BindViewHolderPlugin
 import com.mikelau.views.shimmer.ShimmerAdapter
 
@@ -42,7 +42,10 @@ class ShimmerRecycler : RecyclerView {
         mShimmerAdapter = ShimmerAdapter()
         val a = context.obtainStyledAttributes(attrs, R.styleable.ShimmerRecycler, 0, 0)
         try {
-            layoutReference(a.getResourceId(R.styleable.ShimmerRecycler_layout, R.layout.layout_shimmer))
+            layoutReference(a.getResourceId(
+                R.styleable.ShimmerRecycler_layout,
+                R.layout.layout_shimmer
+            ))
             childCount = a.getInteger(R.styleable.ShimmerRecycler_child_count, CHILD_COUNT)
             setGridChildCount(a.getInteger(R.styleable.ShimmerRecycler_grid_child_count, 2))
             when (a.getInteger(R.styleable.ShimmerRecycler_layout_manager, 0)) {

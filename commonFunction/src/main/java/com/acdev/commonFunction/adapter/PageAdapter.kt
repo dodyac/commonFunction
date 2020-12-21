@@ -1,4 +1,4 @@
-package com.acdev.commonFunction
+package com.acdev.commonFunction.adapter
 
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager

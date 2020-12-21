@@ -1,4 +1,4 @@
-package com.acdev.commonFunction
+package com.acdev.commonFunction.util
 
 import android.content.Context
 

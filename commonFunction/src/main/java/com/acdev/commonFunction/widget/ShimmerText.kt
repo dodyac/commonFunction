@@ -1,4 +1,4 @@
-package com.acdev.commonFunction
+package com.acdev.commonFunction.widget
 
 import android.content.Context
 import android.content.res.TypedArray
@@ -9,13 +9,14 @@ import android.text.TextUtils
 import android.util.AttributeSet
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.content.ContextCompat.getColor
-import com.acdev.commonFunction.Constant.Companion.CORNER_DEFAULT
-import com.acdev.commonFunction.Constant.Companion.MAX_WEIGHT
-import com.acdev.commonFunction.Constant.Companion.USE_GRADIENT_DEFAULT
+import com.acdev.commonFunction.R
+import com.acdev.commonFunction.common.Constant.Companion.CORNER_DEFAULT
+import com.acdev.commonFunction.common.Constant.Companion.MAX_WEIGHT
+import com.acdev.commonFunction.common.Constant.Companion.USE_GRADIENT_DEFAULT
 
-class ShimmerText : AppCompatTextView, LoaderView {
+class ShimmerText : AppCompatTextView, ShimmerView {
 
-    private var loaderController: LoaderController? = null
+    private var shimmerController: ShimmerController? = null
     private var defaultColorResource = 0
     private var darkerColorResource = 0
 
@@ -26,12 +27,13 @@ class ShimmerText : AppCompatTextView, LoaderView {
     constructor(context: Context, attrs: AttributeSet?, defStyle: Int) : super(context, attrs, defStyle) { init(context, attrs) }
 
     private fun init(context: Context, attrs: AttributeSet?) {
-        loaderController = LoaderController(this)
-        val typedArray: TypedArray = context.obtainStyledAttributes(attrs, R.styleable.loaderView, 0, 0)
-        loaderController!!.setWidthWeight(typedArray.getFloat(R.styleable.loaderView_width_weight, MAX_WEIGHT))
-        loaderController!!.setHeightWeight(typedArray.getFloat(R.styleable.loaderView_height_weight, MAX_WEIGHT))
-        loaderController!!.setUseGradient(typedArray.getBoolean(R.styleable.loaderView_use_gradient, USE_GRADIENT_DEFAULT))
-        loaderController!!.setCorners(typedArray.getInt(R.styleable.loaderView_corners, CORNER_DEFAULT))
+        shimmerController = ShimmerController(this)
+        val typedArray: TypedArray = context.obtainStyledAttributes(attrs,
+            R.styleable.loaderView, 0, 0)
+        shimmerController!!.setWidthWeight(typedArray.getFloat(R.styleable.loaderView_width_weight, MAX_WEIGHT))
+        shimmerController!!.setHeightWeight(typedArray.getFloat(R.styleable.loaderView_height_weight, MAX_WEIGHT))
+        shimmerController!!.setUseGradient(typedArray.getBoolean(R.styleable.loaderView_use_gradient, USE_GRADIENT_DEFAULT))
+        shimmerController!!.setCorners(typedArray.getInt(R.styleable.loaderView_corners, CORNER_DEFAULT))
         defaultColorResource = typedArray.getColor(R.styleable.loaderView_custom_color, getColor(context, R.color.default_color))
         darkerColorResource = typedArray.getColor(R.styleable.loaderView_custom_color, getColor(context, R.color.darker_color))
         typedArray.recycle()
@@ -40,19 +42,19 @@ class ShimmerText : AppCompatTextView, LoaderView {
 
     override fun onSizeChanged(width: Int, height: Int, oldWidth: Int, oldHeight: Int) {
         super.onSizeChanged(width, height, oldWidth, oldHeight)
-        loaderController!!.onSizeChanged()
+        shimmerController!!.onSizeChanged()
     }
 
     fun showShimmer() {
         if (!TextUtils.isEmpty(text)) {
             super.setText(null)
-            loaderController!!.startLoading()
+            shimmerController!!.startLoading()
         }
     }
 
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
-        loaderController!!.onDraw(
+        shimmerController!!.onDraw(
             canvas, compoundPaddingLeft.toFloat(),
             compoundPaddingTop.toFloat(),
             compoundPaddingRight.toFloat(),
@@ -62,7 +64,7 @@ class ShimmerText : AppCompatTextView, LoaderView {
 
     override fun setText(text: CharSequence?, type: BufferType?) {
         super.setText(text, type)
-        if (loaderController != null) loaderController!!.stopLoading()
+        if (shimmerController != null) shimmerController!!.stopLoading()
     }
 
     override fun setRectColor(rectPaint: Paint?) {
@@ -77,6 +79,6 @@ class ShimmerText : AppCompatTextView, LoaderView {
 
     override fun onDetachedFromWindow() {
         super.onDetachedFromWindow()
-        loaderController!!.removeAnimatorUpdateListener()
+        shimmerController!!.removeAnimatorUpdateListener()
     }
 }

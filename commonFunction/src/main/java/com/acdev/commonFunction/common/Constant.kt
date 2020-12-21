@@ -1,6 +1,7 @@
-package com.acdev.commonFunction
+package com.acdev.commonFunction.common
 
 import android.graphics.Color
+import com.acdev.commonFunction.model.Datum
 
 class Constant {
     companion object{
@@ -11,5 +12,11 @@ class Constant {
         const val USE_GRADIENT_DEFAULT = false
         const val ANGLE = 20
         const val CHILD_COUNT = 3
+        const val PATTERN_CURRENCY = "Rp "
+        const val PATTERN_CURRENCY_END = ",-"
+        var PROVINCE: List<Datum>? = null
+        var CITY: List<Datum>? = null
+        var DISTRICT: List<Datum>? = null
+        var VILLAGE: List<Datum>? = null
     }
 }
