@@ -119,8 +119,8 @@ class Function {
         fun ImageView?.default(name: String?, @ColorRes color: Int, ) {
             val textDrawable = TextDrawable.builder()
                 .beginConfig()
-                .width(60)
-                .height(60)
+                .width(120)
+                .height(120)
                 .bold()
                 .toUpperCase()
                 .textColor(color)
@@ -132,8 +132,8 @@ class Function {
         fun ImageView?.defaultMaterial(name: String?) {
             val textDrawable = TextDrawable.builder()
                 .beginConfig()
-                .width(60)
-                .height(60)
+                .width(120)
+                .height(120)
                 .bold()
                 .toUpperCase()
                 .textColor(Color.WHITE)
