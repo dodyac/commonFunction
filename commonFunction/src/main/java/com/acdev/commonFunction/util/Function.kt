@@ -5,6 +5,7 @@ import android.app.Activity
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.Color
+import android.graphics.Typeface
 import android.graphics.drawable.BitmapDrawable
 import android.net.ConnectivityManager
 import android.net.NetworkInfo
@@ -15,6 +16,7 @@ import android.view.WindowManager
 import android.widget.ArrayAdapter
 import android.widget.ImageView
 import android.widget.Toast
+import androidx.annotation.ColorRes
 import androidx.annotation.StringRes
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -29,6 +31,7 @@ import com.acdev.commonFunction.common.Region
 import com.acdev.commonFunction.common.Constant
 import com.acdev.commonFunction.common.Toastx
 import com.amulyakhare.textdrawable.TextDrawable
+import com.amulyakhare.textdrawable.util.ColorGenerator
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.google.android.material.textfield.MaterialAutoCompleteTextView
 import com.thefinestartist.finestwebview.FinestWebView
@@ -84,10 +87,6 @@ class Function {
             return "Bearer " + get("token")
         }
 
-        fun String?.isNullOrEmpty(): Boolean {
-            return this == null || this.isEmpty()
-        }
-
         @Suppress("UNCHECKED_CAST")
         fun Context.stringArrayToAutoComplete(stringArray: Array<String?>, autoComplete: MaterialAutoCompleteTextView?) {
             val lst: List<String> = listOf(*stringArray) as List<String>
@@ -109,24 +108,38 @@ class Function {
                     connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI)!!.state == NetworkInfo.State.CONNECTED
         }
 
-        fun Activity.webView(url: String, color: Int) {
+        fun Activity.webView(url: String, @ColorRes color: Int) {
             FinestWebView.Builder(this).toolbarColorRes(color).swipeRefreshColorRes(color).show(url)
         }
 
-        fun Activity.webView(url: Int, color: Int) {
+        fun Activity.webView(@StringRes url: Int, @ColorRes color: Int) {
             FinestWebView.Builder(this).toolbarColorRes(color).swipeRefreshColorRes(color).show(getString(url))
         }
 
-        fun ImageView?.default(name: String?, color: Int) {
+        fun ImageView?.default(name: String?, @ColorRes color: Int, ) {
             val textDrawable = TextDrawable.builder()
                 .beginConfig()
                 .width(60)
                 .height(60)
-                .textColor(color)
                 .bold()
                 .toUpperCase()
+                .textColor(color)
                 .endConfig()
                 .buildRound(name?.substring(0, 1), Color.WHITE)
+            this?.setImageDrawable(textDrawable)
+        }
+
+        fun ImageView?.defaultMaterial(name: String?) {
+            val textDrawable = TextDrawable.builder()
+                .beginConfig()
+                .width(60)
+                .height(60)
+                .bold()
+                .toUpperCase()
+                .textColor(Color.WHITE)
+                .useFont(Typeface.SANS_SERIF)
+                .endConfig()
+                .buildRect(name?.substring(0, 1), ColorGenerator.MATERIAL.randomColor)
             this?.setImageDrawable(textDrawable)
         }
 
@@ -185,7 +198,7 @@ class Function {
                         }
                     }
                 }
-                failure = { toastx(Toastx.ERROR, getString(R.string.cannotConnect)) }
+                failure = { toastx(Toastx.ERROR, R.string.cannotConnect) }
             }
         }
 
@@ -207,7 +220,7 @@ class Function {
                         }
                     }
                 }
-                failure = { toastx(Toastx.ERROR, getString(R.string.cannotConnect)) }
+                failure = { toastx(Toastx.ERROR, R.string.cannotConnect) }
             }
         }
     }
