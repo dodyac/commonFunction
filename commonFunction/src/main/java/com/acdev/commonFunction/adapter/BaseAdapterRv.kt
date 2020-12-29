@@ -9,6 +9,9 @@ import androidx.recyclerview.widget.RecyclerView
 abstract class BaseAdapterRv(private val list: List<Any>, @LayoutRes val layoutRes: Int)
     : RecyclerView.Adapter<BaseAdapterRv.ViewHolder>() {
 
+    val gone: Int = View.GONE
+    val visible: Int = View.VISIBLE
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder =
             ViewHolder(LayoutInflater.from(parent.context).inflate(layoutRes, parent, false))
 

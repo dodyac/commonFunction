@@ -2,18 +2,22 @@ package com.acdev.commonFunction.util
 
 import android.annotation.SuppressLint
 import android.app.Activity
+import android.content.ActivityNotFoundException
 import android.content.Context
+import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.Color
 import android.graphics.Typeface
 import android.graphics.drawable.BitmapDrawable
 import android.net.ConnectivityManager
 import android.net.NetworkInfo
+import android.net.Uri
 import android.util.Base64
 import android.util.DisplayMetrics
 import android.util.Patterns
 import android.view.WindowManager
 import android.widget.ArrayAdapter
+import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.annotation.ColorRes
@@ -24,14 +28,12 @@ import com.acdev.commonFunction.model.BankRegion
 import com.acdev.commonFunction.common.Constant.Companion.PATTERN_CURRENCY
 import com.acdev.commonFunction.common.Constant.Companion.PATTERN_CURRENCY_END
 import com.acdev.commonFunction.common.Enqueue.Companion.queue
-import com.acdev.commonFunction.common.GlideApp
 import com.acdev.commonFunction.util.Preference.Companion.get
 import com.acdev.commonFunction.R
-import com.acdev.commonFunction.common.Region
-import com.acdev.commonFunction.common.Constant
-import com.acdev.commonFunction.common.Toastx
+import com.acdev.commonFunction.common.*
 import com.amulyakhare.textdrawable.TextDrawable
 import com.amulyakhare.textdrawable.util.ColorGenerator
+import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.google.android.material.textfield.MaterialAutoCompleteTextView
 import com.thefinestartist.finestwebview.FinestWebView
@@ -79,7 +81,7 @@ class Function {
 
         @SuppressLint("ResourceType")
         fun Context.setImage64(imageView: ImageView, base64: String?) {
-            GlideApp.with(this.applicationContext).load(Base64.decode(base64, Base64.DEFAULT))
+            Glide.with(this.applicationContext).load(Base64.decode(base64, Base64.DEFAULT))
                 .transform(RoundedCorners(5)).into(imageView)
         }
 
@@ -221,6 +223,66 @@ class Function {
                     }
                 }
                 failure = { toastx(Toastx.ERROR, R.string.cannotConnect) }
+            }
+        }
+
+        private fun String.removePrefixWhatsapp(): String{
+            return "+62${this.substring(1)}"
+        }
+        
+        fun Context.setOnclick(imageButton: ImageButton, data: String, socialMedia: SocialMedia){
+            imageButton.setOnClickListener {
+                when(socialMedia){
+                    SocialMedia.FACEBOOK -> {
+                        val intent : Intent = try {
+                            this.packageManager.getPackageInfo("com.facebook.katana", 0)
+                            Intent(Intent.ACTION_VIEW, Uri.parse("fb://facewebmodal/f?href=https://www.facebook.com/$data"))
+                        } catch (e: java.lang.Exception) {
+                            Intent(Intent.ACTION_VIEW, Uri.parse("https://www.facebook.com/$data"))
+                        }
+                        intent.setPackage("com.facebook.katana")
+                        startActivity(intent)
+                    }
+                    SocialMedia.INSTAGRAM -> {
+                        val uri = Uri.parse("http://instagram.com/_u/$data")
+                        val intent = Intent(Intent.ACTION_VIEW, uri)
+                        intent.setPackage("com.instagram.android")
+                        try { startActivity(intent) } catch (e: ActivityNotFoundException) {
+                            startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("http://instagram.com/$data")))
+                        }
+                    }
+                    SocialMedia.WHATSAPP -> {
+                        val i = Intent(Intent.ACTION_VIEW)
+                        i.data = Uri.parse("https://api.whatsapp.com/send?phone=${data.removePrefixWhatsapp()}")
+                        startActivity(i)
+                    }
+                    SocialMedia.GMAIL -> {
+                        try { startActivity(Intent(Intent.ACTION_VIEW , Uri.parse("mailto:$data"))) }
+                        catch(e: ActivityNotFoundException){ }
+                    }
+                }
+            }
+        }
+
+        fun Context.auth(mail: String, password: String): Boolean {
+            when {
+                mail.isEmpty() -> {
+                    toastx(Toastx.ERROR, R.string.emptyMail)
+                    return false
+                }
+                !mail.isEmailValid() -> {
+                    toastx(Toastx.ERROR, R.string.notMail)
+                    return false
+                }
+                password.isEmpty() -> {
+                    toastx(Toastx.ERROR, R.string.emptyPassword)
+                    return false
+                }
+                password.length < 8 -> {
+                    toastx(Toastx.ERROR, R.string.shortPassword)
+                    return false
+                }
+                else -> return true
             }
         }
     }
