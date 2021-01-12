@@ -5,6 +5,7 @@ import android.app.Activity
 import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
+import android.content.res.ColorStateList
 import android.graphics.Bitmap
 import android.graphics.Color
 import android.graphics.Typeface
@@ -12,16 +13,25 @@ import android.graphics.drawable.BitmapDrawable
 import android.net.ConnectivityManager
 import android.net.NetworkInfo
 import android.net.Uri
+import android.os.Build
 import android.util.Base64
 import android.util.DisplayMetrics
 import android.util.Patterns
+import android.view.View
+import android.view.ViewGroup
 import android.view.WindowManager
 import android.widget.ArrayAdapter
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.annotation.ColorRes
+import androidx.annotation.RequiresApi
 import androidx.annotation.StringRes
+import androidx.annotation.WorkerThread
+import androidx.core.content.ContextCompat
+import androidx.core.view.ViewCompat
+import androidx.core.view.setMargins
+import androidx.core.widget.ImageViewCompat
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.acdev.commonFunction.model.BankRegion
@@ -31,17 +41,28 @@ import com.acdev.commonFunction.common.Enqueue.Companion.queue
 import com.acdev.commonFunction.util.Preference.Companion.get
 import com.acdev.commonFunction.R
 import com.acdev.commonFunction.common.*
+import com.acdev.commonFunction.util.Function.Companion.isEmailValid
 import com.amulyakhare.textdrawable.TextDrawable
 import com.amulyakhare.textdrawable.util.ColorGenerator
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.google.android.material.textfield.MaterialAutoCompleteTextView
+import com.google.android.material.textfield.TextInputLayout
+import com.smarteist.autoimageslider.IndicatorView.animation.type.IndicatorAnimationType
+import com.smarteist.autoimageslider.SliderAnimations
+import com.smarteist.autoimageslider.SliderView
+import com.smarteist.autoimageslider.SliderViewAdapter
 import com.thefinestartist.finestwebview.FinestWebView
 import es.dmoral.toasty.Toasty
 import org.joda.time.DateMidnight
 import org.joda.time.Days
 import retrofit2.Call
 import java.io.ByteArrayOutputStream
+import java.io.IOException
+import java.net.HttpURLConnection
+import java.net.URL
+import java.text.SimpleDateFormat
+import java.util.*
 
 class Function {
     @Suppress("DEPRECATION")
@@ -82,7 +103,7 @@ class Function {
         @SuppressLint("ResourceType")
         fun Context.setImage64(imageView: ImageView, base64: String?) {
             Glide.with(this.applicationContext).load(Base64.decode(base64, Base64.DEFAULT))
-                .transform(RoundedCorners(5)).into(imageView)
+                .transform(RoundedCorners(8)).into(imageView)
         }
 
         fun Context.token(): String {
@@ -264,26 +285,126 @@ class Function {
             }
         }
 
-        fun Context.auth(mail: String, password: String): Boolean {
+
+        fun Context.emptyAuth(mail: TextInputLayout, password: TextInputLayout): Boolean {
             when {
-                mail.isEmpty() -> {
-                    toastx(Toastx.ERROR, R.string.emptyMail)
+                mail.editText!!.text.isEmpty() -> {
+                    mail.isErrorEnabled = true
+                    mail.error = getString(R.string.emptyMail)
+                    mail.requestFocus()
                     return false
                 }
-                !mail.isEmailValid() -> {
-                    toastx(Toastx.ERROR, R.string.notMail)
+                !mail.editText!!.text.isEmailValid() -> {
+                    mail.isErrorEnabled = true
+                    mail.error = getString(R.string.notMail)
+                    mail.clearFocus()
+                    mail.requestFocus()
                     return false
                 }
-                password.isEmpty() -> {
-                    toastx(Toastx.ERROR, R.string.emptyPassword)
+                password.editText!!.text.isEmpty() -> {
+                    password.isErrorEnabled = true
+                    password.error = getString(R.string.emptyPassword)
+                    password.requestFocus()
                     return false
                 }
-                password.length < 8 -> {
-                    toastx(Toastx.ERROR, R.string.shortPassword)
+                password.editText!!.text.length < 8 -> {
+                    password.isErrorEnabled = true
+                    password.error = getString(R.string.shortPassword)
+                    password.clearFocus()
+                    password.requestFocus()
                     return false
                 }
-                else -> return true
+                else -> {
+                    mail.isErrorEnabled = false
+                    password.isErrorEnabled = false
+                    password.clearFocus()
+                    return true
+                }
             }
+        }
+
+        fun Context.emptyTil(textInputLayout: TextInputLayout, @StringRes alert: Int): Boolean {
+            return if(textInputLayout.editText!!.text.isEmpty()) {
+                textInputLayout.isErrorEnabled = true
+                textInputLayout.error = getString(alert)
+                textInputLayout.requestFocus()
+                false
+            } else {
+                textInputLayout.isErrorEnabled = false
+                textInputLayout.clearFocus()
+                true
+            }
+        }
+
+        private fun Context.numOfColumns(columnWidthDp: Float): Int {
+            val displayMetrics = this.resources.displayMetrics
+            val screenWidthDp = displayMetrics.widthPixels / displayMetrics.density
+            return (screenWidthDp / columnWidthDp + 0.5).toInt()
+        }
+
+        fun Context.setLayoutManagerGrid(adapter: RecyclerView.Adapter<*>?, recyclerView: RecyclerView?, numOfColumns: Float) {
+            val layoutManager: RecyclerView.LayoutManager = GridLayoutManager(this, numOfColumns(numOfColumns))
+            recyclerView?.layoutManager = layoutManager
+            recyclerView?.adapter = adapter
+            adapter?.notifyDataSetChanged()
+        }
+        private fun Context.openPDFDocument(filename: String) {
+            val pdfIntent = Intent(Intent.ACTION_VIEW)
+            pdfIntent.setDataAndType(Uri.parse(filename), "application/pdf")
+            pdfIntent.flags = Intent.FLAG_ACTIVITY_NO_HISTORY
+            startActivity(Intent.createChooser(pdfIntent, "Open PDF"))
+        }
+
+        @RequiresApi(Build.VERSION_CODES.N)
+        @WorkerThread
+        fun String.getUrlFileLength(): Long {
+            var conn: HttpURLConnection? = null
+            return try {
+                conn = URL(this).openConnection() as HttpURLConnection?
+                conn!!.requestMethod = "HEAD"
+                conn.contentLengthLong
+            } catch (e: IOException) {
+                return 0L
+            } finally {
+                conn?.disconnect()
+            }
+        }
+
+        private fun Long.formatSize(): String {
+            if (this < 1024) return "$this B"
+            val z = (63 - java.lang.Long.numberOfLeadingZeros(this)) / 10
+            return String.format("%.1f %sB", this.toDouble() / (1L shl z * 10), " KMGTPE"[z])
+        }
+
+        fun String.dateFormat(pattern: String): String? {
+            val dateFormat = SimpleDateFormat("EEEE, dd MMMM yyyy HH:mm:ss", Locale("id", "ID"))
+            val date = dateFormat.parse(this)
+            val output = SimpleDateFormat(pattern, Locale("id", "ID"))
+            return output.format(date)
+        }
+
+        fun ImageView.setTint(@ColorRes colorRes: Int) {
+            ImageViewCompat.setImageTintList(this, ColorStateList.valueOf(
+                ContextCompat.getColor(context, colorRes)))
+        }
+
+        fun View.setLayoutTint(@ColorRes colorRes: Int) {
+            ViewCompat.setBackgroundTintList(this, ColorStateList.valueOf(
+                ContextCompat.getColor(context, colorRes)))
+        }
+
+        fun View.setMargin(margin: Int) {
+            if (this.layoutParams is ViewGroup.MarginLayoutParams) {
+                val p = this.layoutParams as ViewGroup.MarginLayoutParams
+                p.setMargins(margin)
+                this.requestLayout()
+            }
+        }
+
+        fun SliderView.adapter(sliderViewAdapter: SliderViewAdapter<*>){
+            this.setSliderAdapter(sliderViewAdapter)
+            this.setIndicatorAnimation(IndicatorAnimationType.WORM)
+            this.setSliderTransformAnimation(SliderAnimations.SIMPLETRANSFORMATION)
         }
     }
 }
