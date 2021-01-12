@@ -348,7 +348,7 @@ class Function {
             recyclerView?.adapter = adapter
             adapter?.notifyDataSetChanged()
         }
-        private fun Context.openPDFDocument(filename: String) {
+        fun Context.openPDFDocument(filename: String) {
             val pdfIntent = Intent(Intent.ACTION_VIEW)
             pdfIntent.setDataAndType(Uri.parse(filename), "application/pdf")
             pdfIntent.flags = Intent.FLAG_ACTIVITY_NO_HISTORY
@@ -370,7 +370,7 @@ class Function {
             }
         }
 
-        private fun Long.formatSize(): String {
+        fun Long.formatSize(): String {
             if (this < 1024) return "$this B"
             val z = (63 - java.lang.Long.numberOfLeadingZeros(this)) / 10
             return String.format("%.1f %sB", this.toDouble() / (1L shl z * 10), " KMGTPE"[z])
