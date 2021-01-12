@@ -106,6 +106,10 @@ class Function {
                 .transform(RoundedCorners(8)).into(imageView)
         }
 
+        fun ImageView.setImageUrl(context: Context, url: String){
+            Glide.with(context).load(url).into(this)
+        }
+
         fun Context.token(): String {
             return "Bearer " + get("token")
         }
@@ -285,7 +289,6 @@ class Function {
             }
         }
 
-
         fun Context.emptyAuth(mail: TextInputLayout, password: TextInputLayout): Boolean {
             when {
                 mail.editText!!.text.isEmpty() -> {
@@ -348,6 +351,7 @@ class Function {
             recyclerView?.adapter = adapter
             adapter?.notifyDataSetChanged()
         }
+
         fun Context.openPDFDocument(filename: String) {
             val pdfIntent = Intent(Intent.ACTION_VIEW)
             pdfIntent.setDataAndType(Uri.parse(filename), "application/pdf")
