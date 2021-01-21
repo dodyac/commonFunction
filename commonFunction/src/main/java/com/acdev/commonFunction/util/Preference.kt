@@ -5,9 +5,9 @@ import android.content.Context
 class Preference {
     companion object {
 
-        fun Context.isLogged(): String? {
+        fun Context.isLogged(): Boolean {
             val sharedPref = getSharedPreferences("prefs", Context.MODE_PRIVATE)
-            return sharedPref.getString("PASS", "haha")
+            return getSharedPreferences("prefs", 0).getString("PASS", "") == "haha"
         }
 
         fun Context.logged() {
