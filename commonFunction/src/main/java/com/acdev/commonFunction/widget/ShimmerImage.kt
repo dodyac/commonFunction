@@ -27,9 +27,9 @@ class ShimmerImage : AppCompatImageView, ShimmerView {
     private fun init(context: Context, attrs: AttributeSet?) {
         shimmerController = ShimmerController(this)
         val typedArray = context.obtainStyledAttributes(attrs, R.styleable.ShimmerImage, 0, 0)
-        shimmerController!!.setUseGradient(typedArray.getBoolean(R.styleable.ShimmerImage_use_gradient, USE_GRADIENT_DEFAULT))
-        shimmerController!!.setCorners(typedArray.getInt(R.styleable.ShimmerImage_corners, CORNER_DEFAULT))
-        defaultColorResource = typedArray.getColor(R.styleable.ShimmerImage_custom_color, getColor(context, R.color.default_color))
+        shimmerController!!.setUseGradient(typedArray.getBoolean(R.styleable.ShimmerImage_shimmerImageGradientColor, USE_GRADIENT_DEFAULT))
+        shimmerController!!.setCorners(typedArray.getInt(R.styleable.ShimmerImage_shimmerImageCornerRadius, CORNER_DEFAULT))
+        defaultColorResource = typedArray.getColor(R.styleable.ShimmerImage_shimmerImageColor, getColor(context, R.color.default_color))
         typedArray.recycle()
         showShimmer()
     }

@@ -25,18 +25,16 @@
         <attr name="emptyLayout" format="reference" />
     </declare-styleable>
     <declare-styleable name="ShimmerImage">
-        <attr name="width_weight" format="float|reference"/>
-        <attr name="height_weight" format="float|reference"/>
-        <attr name="use_gradient" format="boolean|reference"/>
-        <attr name="corners" format="integer|reference"/>
-        <attr name="custom_color" format="color|reference"/>
+        <attr name="shimmerImageGradientColor" format="boolean|reference"/>
+        <attr name="shimmerImageCornerRadius" format="integer|reference"/>
+        <attr name="shimmerImageColor" format="color|reference"/>
     </declare-styleable>
     <declare-styleable name="ShimmerText">
-        <attr name="width_weight" format="float|reference"/>
-        <attr name="height_weight" format="float|reference"/>
-        <attr name="use_gradient" format="boolean|reference"/>
-        <attr name="corners" format="integer|reference"/>
-        <attr name="custom_color" format="color|reference"/>
+        <attr name="shimmerTextWidth" format="float|reference"/>
+        <attr name="shimmerTextHeight" format="float|reference"/>
+        <attr name="shimmerTextGradientColor" format="boolean|reference"/>
+        <attr name="shimmerTextCornerRadius" format="integer|reference"/>
+        <attr name="shimmerTextColor" format="color|reference"/>
     </declare-styleable>
     <style name="Web" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="android:textColorPrimary">@color/white</item>

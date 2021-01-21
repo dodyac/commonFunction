@@ -2,6 +2,7 @@ package com.acdev.commonFunction.util
 
 import android.annotation.SuppressLint
 import android.app.Activity
+import android.app.DatePickerDialog
 import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
@@ -47,6 +48,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.google.android.material.card.MaterialCardView
 import com.google.android.material.textfield.MaterialAutoCompleteTextView
+import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import com.smarteist.autoimageslider.IndicatorView.animation.type.IndicatorAnimationType
 import com.smarteist.autoimageslider.SliderAnimations
@@ -98,9 +100,7 @@ class Function {
             }
         }
 
-        fun CharSequence.isEmailValid(): Boolean {
-            return Patterns.EMAIL_ADDRESS.matcher(this).matches()
-        }
+        fun CharSequence.isEmailValid(): Boolean { return Patterns.EMAIL_ADDRESS.matcher(this).matches() }
 
         @SuppressLint("ResourceType")
         fun Context.setImage64(imageView: ImageView, base64: String?) {
@@ -108,9 +108,7 @@ class Function {
                 .transform(RoundedCorners(8)).into(imageView)
         }
 
-        fun ImageView.setImageUrl(context: Context, url: String){
-            Glide.with(context).load(url).into(this)
-        }
+        fun ImageView.setImageUrl(context: Context, url: String){ Glide.with(context).load(url).into(this) }
 
         fun Context.token(): String { return "Bearer " + readPrefs("token") }
 
@@ -251,9 +249,7 @@ class Function {
             }
         }
 
-        private fun String.removePrefixWhatsapp(): String{
-            return "+62${this.substring(1)}"
-        }
+        private fun String.removePrefixWhatsapp(): String{ return "+62${this.substring(1)}" }
         
         fun Context.setOnclick(imageButton: ImageButton, data: String, socialMedia: SocialMedia){
             imageButton.setOnClickListener {
@@ -438,6 +434,22 @@ class Function {
             val destination = StringBuilder(UUID.randomUUID().toString()).append(".jpg").toString()
             UCrop.of(uri!!, Uri.fromFile(File(cacheDir, destination))).withAspectRatio(1f, 1f)
                 .withMaxResultSize(512, 512).start(this, fragment)
+        }
+
+        @SuppressLint("SimpleDateFormat")
+        fun Context.datePicker(textInputLayout: TextInputEditText, pattern: String) {
+            textInputLayout.setOnClickListener {
+                val calendar = Calendar.getInstance()
+                val date = DatePickerDialog.OnDateSetListener { view, year, monthOfYear, dayOfMonth ->
+                    calendar[Calendar.YEAR] = year
+                    calendar[Calendar.MONTH] = monthOfYear
+                    calendar[Calendar.DAY_OF_MONTH] = dayOfMonth
+                    val sdf = SimpleDateFormat(pattern)
+                    textInputLayout.setText(sdf.format(calendar.time))
+                }
+                DatePickerDialog(this@datePicker, date, calendar[Calendar.YEAR], calendar[Calendar.MONTH],
+                    calendar[Calendar.DAY_OF_MONTH]).show()
+            }
         }
     }
 }

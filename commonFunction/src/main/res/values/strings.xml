@@ -93,4 +93,6 @@
         <item>Laki-laki</item>
         <item>Perempuan</item>
     </string-array>
+
+    <string name="error">%d - %s</string>
 </resources>
