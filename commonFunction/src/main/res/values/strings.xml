@@ -9,6 +9,7 @@
     <string name="cancel">Batal</string>
     <string name="yes">Ya</string>
     <string name="no">Tidak</string>
+    <string name="exit">Keluar</string>
     <!-- Form -->
     <string name="mail">E-mail</string>
     <string name="password">Kata Sandi</string>
@@ -29,6 +30,8 @@
     <string name="facebook">Facebook</string>
     <string name="instagram">Instagram</string>
     <string name="postalCode">Kode Pos</string>
+    <string name="gender">Jenis Kelamin</string>
+    <string name="birthDate">Tanggal Lahir</string>
     <!-- Alert -->
     <string name="emptyMail">E-mail tidak boleh kosong!</string>
     <string name="emptyPassword">Kata sandi tidak boleh kosong!</string>
@@ -48,11 +51,18 @@
     <string name="emptyBehalfOf">Nama pemegang rekening tidak boleh kosong!</string>
     <string name="emptyAccountNumber">Nomor rekening tidak boleh kosong!</string>
     <string name="emptyJob">Pekerjaan tidak boleh kosong!</string>
+    <string name="emptyPhoto">Foto tidak boleh kosong!</string>
     <string name="notMail">Silahkan masukkan e-mail dengan benar!</string>
     <string name="cannotConnect">Gagal menghubungkan ke server! Pastikan telepon Anda terhubung ke Internet</string>
     <string name="tapAgain">Tekan sekali lagi untuk keluar</string>
     <string name="sureToExit">Apakah Anda yakin untuk keluar?</string>
     <string name="sureToDelete">Apakah Anda yakin untuk menghapus?</string>
+    <string name="minNik">Karakter NIK minimal 16 digit!</string>
+    <string name="minPostalCode">Karakter Kode Pos minimal 5 digit!</string>
+    <string name="youSure">Apakah Anda sudah yakin data yang Anda masukkan sudah benar?</string>
+    <string name="emptyGender">Jenis Kelamin tidak boleh kosong!</string>
+    <string name="emptyBirthDate">Tanggal Lahir tidak boleh kosong!</string>
+    <string name="emptyPostalCode">Kode Pos tidak boleh kosong!</string>
     <!-- Text -->
     <string name="welcome">Selamat datang</string>
     <string name="forgotPassword">Lupa Kata Sandi?</string>
@@ -65,14 +75,22 @@
     <string name="today">Hari ini</string>
     <string name="transfer">Transfer</string>
     <string name="withdraw">Withdraw</string>
-    <string name="_0">0</string>
     <string name="waiting">Menunggu</string>
     <string name="success">Sukses</string>
     <string name="failed">Gagal</string>
     <string name="total">Total</string>
-    <!-- Value -->
-    <string name="stripe">%s - %s</string>
-    <string name="error">%d - %s</string>
-    <string name="today_">Hari ini (%d)</string>
-    <string name="old_">Terdahulu (%d)</string>
+    <string name="inactive">Belum Aktif</string>
+    <string name="active">Aktif</string>
+    <string name="commission">Komisi</string>
+    <string name="achievement">Pencapaian</string>
+    <string name="history">Riwayat</string>
+    <string name="order">Pesanan</string>
+    <string name="mailInstruction">Silahkan masukkan alamat email Anda pada form yang telah disediakan</string>
+    <string name="account">Akun</string>
+    <string name="changeProfile">Ubah Profil</string>
+    <string name="next">Selanjutnya</string>
+    <string-array name="gender">
+        <item>Laki-laki</item>
+        <item>Perempuan</item>
+    </string-array>
 </resources>

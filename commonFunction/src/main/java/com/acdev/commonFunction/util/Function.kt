@@ -8,12 +8,14 @@ import android.content.Intent
 import android.content.res.ColorStateList
 import android.graphics.Bitmap
 import android.graphics.Color
+import android.graphics.Shader
 import android.graphics.Typeface
 import android.graphics.drawable.BitmapDrawable
 import android.net.ConnectivityManager
 import android.net.NetworkInfo
 import android.net.Uri
 import android.os.Build
+import android.provider.MediaStore
 import android.util.Base64
 import android.util.DisplayMetrics
 import android.util.Patterns
@@ -24,28 +26,26 @@ import android.widget.ArrayAdapter
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.Toast
-import androidx.annotation.ColorRes
-import androidx.annotation.RequiresApi
-import androidx.annotation.StringRes
-import androidx.annotation.WorkerThread
+import androidx.annotation.*
 import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.setMargins
 import androidx.core.widget.ImageViewCompat
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.acdev.commonFunction.model.BankRegion
 import com.acdev.commonFunction.common.Constant.Companion.PATTERN_CURRENCY
 import com.acdev.commonFunction.common.Constant.Companion.PATTERN_CURRENCY_END
-import com.acdev.commonFunction.common.Enqueue.Companion.queue
-import com.acdev.commonFunction.util.Preference.Companion.get
+import com.acdev.commonFunction.common.LibQue.Companion.libque
 import com.acdev.commonFunction.R
 import com.acdev.commonFunction.common.*
-import com.acdev.commonFunction.util.Function.Companion.isEmailValid
+import com.acdev.commonFunction.util.Preference.Companion.readPrefs
 import com.amulyakhare.textdrawable.TextDrawable
 import com.amulyakhare.textdrawable.util.ColorGenerator
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
+import com.google.android.material.card.MaterialCardView
 import com.google.android.material.textfield.MaterialAutoCompleteTextView
 import com.google.android.material.textfield.TextInputLayout
 import com.smarteist.autoimageslider.IndicatorView.animation.type.IndicatorAnimationType
@@ -53,11 +53,13 @@ import com.smarteist.autoimageslider.SliderAnimations
 import com.smarteist.autoimageslider.SliderView
 import com.smarteist.autoimageslider.SliderViewAdapter
 import com.thefinestartist.finestwebview.FinestWebView
+import com.yalantis.ucrop.UCrop
 import es.dmoral.toasty.Toasty
 import org.joda.time.DateMidnight
 import org.joda.time.Days
 import retrofit2.Call
 import java.io.ByteArrayOutputStream
+import java.io.File
 import java.io.IOException
 import java.net.HttpURLConnection
 import java.net.URL
@@ -110,9 +112,7 @@ class Function {
             Glide.with(context).load(url).into(this)
         }
 
-        fun Context.token(): String {
-            return "Bearer " + get("token")
-        }
+        fun Context.token(): String { return "Bearer " + readPrefs("token") }
 
         @Suppress("UNCHECKED_CAST")
         fun Context.stringArrayToAutoComplete(stringArray: Array<String?>, autoComplete: MaterialAutoCompleteTextView?) {
@@ -213,7 +213,7 @@ class Function {
         }
 
         fun Context.getBank(call: Call<BankRegion?>?, autoComplete: MaterialAutoCompleteTextView?) {
-            call?.queue {
+            call?.libque {
                 response = {
                     if (!it.isSuccessful) toastx(Toastx.ERROR, getString(R.string.error, it.code(), it.message()))
                     else {
@@ -230,7 +230,7 @@ class Function {
         }
 
         fun Context.getRegion(call: Call<BankRegion?>?, autoComplete: MaterialAutoCompleteTextView?, region: Region) {
-            call?.queue {
+            call?.libque {
                 response = {
                     if (!it.isSuccessful) toastx(Toastx.ERROR, getString(R.string.error, it.code(), it.message()))
                     else {
@@ -367,11 +367,7 @@ class Function {
                 conn = URL(this).openConnection() as HttpURLConnection?
                 conn!!.requestMethod = "HEAD"
                 conn.contentLengthLong
-            } catch (e: IOException) {
-                return 0L
-            } finally {
-                conn?.disconnect()
-            }
+            } catch (e: IOException) { return 0L } finally { conn?.disconnect() }
         }
 
         fun Long.formatSize(): String {
@@ -409,6 +405,39 @@ class Function {
             this.setSliderAdapter(sliderViewAdapter)
             this.setIndicatorAnimation(IndicatorAnimationType.WORM)
             this.setSliderTransformAnimation(SliderAnimations.SIMPLETRANSFORMATION)
+        }
+
+        fun Context.pattern(imageView: ImageView, @DrawableRes drawableRes: Int){
+            imageView.setImageDrawable(TileDrawable(
+                ContextCompat.getDrawable(this, drawableRes)!!, Shader.TileMode.REPEAT))
+        }
+
+        fun getToday(pattern: String): String? {
+            val date = System.currentTimeMillis()
+            val sdf = SimpleDateFormat(pattern, Locale("id", "ID"))
+            return sdf.format(date)
+        }
+
+        private fun MaterialCardView.detailSub(view: View) {
+            this.setOnClickListener { if (view.visibility == View.GONE) view.visibility = View.VISIBLE
+            else view.visibility = View.GONE }
+        }
+
+        private fun Context.cropError(data: Intent?) {
+            val cropError = data?.let { UCrop.getError(it) }
+            if (cropError != null) toastx(Toastx.ERROR, cropError.message!!)
+        }
+
+        private fun Context.startCropAsActivity(uri: Uri?) {
+            val destination = StringBuilder(UUID.randomUUID().toString()).append(".jpg").toString()
+            UCrop.of(uri!!, Uri.fromFile(File(cacheDir, destination))).withAspectRatio(1f, 1f)
+                .withMaxResultSize(512, 512).start(this as Activity)
+        }
+
+        private fun Context.startCropAsFragment(fragment: Fragment, uri: Uri?) {
+            val destination = StringBuilder(UUID.randomUUID().toString()).append(".jpg").toString()
+            UCrop.of(uri!!, Uri.fromFile(File(cacheDir, destination))).withAspectRatio(1f, 1f)
+                .withMaxResultSize(512, 512).start(this, fragment)
         }
     }
 }

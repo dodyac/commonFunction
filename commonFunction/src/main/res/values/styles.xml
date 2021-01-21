@@ -2,19 +2,20 @@
 <resources>
     <color name="color">#e3e1e3</color>
     <color name="white">#FFFFFF</color>
+    <color name="black">#000000</color>
     <color name="shimmer">#24000000</color>
     <color name="demo_light_transparent">#16000000</color>
     <color name="darker_color">#B4B4B4</color>
     <color name="default_color">#D7D7D7</color>
     <declare-styleable name="ShimmerRecycler">
         <attr name="layout" format="reference" />
-        <attr name="child_count" format="integer|reference" />
+        <attr name="child" format="integer|reference" />
         <attr name="layout_manager" format="enum">
             <enum name="linear_vertical" value="0" />
             <enum name="linear_horizontal" value="1" />
             <enum name="grid" value="2" />
         </attr>
-        <attr name="grid_child_count" format="integer|reference" />
+        <attr name="grid" format="integer|reference" />
         <attr name="color" format="color|reference" />
         <attr name="angle" format="integer|reference" />
         <attr name="item_background" format="color|reference" />
@@ -23,12 +24,19 @@
         <attr name="reverse_animation" format="boolean|reference" />
         <attr name="emptyLayout" format="reference" />
     </declare-styleable>
-    <declare-styleable name="loaderView">
-        <attr format="float" name="width_weight"/>
-        <attr format="float" name="height_weight"/>
-        <attr format="boolean" name="use_gradient"/>
-        <attr format="integer" name="corners"/>
-        <attr format="color" name="custom_color"/>
+    <declare-styleable name="ShimmerImage">
+        <attr name="width_weight" format="float|reference"/>
+        <attr name="height_weight" format="float|reference"/>
+        <attr name="use_gradient" format="boolean|reference"/>
+        <attr name="corners" format="integer|reference"/>
+        <attr name="custom_color" format="color|reference"/>
+    </declare-styleable>
+    <declare-styleable name="ShimmerText">
+        <attr name="width_weight" format="float|reference"/>
+        <attr name="height_weight" format="float|reference"/>
+        <attr name="use_gradient" format="boolean|reference"/>
+        <attr name="corners" format="integer|reference"/>
+        <attr name="custom_color" format="color|reference"/>
     </declare-styleable>
     <style name="Web" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="android:textColorPrimary">@color/white</item>

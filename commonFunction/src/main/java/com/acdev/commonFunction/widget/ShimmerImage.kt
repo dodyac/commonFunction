@@ -26,10 +26,10 @@ class ShimmerImage : AppCompatImageView, ShimmerView {
 
     private fun init(context: Context, attrs: AttributeSet?) {
         shimmerController = ShimmerController(this)
-        val typedArray = context.obtainStyledAttributes(attrs, R.styleable.loaderView, 0, 0)
-        shimmerController!!.setUseGradient(typedArray.getBoolean(R.styleable.loaderView_use_gradient, USE_GRADIENT_DEFAULT))
-        shimmerController!!.setCorners(typedArray.getInt(R.styleable.loaderView_corners, CORNER_DEFAULT))
-        defaultColorResource = typedArray.getColor(R.styleable.loaderView_custom_color, getColor(context, R.color.default_color))
+        val typedArray = context.obtainStyledAttributes(attrs, R.styleable.ShimmerImage, 0, 0)
+        shimmerController!!.setUseGradient(typedArray.getBoolean(R.styleable.ShimmerImage_use_gradient, USE_GRADIENT_DEFAULT))
+        shimmerController!!.setCorners(typedArray.getInt(R.styleable.ShimmerImage_corners, CORNER_DEFAULT))
+        defaultColorResource = typedArray.getColor(R.styleable.ShimmerImage_custom_color, getColor(context, R.color.default_color))
         typedArray.recycle()
         showShimmer()
     }
@@ -51,13 +51,9 @@ class ShimmerImage : AppCompatImageView, ShimmerView {
         shimmerController!!.onDraw(canvas)
     }
 
-    override fun setRectColor(rectPaint: Paint?) {
-        rectPaint?.color = defaultColorResource
-    }
+    override fun setRectColor(rectPaint: Paint?) { rectPaint?.color = defaultColorResource }
 
-    override fun valueSet(): Boolean {
-        return drawable != null
-    }
+    override fun valueSet(): Boolean { return drawable != null }
 
     override fun setImageBitmap(bm: Bitmap?) {
         super.setImageBitmap(bm)

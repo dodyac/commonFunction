@@ -28,14 +28,13 @@ class ShimmerText : AppCompatTextView, ShimmerView {
 
     private fun init(context: Context, attrs: AttributeSet?) {
         shimmerController = ShimmerController(this)
-        val typedArray: TypedArray = context.obtainStyledAttributes(attrs,
-            R.styleable.loaderView, 0, 0)
-        shimmerController!!.setWidthWeight(typedArray.getFloat(R.styleable.loaderView_width_weight, MAX_WEIGHT))
-        shimmerController!!.setHeightWeight(typedArray.getFloat(R.styleable.loaderView_height_weight, MAX_WEIGHT))
-        shimmerController!!.setUseGradient(typedArray.getBoolean(R.styleable.loaderView_use_gradient, USE_GRADIENT_DEFAULT))
-        shimmerController!!.setCorners(typedArray.getInt(R.styleable.loaderView_corners, CORNER_DEFAULT))
-        defaultColorResource = typedArray.getColor(R.styleable.loaderView_custom_color, getColor(context, R.color.default_color))
-        darkerColorResource = typedArray.getColor(R.styleable.loaderView_custom_color, getColor(context, R.color.darker_color))
+        val typedArray: TypedArray = context.obtainStyledAttributes(attrs, R.styleable.ShimmerText, 0, 0)
+        shimmerController!!.setWidthWeight(typedArray.getFloat(R.styleable.ShimmerImage_width_weight, MAX_WEIGHT))
+        shimmerController!!.setHeightWeight(typedArray.getFloat(R.styleable.ShimmerImage_height_weight, MAX_WEIGHT))
+        shimmerController!!.setUseGradient(typedArray.getBoolean(R.styleable.ShimmerImage_use_gradient, USE_GRADIENT_DEFAULT))
+        shimmerController!!.setCorners(typedArray.getInt(R.styleable.ShimmerImage_corners, CORNER_DEFAULT))
+        defaultColorResource = typedArray.getColor(R.styleable.ShimmerImage_custom_color, getColor(context, R.color.default_color))
+        darkerColorResource = typedArray.getColor(R.styleable.ShimmerImage_custom_color, getColor(context, R.color.darker_color))
         typedArray.recycle()
         showShimmer()
     }
@@ -73,9 +72,7 @@ class ShimmerText : AppCompatTextView, ShimmerView {
         else rectPaint?.color = defaultColorResource
     }
 
-    override fun valueSet(): Boolean {
-        return !TextUtils.isEmpty(text)
-    }
+    override fun valueSet(): Boolean { return !TextUtils.isEmpty(text) }
 
     override fun onDetachedFromWindow() {
         super.onDetachedFromWindow()

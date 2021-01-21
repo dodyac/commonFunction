@@ -42,12 +42,9 @@ class ShimmerRecycler : RecyclerView {
         mShimmerAdapter = ShimmerAdapter()
         val a = context.obtainStyledAttributes(attrs, R.styleable.ShimmerRecycler, 0, 0)
         try {
-            layoutReference(a.getResourceId(
-                R.styleable.ShimmerRecycler_layout,
-                R.layout.layout_shimmer
-            ))
-            childCount = a.getInteger(R.styleable.ShimmerRecycler_child_count, CHILD_COUNT)
-            setGridChildCount(a.getInteger(R.styleable.ShimmerRecycler_grid_child_count, 2))
+            layoutReference(a.getResourceId(R.styleable.ShimmerRecycler_layout, R.layout.layout_shimmer))
+            childCount = a.getInteger(R.styleable.ShimmerRecycler_child, CHILD_COUNT)
+            setGridChildCount(a.getInteger(R.styleable.ShimmerRecycler_grid, 2))
             when (a.getInteger(R.styleable.ShimmerRecycler_layout_manager, 0)) {
                 0 -> layoutManager(LayoutMangerType.LINEAR_VERTICAL)
                 1 -> layoutManager(LayoutMangerType.LINEAR_HORIZONTAL)
@@ -78,25 +75,15 @@ class ShimmerRecycler : RecyclerView {
         mShimmerAdapter!!.setBindViewHolderPlugin(plugin)
     }
 
-    fun setGridChildCount(count: Int) {
-        mGridCount = count
-    }
+    fun setGridChildCount(count: Int) { mGridCount = count }
 
-    fun layoutManager(type: LayoutMangerType?) {
-        mLayoutMangerType = type
-    }
+    fun layoutManager(type: LayoutMangerType?) { mLayoutMangerType = type }
 
-    fun setChildCount(count: Int) {
-        mShimmerAdapter!!.setMinItemCount(count)
-    }
+    fun setChildCount(count: Int) { mShimmerAdapter!!.setMinItemCount(count) }
 
-    fun duration(duration: Int) {
-        mShimmerAdapter!!.setShimmerDuration(duration)
-    }
+    fun duration(duration: Int) { mShimmerAdapter!!.setShimmerDuration(duration) }
 
-     fun maskWidth(maskWidth: Float) {
-        mShimmerAdapter!!.setShimmerMaskWidth(maskWidth)
-    }
+    fun maskWidth(maskWidth: Float) { mShimmerAdapter!!.setShimmerMaskWidth(maskWidth) }
 
     fun showShimmer() {
         mCanScroll = false
@@ -123,17 +110,11 @@ class ShimmerRecycler : RecyclerView {
         super.setAdapter(adapter)
     }
 
-    fun getActualAdapter(): Adapter<*>? {
-        return mActualAdapter
-    }
+    fun getActualAdapter(): Adapter<*>? { return mActualAdapter }
 
-    fun getShimmerAdapter(): Adapter<*>? {
-        return mShimmerAdapter
-    }
+    fun getShimmerAdapter(): Adapter<*>? { return mShimmerAdapter }
 
-    fun getLayoutReference(): Int {
-        return mLayoutReference
-    }
+    fun getLayoutReference(): Int { return mLayoutReference }
 
     fun layoutReference(mLayoutReference: Int) {
         this.mLayoutReference = mLayoutReference

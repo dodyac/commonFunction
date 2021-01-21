@@ -64,24 +64,16 @@ class ShimmerController(view: ShimmerView) : AnimatorUpdateListener {
         }
     }
 
-    fun setHeightWeight(heightWeight: Float) {
-        this.heightWeight = validateWeight(heightWeight)
-    }
+    fun setHeightWeight(heightWeight: Float) { this.heightWeight = validateWeight(heightWeight) }
 
-    fun setWidthWeight(widthWeight: Float) {
-        this.widthWeight = validateWeight(widthWeight)
-    }
+    fun setWidthWeight(widthWeight: Float) { this.widthWeight = validateWeight(widthWeight) }
 
-    fun setUseGradient(useGradient: Boolean) {
-        this.useGradient = useGradient
-    }
+    fun setUseGradient(useGradient: Boolean) { this.useGradient = useGradient }
 
-    fun setCorners(corners: Int) {
-        this.corners = corners
-    }
+    fun setCorners(corners: Int) { this.corners = corners }
 
     private fun validateWeight(weight: Float): Float {
-        return if (weight > MAX_WEIGHT) MAX_WEIGHT else Math.max(weight,MIN_WEIGHT)
+        return if (weight > MAX_WEIGHT) MAX_WEIGHT else weight.coerceAtLeast(MIN_WEIGHT)
     }
 
     fun stopLoading() {

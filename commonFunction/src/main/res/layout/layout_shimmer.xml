@@ -1,43 +1,31 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@android:color/transparent"
-    android:orientation="vertical">
+    app:cardBackgroundColor="@color/white"
+    app:cardUseCompatPadding="true">
 
-    <com.google.android.material.card.MaterialCardView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@android:color/transparent"
-        app:cardUseCompatPadding="true">
+        android:orientation="vertical"
+        android:padding="7dp">
 
-        <LinearLayout
+        <com.acdev.commonFunction.widget.ShimmerText
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@android:color/transparent"
-            android:orientation="vertical"
-            android:padding="7dp">
+            android:layout_height="50dp"
+            android:layout_margin="3dp" />
 
-            <com.google.android.material.card.MaterialCardView
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:backgroundTint="@color/shimmer"
-                app:cardElevation="0dp"
-                app:cardUseCompatPadding="true" />
+        <com.acdev.commonFunction.widget.ShimmerText
+            android:layout_width="150dp"
+            android:layout_height="25dp"
+            android:layout_margin="3dp" />
 
-            <com.google.android.material.card.MaterialCardView
-                android:layout_width="150dp"
-                android:layout_height="25dp"
-                android:backgroundTint="@color/shimmer"
-                app:cardElevation="0dp"
-                app:cardUseCompatPadding="true" />
-
-            <com.google.android.material.card.MaterialCardView
-                android:layout_width="120dp"
-                android:layout_height="25dp"
-                android:backgroundTint="@color/shimmer"
-                app:cardElevation="0dp"
-                app:cardUseCompatPadding="true" />
-        </LinearLayout>
-    </com.google.android.material.card.MaterialCardView>
-</LinearLayout>
+        <com.acdev.commonFunction.widget.ShimmerText
+            android:layout_width="120dp"
+            android:layout_height="25dp"
+            android:layout_margin="3dp" />
+    </LinearLayout>
+</com.google.android.material.card.MaterialCardView>
