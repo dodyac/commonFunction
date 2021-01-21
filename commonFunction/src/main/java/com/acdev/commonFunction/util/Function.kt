@@ -414,23 +414,23 @@ class Function {
             return sdf.format(date)
         }
 
-        private fun MaterialCardView.detailSub(view: View) {
+        fun MaterialCardView.detailSub(view: View) {
             this.setOnClickListener { if (view.visibility == View.GONE) view.visibility = View.VISIBLE
             else view.visibility = View.GONE }
         }
 
-        private fun Context.cropError(data: Intent?) {
+        fun Context.cropError(data: Intent?) {
             val cropError = data?.let { UCrop.getError(it) }
             if (cropError != null) toastx(Toastx.ERROR, cropError.message!!)
         }
 
-        private fun Context.startCropAsActivity(uri: Uri?) {
+        fun Context.startCropAsActivity(uri: Uri?) {
             val destination = StringBuilder(UUID.randomUUID().toString()).append(".jpg").toString()
             UCrop.of(uri!!, Uri.fromFile(File(cacheDir, destination))).withAspectRatio(1f, 1f)
                 .withMaxResultSize(512, 512).start(this as Activity)
         }
 
-        private fun Context.startCropAsFragment(fragment: Fragment, uri: Uri?) {
+        fun Context.startCropAsFragment(fragment: Fragment, uri: Uri?) {
             val destination = StringBuilder(UUID.randomUUID().toString()).append(".jpg").toString()
             UCrop.of(uri!!, Uri.fromFile(File(cacheDir, destination))).withAspectRatio(1f, 1f)
                 .withMaxResultSize(512, 512).start(this, fragment)
