@@ -17,18 +17,18 @@ class Preference {
         }
 
         fun Context.insertPrefs(path: String?, data: String?) {
-            val prefs = getSharedPreferences("prefs", 0)
+            val prefs = getSharedPreferences("prefs", Context.MODE_PRIVATE)
             val editor = prefs.edit()
             editor.putString(path, data)
             editor.apply()
         }
 
         fun Context.readPrefs(path: String?): String? {
-            return getSharedPreferences("prefs", 0).getString(path, "")
+            return getSharedPreferences("prefs", Context.MODE_PRIVATE).getString(path, "")
         }
 
         fun Context.deletePrefs() {
-            val prefs = getSharedPreferences("prefs", 0)
+            val prefs = getSharedPreferences("prefs", Context.MODE_PRIVATE)
             val editor = prefs.edit()
             editor.remove("PASS").apply()
             editor.remove("token").commit()
