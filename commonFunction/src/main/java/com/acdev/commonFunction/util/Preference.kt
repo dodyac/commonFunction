@@ -6,7 +6,7 @@ class Preference {
     companion object {
 
         fun Context.isLogged(): Boolean {
-            return getSharedPreferences("prefs", Context.MODE_PRIVATE).getString("PASS", "") == "haha"
+            return getSharedPreferences("prefs", Context.MODE_PRIVATE).getString("PASS", "") == "hihi"
         }
 
         fun Context.logged() {
