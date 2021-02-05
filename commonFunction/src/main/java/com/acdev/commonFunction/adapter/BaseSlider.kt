@@ -11,6 +11,7 @@ abstract class BaseSlider(private val list: List<Any>, @LayoutRes val layoutRes:
 
     val gone: Int = View.GONE
     val visible: Int = View.VISIBLE
+    val invisible: Int = View.INVISIBLE
 
     override fun getCount() = list.size
 

@@ -93,6 +93,12 @@
         <item>Laki-laki</item>
         <item>Perempuan</item>
     </string-array>
-
     <string name="error">%d - %s</string>
+    <string name="affiliate">Afiliasi</string>
+    <string name="emptyLamaUsaha">Lama usaha tidak boleh kosong!</string>
+    <string name="emptyArmada">Armada tidak boleh kosong!</string>
+    <string name="emptyBirthdate">Tanggal Lahir tidak boleh kosong!</string>
+    <string name="privates">Pribadi</string>
+    <string name="publics">Umum</string>
+    <string name="message">Pesan</string>
 </resources>

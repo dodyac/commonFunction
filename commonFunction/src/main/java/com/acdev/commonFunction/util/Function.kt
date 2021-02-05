@@ -16,17 +16,14 @@ import android.net.ConnectivityManager
 import android.net.NetworkInfo
 import android.net.Uri
 import android.os.Build
-import android.provider.MediaStore
+import android.text.Html
 import android.util.Base64
 import android.util.DisplayMetrics
 import android.util.Patterns
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
-import android.widget.ArrayAdapter
-import android.widget.ImageButton
-import android.widget.ImageView
-import android.widget.Toast
+import android.widget.*
 import androidx.annotation.*
 import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
@@ -41,7 +38,6 @@ import com.acdev.commonFunction.common.Constant.Companion.PATTERN_CURRENCY_END
 import com.acdev.commonFunction.common.LibQue.Companion.libque
 import com.acdev.commonFunction.R
 import com.acdev.commonFunction.common.*
-import com.acdev.commonFunction.util.Preference.Companion.readPrefs
 import com.amulyakhare.textdrawable.TextDrawable
 import com.amulyakhare.textdrawable.util.ColorGenerator
 import com.bumptech.glide.Glide
@@ -71,6 +67,11 @@ import java.util.*
 class Function {
     @Suppress("DEPRECATION")
     companion object {
+
+        private const val gone: Int = View.GONE
+        private const val visible: Int = View.VISIBLE
+        private const val invisible: Int = View.INVISIBLE
+
         fun Context.setLayoutManager(adapter: RecyclerView.Adapter<*>?, recyclerView: RecyclerView?, spanCount: Int) {
             val layoutManager: RecyclerView.LayoutManager = GridLayoutManager(this, spanCount)
             recyclerView?.layoutManager = layoutManager
@@ -108,9 +109,7 @@ class Function {
                 .transform(RoundedCorners(8)).into(imageView)
         }
 
-        fun ImageView.setImageUrl(context: Context, url: String){ Glide.with(context).load(url).into(this) }
-
-        fun Context.token(): String { return "Bearer " + readPrefs("token") }
+        fun Context.setImageUrl(imageView: ImageView, url: String){ Glide.with(this).load(url).into(imageView) }
 
         @Suppress("UNCHECKED_CAST")
         fun Context.stringArrayToAutoComplete(stringArray: Array<String?>, autoComplete: MaterialAutoCompleteTextView?) {
@@ -141,7 +140,7 @@ class Function {
             FinestWebView.Builder(this).toolbarColorRes(color).swipeRefreshColorRes(color).show(getString(url))
         }
 
-        fun ImageView?.default(name: String?, @ColorRes color: Int, ) {
+        fun ImageView?.default(name: String?, @ColorRes color: Int) {
             val textDrawable = TextDrawable.builder()
                 .beginConfig()
                 .width(120)
@@ -249,32 +248,30 @@ class Function {
             }
         }
 
-        private fun String.removePrefixWhatsapp(): String{ return "+62${this.substring(1)}" }
+        private fun String.add62(): String{ return "+62${this.substring(1)}" }
         
-        fun Context.setOnclick(imageButton: ImageButton, data: String, socialMedia: SocialMedia){
-            imageButton.setOnClickListener {
+        fun Context.socialMediaOnclick(view: View, data: String, socialMedia: SocialMedia){
+            view.setOnClickListener {
                 when(socialMedia){
                     SocialMedia.FACEBOOK -> {
-                        val intent : Intent = try {
+                        try {
                             this.packageManager.getPackageInfo("com.facebook.katana", 0)
-                            Intent(Intent.ACTION_VIEW, Uri.parse("fb://facewebmodal/f?href=https://www.facebook.com/$data"))
+                            startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("fb://facewebmodal/f?href=https://$data")).setPackage("com.facebook.katana"))
                         } catch (e: java.lang.Exception) {
-                            Intent(Intent.ACTION_VIEW, Uri.parse("https://www.facebook.com/$data"))
+                            startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("https://$data")).setPackage("com.facebook.katana"))
                         }
-                        intent.setPackage("com.facebook.katana")
-                        startActivity(intent)
                     }
                     SocialMedia.INSTAGRAM -> {
-                        val uri = Uri.parse("http://instagram.com/_u/$data")
+                        val uri = Uri.parse("http://instagram.com/_u/${data.replace("www.instagram.com/","")}")
                         val intent = Intent(Intent.ACTION_VIEW, uri)
                         intent.setPackage("com.instagram.android")
                         try { startActivity(intent) } catch (e: ActivityNotFoundException) {
-                            startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("http://instagram.com/$data")))
+                            startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("http://$data")))
                         }
                     }
                     SocialMedia.WHATSAPP -> {
                         val i = Intent(Intent.ACTION_VIEW)
-                        i.data = Uri.parse("https://api.whatsapp.com/send?phone=${data.removePrefixWhatsapp()}")
+                        i.data = Uri.parse("https://api.whatsapp.com/send?phone=${data.add62()}")
                         startActivity(i)
                     }
                     SocialMedia.GMAIL -> {
@@ -415,8 +412,7 @@ class Function {
         }
 
         fun MaterialCardView.detailSub(view: View) {
-            this.setOnClickListener { if (view.visibility == View.GONE) view.visibility = View.VISIBLE
-            else view.visibility = View.GONE }
+            this.setOnClickListener { if (view.visibility == gone) view.visibility = visible else view.visibility = gone }
         }
 
         fun Context.cropError(data: Intent?) {
@@ -450,6 +446,11 @@ class Function {
                 DatePickerDialog(this@datePicker, date, calendar[Calendar.YEAR], calendar[Calendar.MONTH],
                     calendar[Calendar.DAY_OF_MONTH]).show()
             }
+        }
+
+        fun TextView.setHtml(foo: String){
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) this.text = Html.fromHtml(foo, Html.FROM_HTML_MODE_COMPACT)
+            else this.text = Html.fromHtml(foo)
         }
     }
 }

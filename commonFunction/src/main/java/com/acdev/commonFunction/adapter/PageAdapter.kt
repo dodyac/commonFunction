@@ -10,20 +10,16 @@ class PageAdapter(fragmentManager: FragmentManager) : FragmentPagerAdapter(fragm
     private val list: MutableList<Fragment> = ArrayList()
     private val titles: MutableList<String> = ArrayList()
 
-    override fun getItem(position: Int): Fragment {
-        return list[position]
-    }
+    override fun getItem(position: Int): Fragment { return list[position] }
 
-    override fun getCount(): Int {
-        return list.size
-    }
+    override fun getCount(): Int { return list.size }
 
-    override fun getPageTitle(position: Int): CharSequence {
-        return titles[position]
-    }
+    override fun getPageTitle(position: Int): CharSequence { return titles[position] }
 
     fun add(fragment: Fragment, title: String) {
         list.add(fragment)
         titles.add(title)
     }
+
+    fun add(fragment: Fragment) { list.add(fragment) }
 }

@@ -11,6 +11,7 @@ abstract class BaseAdapterRv(private val list: List<Any>, @LayoutRes val layoutR
 
     val gone: Int = View.GONE
     val visible: Int = View.VISIBLE
+    val invisible: Int = View.INVISIBLE
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder =
             ViewHolder(LayoutInflater.from(parent.context).inflate(layoutRes, parent, false))

@@ -37,12 +37,9 @@ class ShimmerController(view: ShimmerView) : AnimatorUpdateListener {
         val marginHeight = canvas.height * (1 - heightWeight) / 2
         rectPaint!!.alpha = (progress * maxColorConstantValue).toInt()
         if (useGradient) prepareGradient(canvas.width * widthWeight)
-        canvas.drawRoundRect(
-            RectF(0 + left_pad, marginHeight + top_pad, canvas.width * widthWeight - right_pad,
-                canvas.height - marginHeight - bottom_pad),
-            corners.toFloat(), corners.toFloat(),
-            rectPaint!!
-        )
+        canvas.drawRoundRect(RectF(0 + left_pad, marginHeight + top_pad,
+            canvas.width * widthWeight - right_pad, canvas.height - marginHeight - bottom_pad),
+            corners.toFloat(), corners.toFloat(), rectPaint!!)
     }
 
     fun onSizeChanged() {

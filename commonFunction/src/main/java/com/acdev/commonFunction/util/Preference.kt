@@ -23,6 +23,15 @@ class Preference {
             editor.apply()
         }
 
+        fun Context.insertToken(data: String?) {
+            val prefs = getSharedPreferences("prefs", Context.MODE_PRIVATE)
+            val editor = prefs.edit()
+            editor.putString("token", data)
+            editor.apply()
+        }
+
+        fun Context.readToken(): String { return "Bearer " + readPrefs("token") }
+
         fun Context.readPrefs(path: String?): String? {
             return getSharedPreferences("prefs", Context.MODE_PRIVATE).getString(path, "")
         }
