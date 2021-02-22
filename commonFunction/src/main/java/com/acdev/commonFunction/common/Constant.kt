@@ -14,6 +14,9 @@ class Constant {
         const val CHILD_COUNT = 3
         const val PATTERN_CURRENCY = "Rp "
         const val PATTERN_CURRENCY_END = ",-"
+        const val PREFERENCE = "prefs"
+        const val TOKEN = "token"
+        const val LOGGED = "logged"
         var PROVINCE: List<Datum>? = null
         var CITY: List<Datum>? = null
         var DISTRICT: List<Datum>? = null

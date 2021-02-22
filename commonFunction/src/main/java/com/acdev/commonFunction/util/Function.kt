@@ -16,6 +16,8 @@ import android.net.ConnectivityManager
 import android.net.NetworkInfo
 import android.net.Uri
 import android.os.Build
+import android.os.Bundle
+import android.os.StrictMode
 import android.text.Html
 import android.util.Base64
 import android.util.DisplayMetrics
@@ -25,6 +27,7 @@ import android.view.ViewGroup
 import android.view.WindowManager
 import android.widget.*
 import androidx.annotation.*
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.setMargins
@@ -38,6 +41,7 @@ import com.acdev.commonFunction.common.Constant.Companion.PATTERN_CURRENCY_END
 import com.acdev.commonFunction.common.LibQue.Companion.libque
 import com.acdev.commonFunction.R
 import com.acdev.commonFunction.common.*
+import com.acdev.commonFunction.common.Toast
 import com.amulyakhare.textdrawable.TextDrawable
 import com.amulyakhare.textdrawable.util.ColorGenerator
 import com.bumptech.glide.Glide
@@ -46,6 +50,9 @@ import com.google.android.material.card.MaterialCardView
 import com.google.android.material.textfield.MaterialAutoCompleteTextView
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
+import com.google.android.play.core.review.ReviewManagerFactory
+import com.sanojpunchihewa.updatemanager.UpdateManager
+import com.sanojpunchihewa.updatemanager.UpdateManagerConstant
 import com.smarteist.autoimageslider.IndicatorView.animation.type.IndicatorAnimationType
 import com.smarteist.autoimageslider.SliderAnimations
 import com.smarteist.autoimageslider.SliderView
@@ -83,21 +90,21 @@ class Function {
             return Days.daysBetween(DateMidnight(from!!), DateMidnight(to!!)).days
         }
 
-        fun Context.toastx(toastx: Toastx, string: String) {
-            when (toastx) {
-                Toastx.INFO -> Toasty.info(this, string, Toast.LENGTH_LONG, true).show()
-                Toastx.SUCCESS -> Toasty.success(this, string, Toast.LENGTH_LONG, true).show()
-                Toastx.WARNING -> Toasty.warning(this, string, Toast.LENGTH_LONG, true).show()
-                Toastx.ERROR -> Toasty.error(this, string, Toast.LENGTH_LONG, true).show()
+        fun Context.toast(toast: Toast, string: String) {
+            when (toast) {
+                Toast.INFO -> Toasty.info(this, string, android.widget.Toast.LENGTH_LONG, true).show()
+                Toast.SUCCESS -> Toasty.success(this, string, android.widget.Toast.LENGTH_LONG, true).show()
+                Toast.WARNING -> Toasty.warning(this, string, android.widget.Toast.LENGTH_LONG, true).show()
+                Toast.ERROR -> Toasty.error(this, string, android.widget.Toast.LENGTH_LONG, true).show()
             }
         }
 
-        fun Context.toastx(toastx: Toastx, @StringRes string: Int) {
-            when (toastx) {
-                Toastx.INFO -> Toasty.info(this, getString(string), Toast.LENGTH_LONG, true).show()
-                Toastx.SUCCESS -> Toasty.success(this, getString(string), Toast.LENGTH_LONG, true).show()
-                Toastx.WARNING -> Toasty.warning(this, getString(string), Toast.LENGTH_LONG, true).show()
-                Toastx.ERROR -> Toasty.error(this, getString(string), Toast.LENGTH_LONG, true).show()
+        fun Context.toast(toast: Toast, @StringRes string: Int) {
+            when (toast) {
+                Toast.INFO -> Toasty.info(this, getString(string), android.widget.Toast.LENGTH_LONG, true).show()
+                Toast.SUCCESS -> Toasty.success(this, getString(string), android.widget.Toast.LENGTH_LONG, true).show()
+                Toast.WARNING -> Toasty.warning(this, getString(string), android.widget.Toast.LENGTH_LONG, true).show()
+                Toast.ERROR -> Toasty.error(this, getString(string), android.widget.Toast.LENGTH_LONG, true).show()
             }
         }
 
@@ -119,7 +126,7 @@ class Function {
             autoComplete?.setAdapter(dataAdapter)
         }
 
-        fun Context.width(percent: Int): Int {
+        fun Context.getWidth(percent: Int): Int {
             val displayMetrics = DisplayMetrics()
             val windowManager = getSystemService(Context.WINDOW_SERVICE) as WindowManager
             windowManager.defaultDisplay.getMetrics(displayMetrics)
@@ -212,7 +219,7 @@ class Function {
         fun Context.getBank(call: Call<BankRegion?>?, autoComplete: MaterialAutoCompleteTextView?) {
             call?.libque {
                 response = {
-                    if (!it.isSuccessful) toastx(Toastx.ERROR, getString(R.string.error, it.code(), it.message()))
+                    if (!it.isSuccessful) toast(Toast.ERROR, getString(R.string.error, it.code(), it.message()))
                     else {
                         if (it.body()!!.success) {
                             val modelDataArrayList = it.body()!!.data
@@ -222,14 +229,14 @@ class Function {
                         }
                     }
                 }
-                failure = { toastx(Toastx.ERROR, R.string.cannotConnect) }
+                failure = { toast(Toast.ERROR, R.string.cannotConnect) }
             }
         }
 
         fun Context.getRegion(call: Call<BankRegion?>?, autoComplete: MaterialAutoCompleteTextView?, region: Region) {
             call?.libque {
                 response = {
-                    if (!it.isSuccessful) toastx(Toastx.ERROR, getString(R.string.error, it.code(), it.message()))
+                    if (!it.isSuccessful) toast(Toast.ERROR, getString(R.string.error, it.code(), it.message()))
                     else {
                         if (it.body()!!.success) {
                             when (region) {
@@ -244,7 +251,7 @@ class Function {
                         }
                     }
                 }
-                failure = { toastx(Toastx.ERROR, R.string.cannotConnect) }
+                failure = { toast(Toast.ERROR, R.string.cannotConnect) }
             }
         }
 
@@ -354,7 +361,7 @@ class Function {
 
         @RequiresApi(Build.VERSION_CODES.N)
         @WorkerThread
-        fun String.getUrlFileLength(): Long {
+        fun String.urlFileLength(): Long {
             var conn: HttpURLConnection? = null
             return try {
                 conn = URL(this).openConnection() as HttpURLConnection?
@@ -376,14 +383,12 @@ class Function {
             return output.format(date)
         }
 
-        fun ImageView.setTint(@ColorRes colorRes: Int) {
-            ImageViewCompat.setImageTintList(this, ColorStateList.valueOf(
-                ContextCompat.getColor(context, colorRes)))
+        fun ImageView.tint(@ColorRes colorRes: Int) {
+            ImageViewCompat.setImageTintList(this, ColorStateList.valueOf(ContextCompat.getColor(context, colorRes)))
         }
 
-        fun View.setLayoutTint(@ColorRes colorRes: Int) {
-            ViewCompat.setBackgroundTintList(this, ColorStateList.valueOf(
-                ContextCompat.getColor(context, colorRes)))
+        fun View.layoutTint(@ColorRes colorRes: Int) {
+            ViewCompat.setBackgroundTintList(this, ColorStateList.valueOf(ContextCompat.getColor(context, colorRes)))
         }
 
         fun View.setMargin(margin: Int) {
@@ -400,7 +405,7 @@ class Function {
             this.setSliderTransformAnimation(SliderAnimations.SIMPLETRANSFORMATION)
         }
 
-        fun Context.pattern(imageView: ImageView, @DrawableRes drawableRes: Int){
+        fun Context.setPattern(imageView: ImageView, @DrawableRes drawableRes: Int){
             imageView.setImageDrawable(TileDrawable(
                 ContextCompat.getDrawable(this, drawableRes)!!, Shader.TileMode.REPEAT))
         }
@@ -411,25 +416,25 @@ class Function {
             return sdf.format(date)
         }
 
-        fun MaterialCardView.detailSub(view: View) {
+        fun MaterialCardView.nestedClick(view: View) {
             this.setOnClickListener { if (view.visibility == gone) view.visibility = visible else view.visibility = gone }
         }
 
         fun Context.cropError(data: Intent?) {
             val cropError = data?.let { UCrop.getError(it) }
-            if (cropError != null) toastx(Toastx.ERROR, cropError.message!!)
+            if (cropError != null) toast(Toast.ERROR, cropError.message!!)
         }
 
-        fun Context.startCropAsActivity(uri: Uri?) {
+        fun Activity.startCrop(uri: Uri?) {
             val destination = StringBuilder(UUID.randomUUID().toString()).append(".jpg").toString()
             UCrop.of(uri!!, Uri.fromFile(File(cacheDir, destination))).withAspectRatio(1f, 1f)
-                .withMaxResultSize(512, 512).start(this as Activity)
+                .withMaxResultSize(512, 512).start(this)
         }
 
-        fun Context.startCropAsFragment(fragment: Fragment, uri: Uri?) {
+        fun Fragment.startCrop(uri: Uri?) {
             val destination = StringBuilder(UUID.randomUUID().toString()).append(".jpg").toString()
-            UCrop.of(uri!!, Uri.fromFile(File(cacheDir, destination))).withAspectRatio(1f, 1f)
-                .withMaxResultSize(512, 512).start(this, fragment)
+            UCrop.of(uri!!, Uri.fromFile(File(context?.cacheDir, destination))).withAspectRatio(1f, 1f)
+                .withMaxResultSize(512, 512).start(context!!, this)
         }
 
         @SuppressLint("SimpleDateFormat")
@@ -448,9 +453,47 @@ class Function {
             }
         }
 
-        fun TextView.setHtml(foo: String){
+        fun TextView.html(foo: String){
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) this.text = Html.fromHtml(foo, Html.FROM_HTML_MODE_COMPACT)
             else this.text = Html.fromHtml(foo)
+        }
+
+        fun Fragment.instance(bundle: String): Fragment {
+            val wd = this
+            val args = Bundle()
+            args.putString("data", bundle)
+            wd.arguments = args
+            return this
+        }
+
+        fun setThreadPolicy(){
+            val policy = StrictMode.ThreadPolicy.Builder().permitAll().build()
+            StrictMode.setThreadPolicy(policy)
+        }
+
+        fun AppCompatActivity.checkUpdateImmediately(){
+            val updateManager = UpdateManager.Builder(this).mode(UpdateManagerConstant.IMMEDIATE)
+            updateManager.start()
+        }
+
+        fun Context.showRate(){
+            val manager = ReviewManagerFactory.create(this)
+            val request = manager.requestReviewFlow()
+            request.addOnCompleteListener {
+                if (it.isSuccessful) {
+                    val reviewInfo = it.result
+                    val flow = manager.launchReviewFlow(this as Activity, reviewInfo)
+                    flow.addOnCompleteListener {
+                        // The flow has finished. The API does not indicate whether the user
+                        // reviewed or not, or even whether the review dialog was shown. Thus, no
+                        // matter the result, we continue our app flow.
+                    }
+                } else {
+                    // There was some problem, continue regardless of the result.
+                    // you can show your own rate dialog alert and redirect user to your app page
+                    // on play store.
+                }
+            }
         }
     }
 }

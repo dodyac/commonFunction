@@ -16,7 +16,7 @@ class PageAdapter(fragmentManager: FragmentManager) : FragmentPagerAdapter(fragm
 
     override fun getPageTitle(position: Int): CharSequence { return titles[position] }
 
-    fun add(fragment: Fragment, title: String) {
+    fun addWithTitle(fragment: Fragment, title: String) {
         list.add(fragment)
         titles.add(title)
     }
