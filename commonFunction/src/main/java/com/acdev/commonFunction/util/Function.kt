@@ -91,7 +91,6 @@ class Function {
         }
 
         fun Context.toast(toast: Toast, string: String) {
-            Toasty.Config.getInstance().allowQueue(false).apply()
             when (toast) {
                 Toast.INFO -> Toasty.info(this, string, android.widget.Toast.LENGTH_LONG, true).show()
                 Toast.SUCCESS -> Toasty.success(this, string, android.widget.Toast.LENGTH_LONG, true).show()
@@ -101,7 +100,6 @@ class Function {
         }
 
         fun Context.toast(toast: Toast, @StringRes string: Int) {
-            Toasty.Config.getInstance().allowQueue(false).apply()
             when (toast) {
                 Toast.INFO -> Toasty.info(this, getString(string), android.widget.Toast.LENGTH_LONG, true).show()
                 Toast.SUCCESS -> Toasty.success(this, getString(string), android.widget.Toast.LENGTH_LONG, true).show()
@@ -109,6 +107,8 @@ class Function {
                 Toast.ERROR -> Toasty.error(this, getString(string), android.widget.Toast.LENGTH_LONG, true).show()
             }
         }
+
+        fun singleToast(){ Toasty.Config.getInstance().allowQueue(false).apply() }
 
         fun CharSequence.isEmailValid(): Boolean { return Patterns.EMAIL_ADDRESS.matcher(this).matches() }
 
