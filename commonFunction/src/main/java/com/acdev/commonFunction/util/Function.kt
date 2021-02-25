@@ -28,6 +28,7 @@ import android.view.WindowManager
 import android.widget.*
 import androidx.annotation.*
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ShareCompat
 import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.setMargins
@@ -324,7 +325,28 @@ class Function {
                 else -> {
                     mail.isErrorEnabled = false
                     password.isErrorEnabled = false
-                    password.clearFocus()
+                    return true
+                }
+            }
+        }
+
+        fun Context.emptyMail(mail: TextInputLayout): Boolean {
+            when {
+                mail.editText!!.text.isEmpty() -> {
+                    mail.isErrorEnabled = true
+                    mail.error = getString(R.string.emptyMail)
+                    mail.requestFocus()
+                    return false
+                }
+                !mail.editText!!.text.isEmailValid() -> {
+                    mail.isErrorEnabled = true
+                    mail.error = getString(R.string.notMail)
+                    mail.clearFocus()
+                    mail.requestFocus()
+                    return false
+                }
+                else -> {
+                    mail.isErrorEnabled = false
                     return true
                 }
             }
@@ -407,6 +429,7 @@ class Function {
             this.setSliderAdapter(sliderViewAdapter)
             this.setIndicatorAnimation(IndicatorAnimationType.WORM)
             this.setSliderTransformAnimation(SliderAnimations.SIMPLETRANSFORMATION)
+            this.startAutoCycle()
         }
 
         fun Context.setPattern(imageView: ImageView, @DrawableRes drawableRes: Int){
@@ -504,6 +527,13 @@ class Function {
                     // you can show your own rate dialog alert and redirect user to your app page
                     // on play store.
                 }
+            }
+        }
+
+        fun Activity.shareVia(view: View, appName: String, packageName: String){
+            view.setOnClickListener { ShareCompat.IntentBuilder.from(this).setType("text/plain")
+                .setChooserTitle("Bagikan Menggunakan").setText("Unduh aplikasi $appName secara gratis! Silahkan unduh di " +
+                        "https://play.google.com/store/apps/details?id=$packageName").startChooser()
             }
         }
     }
