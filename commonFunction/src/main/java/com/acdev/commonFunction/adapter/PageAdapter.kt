@@ -22,4 +22,6 @@ class PageAdapter(fragmentManager: FragmentManager) : FragmentPagerAdapter(fragm
     }
 
     fun add(fragment: Fragment) { list.add(fragment) }
+
+    fun adds(vararg fragments: Fragment) { for (i in listOf(*fragments).indices) list.add(listOf(*fragments)[i]) }
 }

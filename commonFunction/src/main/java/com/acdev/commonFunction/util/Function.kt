@@ -33,6 +33,7 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.setMargins
 import androidx.core.widget.ImageViewCompat
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.acdev.commonFunction.model.BankRegion
@@ -46,6 +47,7 @@ import com.amulyakhare.textdrawable.TextDrawable
 import com.amulyakhare.textdrawable.util.ColorGenerator
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.card.MaterialCardView
 import com.google.android.material.textfield.MaterialAutoCompleteTextView
 import com.google.android.material.textfield.TextInputEditText
@@ -285,7 +287,7 @@ class Function {
                     }
                     SocialMedia.GMAIL -> {
                         try { startActivity(Intent(Intent.ACTION_VIEW , Uri.parse("mailto:$data"))) }
-                        catch(e: ActivityNotFoundException){ }
+                        catch(e: ActivityNotFoundException){}
                     }
                 }
             }
@@ -466,6 +468,13 @@ class Function {
             args.putString("data", bundle)
             wd.arguments = args
             return this
+        }
+
+        fun Context.instanceSheet(bottomSheet: BottomSheetDialogFragment, bundle: String?) {
+            val args = Bundle()
+            args.putString("data", bundle)
+            bottomSheet.arguments = args
+            bottomSheet.show((this as FragmentActivity).supportFragmentManager, bottomSheet.tag)
         }
 
         fun setThreadPolicy(){
