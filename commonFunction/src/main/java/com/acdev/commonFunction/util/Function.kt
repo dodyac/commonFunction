@@ -44,6 +44,7 @@ import com.acdev.commonFunction.common.LibQue.Companion.libque
 import com.acdev.commonFunction.R
 import com.acdev.commonFunction.common.*
 import com.acdev.commonFunction.common.Toast
+import com.acdev.commonFunction.widget.ShimmerImage
 import com.amulyakhare.textdrawable.TextDrawable
 import com.amulyakhare.textdrawable.util.ColorGenerator
 import com.bumptech.glide.Glide
@@ -122,6 +123,8 @@ class Function {
         }
 
         fun Context.setImageUrl(imageView: ImageView, url: String){ Glide.with(this).load(url).into(imageView) }
+
+        fun Context.setImageUrl(imageView: ShimmerImage, url: String){ Glide.with(this).load(url).into(imageView) }
 
         @Suppress("UNCHECKED_CAST")
         fun Context.stringArrayToAutoComplete(stringArray: Array<String?>, autoComplete: MaterialAutoCompleteTextView?) {
