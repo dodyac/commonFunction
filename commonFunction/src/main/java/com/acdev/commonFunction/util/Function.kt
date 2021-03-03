@@ -122,9 +122,9 @@ class Function {
                 .transform(RoundedCorners(8)).into(imageView)
         }
 
-        fun Context.setImageUrl(imageView: ImageView, url: String){ Glide.with(this).load(url).into(imageView) }
+        fun Context.setImageUrl(imageView: ImageView, url: String){ Glide.with(this.applicationContext).load(url).into(imageView) }
 
-        fun Context.setImageUrl(imageView: ShimmerImage, url: String){ Glide.with(this).load(url).into(imageView) }
+        fun Context.setImageUrl(imageView: ShimmerImage, url: String){ Glide.with(this.applicationContext).load(url).into(imageView) }
 
         @Suppress("UNCHECKED_CAST")
         fun Context.stringArrayToAutoComplete(stringArray: Array<String?>, autoComplete: MaterialAutoCompleteTextView?) {
