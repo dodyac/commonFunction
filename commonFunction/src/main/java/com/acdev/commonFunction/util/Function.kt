@@ -7,6 +7,7 @@ import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
 import android.content.res.ColorStateList
+import android.content.res.Configuration
 import android.graphics.Bitmap
 import android.graphics.Color
 import android.graphics.Shader
@@ -21,6 +22,7 @@ import android.os.StrictMode
 import android.text.Html
 import android.util.Base64
 import android.util.DisplayMetrics
+import android.util.Log
 import android.util.Patterns
 import android.view.View
 import android.view.ViewGroup
@@ -37,6 +39,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.viewpager.widget.ViewPager
 import com.acdev.commonFunction.model.BankRegion
 import com.acdev.commonFunction.common.Constant.Companion.PATTERN_CURRENCY
 import com.acdev.commonFunction.common.Constant.Companion.PATTERN_CURRENCY_END
@@ -51,10 +54,12 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.card.MaterialCardView
+import com.google.android.material.tabs.TabLayout
 import com.google.android.material.textfield.MaterialAutoCompleteTextView
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import com.google.android.play.core.review.ReviewManagerFactory
+import com.h6ah4i.android.tablayouthelper.TabLayoutHelper
 import com.sanojpunchihewa.updatemanager.UpdateManager
 import com.sanojpunchihewa.updatemanager.UpdateManagerConstant
 import com.smarteist.autoimageslider.IndicatorView.animation.type.IndicatorAnimationType
@@ -538,6 +543,22 @@ class Function {
                 .setChooserTitle("Bagikan Menggunakan").setText("Unduh aplikasi $appName secara gratis! Silahkan unduh di " +
                         "https://play.google.com/store/apps/details?id=$packageName").startChooser()
             }
+        }
+
+        fun AppCompatActivity.lockSize(configuration: Configuration?, smallestWidth: Int) {
+            if (configuration != null) {
+                Log.d("TAG", "adjustDisplayScale: " + configuration.densityDpi)
+                configuration.densityDpi = smallestWidth
+                val metrics = resources.displayMetrics
+                val wm = getSystemService(Context.WINDOW_SERVICE) as WindowManager
+                wm.defaultDisplay.getMetrics(metrics)
+                metrics.scaledDensity = configuration.densityDpi * metrics.density
+                this.resources.updateConfiguration(configuration, metrics)
+            }
+        }
+
+        fun TabLayout.helper(viewPager: ViewPager){
+            TabLayoutHelper(this, viewPager).isAutoAdjustTabModeEnabled = true
         }
     }
 }

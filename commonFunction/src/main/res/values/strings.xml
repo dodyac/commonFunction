@@ -53,7 +53,7 @@
     <string name="emptyJob">Pekerjaan tidak boleh kosong!</string>
     <string name="emptyPhoto">Foto tidak boleh kosong!</string>
     <string name="notMail">Silahkan masukkan e-mail dengan benar!</string>
-    <string name="cannotConnect">Gagal menghubungkan ke server! Pastikan telepon Anda terhubung ke Internet</string>
+    <string name="cannotConnect">Tidak dapat terhubung ke server!</string>
     <string name="tapAgain">Tekan sekali lagi untuk keluar</string>
     <string name="sureToExit">Apakah Anda yakin untuk keluar?</string>
     <string name="sureToDelete">Apakah Anda yakin untuk menghapus?</string>
