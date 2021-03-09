@@ -6,6 +6,7 @@ import android.app.DatePickerDialog
 import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.content.res.ColorStateList
 import android.content.res.Configuration
 import android.graphics.Bitmap
@@ -19,6 +20,7 @@ import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.os.StrictMode
+import android.provider.Settings
 import android.text.Html
 import android.util.Base64
 import android.util.DisplayMetrics
@@ -557,8 +559,23 @@ class Function {
             }
         }
 
-        fun TabLayout.helper(viewPager: ViewPager){
+        fun TabLayout.setupWithViewPagerHelper(viewPager: ViewPager){
+            this.setupWithViewPager(viewPager)
             TabLayoutHelper(this, viewPager).isAutoAdjustTabModeEnabled = true
+        }
+
+        fun Context.openSettings(applicationID: String) {
+            val intent = Intent()
+            intent.action = Settings.ACTION_APPLICATION_DETAILS_SETTINGS
+            val uri = Uri.fromParts("package", applicationID, null)
+            intent.data = uri
+            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+            startActivity(intent)
+        }
+
+        fun Context.showVersion(textView: TextView){
+            try { textView.text = "Versi ${packageManager.getPackageInfo(packageName, 0).versionName}" }
+            catch (e: PackageManager.NameNotFoundException) { toast(Toast.WARNING, e.message.toString()) }
         }
     }
 }
