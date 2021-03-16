@@ -589,7 +589,7 @@ class Function {
             }
         }
 
-        private fun Context.getScreenResolution(): Int {
+        fun Context.getScreenResolution(): Int {
             val wm = getSystemService(AppCompatActivity.WINDOW_SERVICE) as WindowManager
             val display = wm.defaultDisplay
             val metrics = DisplayMetrics()
