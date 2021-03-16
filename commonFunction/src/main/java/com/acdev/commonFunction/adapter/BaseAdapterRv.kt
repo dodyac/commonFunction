@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.LayoutRes
 import androidx.recyclerview.widget.RecyclerView
+import com.acdev.commonFunction.util.Function.Companion.useCurrentTheme
 
 abstract class BaseAdapterRv(private val list: List<Any>, @LayoutRes val layoutRes: Int)
     : RecyclerView.Adapter<BaseAdapterRv.ViewHolder>() {
@@ -14,8 +15,10 @@ abstract class BaseAdapterRv(private val list: List<Any>, @LayoutRes val layoutR
     val visible: Int = View.VISIBLE
     val invisible: Int = View.INVISIBLE
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder =
-            ViewHolder((parent.context.getSystemService(Activity.LAYOUT_INFLATER_SERVICE) as LayoutInflater).inflate(layoutRes, parent, false))
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+        parent.context.useCurrentTheme()
+        return ViewHolder((parent.context.getSystemService(Activity.LAYOUT_INFLATER_SERVICE) as LayoutInflater).inflate(layoutRes, parent, false))
+    }
 
     override fun getItemCount() = list.size
 
