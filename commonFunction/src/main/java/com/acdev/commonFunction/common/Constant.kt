@@ -17,6 +17,7 @@ class Constant {
         const val PREFERENCE = "prefs"
         const val TOKEN = "token"
         const val LOGGED = "logged"
+        const val DARK_MODE = "dark"
         var PROVINCE: List<Datum>? = null
         var CITY: List<Datum>? = null
         var DISTRICT: List<Datum>? = null

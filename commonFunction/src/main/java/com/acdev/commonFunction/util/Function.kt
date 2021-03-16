@@ -32,6 +32,7 @@ import android.view.WindowManager
 import android.widget.*
 import androidx.annotation.*
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.app.ShareCompat
 import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
@@ -49,6 +50,8 @@ import com.acdev.commonFunction.common.LibQue.Companion.libque
 import com.acdev.commonFunction.R
 import com.acdev.commonFunction.common.*
 import com.acdev.commonFunction.common.Toast
+import com.acdev.commonFunction.util.Preference.Companion.readPrefs
+import com.acdev.commonFunction.util.Preference.Companion.readPrefsBoolean
 import com.acdev.commonFunction.widget.ShimmerImage
 import com.amulyakhare.textdrawable.TextDrawable
 import com.amulyakhare.textdrawable.util.ColorGenerator
@@ -576,6 +579,25 @@ class Function {
         fun Context.showVersion(textView: TextView){
             try { textView.text = "Versi ${packageManager.getPackageInfo(packageName, 0).versionName}" }
             catch (e: PackageManager.NameNotFoundException) { toast(Toast.WARNING, e.message.toString()) }
+        }
+
+        fun Context.useCurrentTheme(){
+            if(readPrefs(Constant.DARK_MODE).isNullOrEmpty()) AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+            else{
+                if(readPrefsBoolean(Constant.DARK_MODE)) AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+                else AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+            }
+        }
+
+        private fun Context.getScreenResolution(): Int {
+            val wm = getSystemService(AppCompatActivity.WINDOW_SERVICE) as WindowManager
+            val display = wm.defaultDisplay
+            val metrics = DisplayMetrics()
+            display.getMetrics(metrics)
+            val width = metrics.widthPixels
+            val height = metrics.heightPixels
+            println("Screen Resolution- width: $width, height: $height")
+            return width
         }
     }
 }
