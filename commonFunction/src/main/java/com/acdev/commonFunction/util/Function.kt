@@ -582,11 +582,8 @@ class Function {
         }
 
         fun Context.useCurrentTheme(){
-            if(readPrefs(Constant.DARK_MODE).isNullOrEmpty()) AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
-            else{
-                if(readPrefsBoolean(Constant.DARK_MODE)) AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
-                else AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
-            }
+            AppCompatDelegate.setDefaultNightMode(if(readPrefsBoolean(Constant.DARK_MODE))
+                AppCompatDelegate.MODE_NIGHT_YES else AppCompatDelegate.MODE_NIGHT_NO)
         }
 
         fun Context.getScreenResolution(): Int {
