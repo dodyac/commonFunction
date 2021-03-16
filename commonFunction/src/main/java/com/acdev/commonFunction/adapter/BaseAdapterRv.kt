@@ -1,5 +1,6 @@
 package com.acdev.commonFunction.adapter
 
+import android.app.Activity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,7 +15,7 @@ abstract class BaseAdapterRv(private val list: List<Any>, @LayoutRes val layoutR
     val invisible: Int = View.INVISIBLE
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder =
-            ViewHolder(LayoutInflater.from(parent.context).inflate(layoutRes, parent, false))
+            ViewHolder((parent.context.getSystemService(Activity.LAYOUT_INFLATER_SERVICE) as LayoutInflater).inflate(layoutRes, parent, false))
 
     override fun getItemCount() = list.size
 
