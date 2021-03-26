@@ -59,6 +59,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.request.RequestOptions
+import com.bumptech.glide.signature.ObjectKey
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.card.MaterialCardView
 import com.google.android.material.tabs.TabLayout
@@ -135,8 +136,7 @@ class Function {
         }
 
         fun Context.setImageUrl(imageView: ImageView, url: String){
-            Glide.with(this.applicationContext).load(url).apply(RequestOptions.skipMemoryCacheOf(true))
-                .apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.NONE)).into(imageView) }
+            Glide.with(this.applicationContext).load(url).signature(ObjectKey(System.currentTimeMillis().toString())).into(imageView) }
 
         @Suppress("UNCHECKED_CAST")
         fun Context.stringArrayToAutoComplete(stringArray: Array<String?>, autoComplete: MaterialAutoCompleteTextView?) {
