@@ -50,6 +50,7 @@ import com.acdev.commonFunction.common.LibQue.Companion.libque
 import com.acdev.commonFunction.R
 import com.acdev.commonFunction.common.*
 import com.acdev.commonFunction.common.Toast
+import com.acdev.commonFunction.util.Function.Companion.lockSize
 import com.acdev.commonFunction.util.Preference.Companion.readPrefs
 import com.acdev.commonFunction.util.Preference.Companion.readPrefsBoolean
 import com.acdev.commonFunction.widget.ShimmerImage
@@ -136,7 +137,7 @@ class Function {
         }
 
         fun Context.setImageUrl(imageView: ImageView, url: String){
-            Glide.with(this.applicationContext).load(url).signature(ObjectKey(System.currentTimeMillis().toString())).into(imageView) }
+            Glide.with(this.applicationContext).load(url).into(imageView) }
 
         @Suppress("UNCHECKED_CAST")
         fun Context.stringArrayToAutoComplete(stringArray: Array<String?>, autoComplete: MaterialAutoCompleteTextView?) {
@@ -597,6 +598,12 @@ class Function {
             val height = metrics.heightPixels
             println("Screen Resolution- width: $width, height: $height")
             return width
+        }
+
+        fun AppCompatActivity.scaleScreen(configuration: Configuration, sizeHD: Int, sizeFHD: Int){
+            Log.d("TAG", "adjustDisplayScaleBefore: ${configuration.densityDpi}")
+            if(getScreenResolution() >= 1080) lockSize(configuration, sizeFHD)
+            else lockSize(configuration, sizeHD)
         }
     }
 }
