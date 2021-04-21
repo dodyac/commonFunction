@@ -3,7 +3,7 @@ package com.acdev.commonFunction.common
 import android.graphics.Color
 import com.acdev.commonFunction.model.Datum
 
-class Constant {
+class Constantx {
     companion object{
         val COLOR_DEFAULT_GRADIENT = Color.rgb(245, 245, 245)
         const val MIN_WEIGHT = 0.0f

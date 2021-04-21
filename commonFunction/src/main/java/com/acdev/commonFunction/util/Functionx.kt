@@ -45,24 +45,17 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.CircularProgressDrawable
 import androidx.viewpager.widget.ViewPager
 import com.acdev.commonFunction.model.BankRegion
-import com.acdev.commonFunction.common.Constant.Companion.PATTERN_CURRENCY
-import com.acdev.commonFunction.common.Constant.Companion.PATTERN_CURRENCY_END
+import com.acdev.commonFunction.common.Constantx.Companion.PATTERN_CURRENCY
+import com.acdev.commonFunction.common.Constantx.Companion.PATTERN_CURRENCY_END
 import com.acdev.commonFunction.common.LibQue.Companion.libque
 import com.acdev.commonFunction.R
 import com.acdev.commonFunction.common.*
 import com.acdev.commonFunction.common.Toast
-import com.acdev.commonFunction.util.Function.Companion.lockSize
-import com.acdev.commonFunction.util.Function.Companion.setImage64
-import com.acdev.commonFunction.util.Preference.Companion.readPrefs
 import com.acdev.commonFunction.util.Preference.Companion.readPrefsBoolean
-import com.acdev.commonFunction.widget.ShimmerImage
 import com.amulyakhare.textdrawable.TextDrawable
 import com.amulyakhare.textdrawable.util.ColorGenerator
 import com.bumptech.glide.Glide
-import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
-import com.bumptech.glide.request.RequestOptions
-import com.bumptech.glide.signature.ObjectKey
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.card.MaterialCardView
 import com.google.android.material.tabs.TabLayout
@@ -91,7 +84,7 @@ import java.net.URL
 import java.text.SimpleDateFormat
 import java.util.*
 
-class Function {
+class Functionx {
     @Suppress("DEPRECATION")
     companion object {
 
@@ -267,10 +260,10 @@ class Function {
                     else {
                         if (it.body()!!.success) {
                             when (region) {
-                                Region.PROVINCE -> Constant.PROVINCE = it.body()!!.data
-                                Region.CITY -> Constant.CITY = it.body()!!.data
-                                Region.DISTRICT -> Constant.DISTRICT = it.body()!!.data
-                                Region.VILLAGE -> Constant.VILLAGE = it.body()!!.data
+                                Region.PROVINCE -> Constantx.PROVINCE = it.body()!!.data
+                                Region.CITY -> Constantx.CITY = it.body()!!.data
+                                Region.DISTRICT -> Constantx.DISTRICT = it.body()!!.data
+                                Region.VILLAGE -> Constantx.VILLAGE = it.body()!!.data
                             }
                             val array = arrayOfNulls<String>(it.body()!!.data.size)
                             for ((index, value) in it.body()!!.data.withIndex()) array[index] = value.nama
@@ -591,7 +584,7 @@ class Function {
         }
 
         fun Context.useCurrentTheme(){
-            AppCompatDelegate.setDefaultNightMode(if(readPrefsBoolean(Constant.DARK_MODE))
+            AppCompatDelegate.setDefaultNightMode(if(readPrefsBoolean(Constantx.DARK_MODE))
                 AppCompatDelegate.MODE_NIGHT_YES else AppCompatDelegate.MODE_NIGHT_NO)
         }
 

@@ -1,9 +1,9 @@
 package com.acdev.commonFunction.util
 
 import android.content.Context
-import com.acdev.commonFunction.common.Constant.Companion.LOGGED
-import com.acdev.commonFunction.common.Constant.Companion.PREFERENCE
-import com.acdev.commonFunction.common.Constant.Companion.TOKEN
+import com.acdev.commonFunction.common.Constantx.Companion.LOGGED
+import com.acdev.commonFunction.common.Constantx.Companion.PREFERENCE
+import com.acdev.commonFunction.common.Constantx.Companion.TOKEN
 
 class Preference {
     companion object {

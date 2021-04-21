@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import androidx.annotation.LayoutRes
 import com.smarteist.autoimageslider.SliderViewAdapter
 
+@Deprecated("use BaseSliderX instead")
 abstract class BaseSlider(private val list: List<Any>, @LayoutRes val layoutRes: Int) :
     SliderViewAdapter<BaseSlider.ViewHolder>() {
 

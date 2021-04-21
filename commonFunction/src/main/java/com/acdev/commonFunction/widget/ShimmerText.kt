@@ -10,9 +10,9 @@ import android.util.AttributeSet
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.content.ContextCompat.getColor
 import com.acdev.commonFunction.R
-import com.acdev.commonFunction.common.Constant.Companion.CORNER_DEFAULT
-import com.acdev.commonFunction.common.Constant.Companion.MAX_WEIGHT
-import com.acdev.commonFunction.common.Constant.Companion.USE_GRADIENT_DEFAULT
+import com.acdev.commonFunction.common.Constantx.Companion.CORNER_DEFAULT
+import com.acdev.commonFunction.common.Constantx.Companion.MAX_WEIGHT
+import com.acdev.commonFunction.common.Constantx.Companion.USE_GRADIENT_DEFAULT
 
 class ShimmerText : AppCompatTextView, ShimmerView {
 
