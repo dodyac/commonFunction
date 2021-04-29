@@ -9,8 +9,8 @@ import androidx.viewbinding.ViewBinding
 import com.acdev.commonFunction.common.InflateFr
 import com.acdev.commonFunction.util.Functionx.Companion.useCurrentTheme
 
-abstract class BaseAdapterNew<VB : ViewBinding>(private val InflateFr: InflateFr<VB>, private val list: List<Any>) :
-    RecyclerView.Adapter<BaseAdapterNew.ViewHolder<VB>>() {
+abstract class BaseAdapter<VB : ViewBinding>(private val InflateFr: InflateFr<VB>, private val list: List<Any>) :
+    RecyclerView.Adapter<BaseAdapter.ViewHolder<VB>>() {
 
     val gone: Int = View.GONE
     val visible: Int = View.VISIBLE
