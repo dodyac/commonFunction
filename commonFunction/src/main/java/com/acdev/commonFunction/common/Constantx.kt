@@ -18,9 +18,9 @@ class Constantx {
         const val TOKEN = "token"
         const val LOGGED = "logged"
         const val DARK_MODE = "dark"
-        var PROVINCE: List<Datum>? = null
-        var CITY: List<Datum>? = null
-        var DISTRICT: List<Datum>? = null
-        var VILLAGE: List<Datum>? = null
+        lateinit var PROVINCE: List<Datum>
+        lateinit var CITY: List<Datum>
+        lateinit var DISTRICT: List<Datum>
+        lateinit var VILLAGE: List<Datum>
     }
 }

@@ -1,6 +1,7 @@
 package com.acdev.commonFunction.adapter
 
 import android.app.Activity
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -18,11 +19,13 @@ abstract class BaseSliderX<VB : ViewBinding>(private val InflateFr: InflateFr<VB
     val gone: Int = View.GONE
     val visible: Int = View.VISIBLE
     val invisible: Int = View.INVISIBLE
+    lateinit var context: Context
 
     override fun getCount() = list.size
 
     override fun onCreateViewHolder(parent: ViewGroup): ViewHolder? {
         parent.context.useCurrentTheme()
+        context = parent.context
         _binding = InflateFr.invoke((parent.context.getSystemService(Activity.LAYOUT_INFLATER_SERVICE) as LayoutInflater), parent, false)
         return ViewHolder(binding.root)
     }

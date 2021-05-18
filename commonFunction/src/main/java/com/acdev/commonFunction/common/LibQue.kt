@@ -6,12 +6,12 @@ import retrofit2.Response
 
 class LibQue {
     class CallBack<T> : Callback<T> {
-        var response: ((Response<T>) -> Unit)? = null
-        var failure: ((t: Throwable?) -> Unit)? = null
+        lateinit var response: ((Response<T>) -> Unit)
+        lateinit var failure: ((t: Throwable?) -> Unit)
 
-        override fun onResponse(call: Call<T>, response: Response<T>) { this.response?.invoke(response) }
+        override fun onResponse(call: Call<T>, response: Response<T>) { this.response.invoke(response) }
 
-        override fun onFailure(call: Call<T>, t: Throwable) { failure?.invoke(t) }
+        override fun onFailure(call: Call<T>, t: Throwable) { failure.invoke(t) }
     }
 
     companion object {
