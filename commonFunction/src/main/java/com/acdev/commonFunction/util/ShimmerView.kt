@@ -1,4 +1,4 @@
-package com.acdev.commonFunction.widget
+package com.acdev.commonFunction.util
 
 import android.graphics.Paint
 

@@ -47,7 +47,7 @@ import androidx.viewpager.widget.ViewPager
 import com.acdev.commonFunction.model.BankRegion
 import com.acdev.commonFunction.common.Constantx.Companion.PATTERN_CURRENCY
 import com.acdev.commonFunction.common.Constantx.Companion.PATTERN_CURRENCY_END
-import com.acdev.commonFunction.common.LibQue.Companion.libque
+import com.acdev.commonFunction.util.LibQue.Companion.libque
 import com.acdev.commonFunction.R
 import com.acdev.commonFunction.common.*
 import com.acdev.commonFunction.common.Toast
@@ -99,6 +99,13 @@ class Functionx {
             adapter?.notifyDataSetChanged()
         }
 
+        fun Fragment.setLayoutManager(adapter: RecyclerView.Adapter<*>?, recyclerView: RecyclerView?, spanCount: Int) {
+            val layoutManager: RecyclerView.LayoutManager = GridLayoutManager(this.context, spanCount)
+            recyclerView?.layoutManager = layoutManager
+            recyclerView?.adapter = adapter
+            adapter?.notifyDataSetChanged()
+        }
+
         fun daysBetween(from: String?, to: String?):Int{
             return Days.daysBetween(DateMidnight(from!!), DateMidnight(to!!)).days
         }
@@ -118,6 +125,24 @@ class Functionx {
                 Toast.SUCCESS -> Toasty.success(this, getString(string), android.widget.Toast.LENGTH_LONG, true).show()
                 Toast.WARNING -> Toasty.warning(this, getString(string), android.widget.Toast.LENGTH_LONG, true).show()
                 Toast.ERROR -> Toasty.error(this, getString(string), android.widget.Toast.LENGTH_LONG, true).show()
+            }
+        }
+
+        fun Fragment.toast(toast: Toast, string: String) {
+            when (toast) {
+                Toast.INFO -> Toasty.info(this.context!!, string, android.widget.Toast.LENGTH_LONG, true).show()
+                Toast.SUCCESS -> Toasty.success(this.context!!, string, android.widget.Toast.LENGTH_LONG, true).show()
+                Toast.WARNING -> Toasty.warning(this.context!!, string, android.widget.Toast.LENGTH_LONG, true).show()
+                Toast.ERROR -> Toasty.error(this.context!!, string, android.widget.Toast.LENGTH_LONG, true).show()
+            }
+        }
+
+        fun Fragment.toast(toast: Toast, @StringRes string: Int) {
+            when (toast) {
+                Toast.INFO -> Toasty.info(this.context!!, getString(string), android.widget.Toast.LENGTH_LONG, true).show()
+                Toast.SUCCESS -> Toasty.success(this.context!!, getString(string), android.widget.Toast.LENGTH_LONG, true).show()
+                Toast.WARNING -> Toasty.warning(this.context!!, getString(string), android.widget.Toast.LENGTH_LONG, true).show()
+                Toast.ERROR -> Toasty.error(this.context!!, getString(string), android.widget.Toast.LENGTH_LONG, true).show()
             }
         }
 
@@ -367,7 +392,122 @@ class Functionx {
             }
         }
 
+        fun Context.emptyPassword(password: TextInputLayout): Boolean {
+            when {
+                password.editText!!.text.isEmpty() -> {
+                    password.isErrorEnabled = true
+                    password.error = getString(R.string.emptyPassword)
+                    password.requestFocus()
+                    return false
+                }
+                password.editText!!.text.length < 8 -> {
+                    password.isErrorEnabled = true
+                    password.error = getString(R.string.shortPassword)
+                    password.clearFocus()
+                    password.requestFocus()
+                    return false
+                }
+                else -> {
+                    password.isErrorEnabled = false
+                    return true
+                }
+            }
+        }
+
         fun Context.emptyTil(textInputLayout: TextInputLayout, @StringRes alert: Int): Boolean {
+            return if(textInputLayout.editText!!.text.isEmpty()) {
+                textInputLayout.isErrorEnabled = true
+                textInputLayout.error = getString(alert)
+                textInputLayout.requestFocus()
+                false
+            } else {
+                textInputLayout.isErrorEnabled = false
+                textInputLayout.clearFocus()
+                true
+            }
+        }
+
+        fun Fragment.emptyAuth(mail: TextInputLayout, password: TextInputLayout): Boolean {
+            when {
+                mail.editText!!.text.isEmpty() -> {
+                    mail.isErrorEnabled = true
+                    mail.error = getString(R.string.emptyMail)
+                    mail.requestFocus()
+                    return false
+                }
+                !mail.editText!!.text.isEmailValid() -> {
+                    mail.isErrorEnabled = true
+                    mail.error = getString(R.string.notMail)
+                    mail.clearFocus()
+                    mail.requestFocus()
+                    return false
+                }
+                password.editText!!.text.isEmpty() -> {
+                    password.isErrorEnabled = true
+                    password.error = getString(R.string.emptyPassword)
+                    password.requestFocus()
+                    return false
+                }
+                password.editText!!.text.length < 8 -> {
+                    password.isErrorEnabled = true
+                    password.error = getString(R.string.shortPassword)
+                    password.clearFocus()
+                    password.requestFocus()
+                    return false
+                }
+                else -> {
+                    mail.isErrorEnabled = false
+                    password.isErrorEnabled = false
+                    return true
+                }
+            }
+        }
+
+        fun Fragment.emptyMail(mail: TextInputLayout): Boolean {
+            when {
+                mail.editText!!.text.isEmpty() -> {
+                    mail.isErrorEnabled = true
+                    mail.error = getString(R.string.emptyMail)
+                    mail.requestFocus()
+                    return false
+                }
+                !mail.editText!!.text.isEmailValid() -> {
+                    mail.isErrorEnabled = true
+                    mail.error = getString(R.string.notMail)
+                    mail.clearFocus()
+                    mail.requestFocus()
+                    return false
+                }
+                else -> {
+                    mail.isErrorEnabled = false
+                    return true
+                }
+            }
+        }
+
+        fun Fragment.emptyPassword(password: TextInputLayout): Boolean {
+            when {
+                password.editText!!.text.isEmpty() -> {
+                    password.isErrorEnabled = true
+                    password.error = getString(R.string.emptyPassword)
+                    password.requestFocus()
+                    return false
+                }
+                password.editText!!.text.length < 8 -> {
+                    password.isErrorEnabled = true
+                    password.error = getString(R.string.shortPassword)
+                    password.clearFocus()
+                    password.requestFocus()
+                    return false
+                }
+                else -> {
+                    password.isErrorEnabled = false
+                    return true
+                }
+            }
+        }
+
+        fun Fragment.emptyTil(textInputLayout: TextInputLayout, @StringRes alert: Int): Boolean {
             return if(textInputLayout.editText!!.text.isEmpty()) {
                 textInputLayout.isErrorEnabled = true
                 textInputLayout.error = getString(alert)
@@ -388,6 +528,13 @@ class Functionx {
 
         fun Context.setLayoutManagerGrid(adapter: RecyclerView.Adapter<*>?, recyclerView: RecyclerView?, numOfColumns: Float) {
             val layoutManager: RecyclerView.LayoutManager = GridLayoutManager(this, numOfColumns(numOfColumns))
+            recyclerView?.layoutManager = layoutManager
+            recyclerView?.adapter = adapter
+            adapter?.notifyDataSetChanged()
+        }
+
+        fun Fragment.setLayoutManagerGrid(adapter: RecyclerView.Adapter<*>?, recyclerView: RecyclerView?, numOfColumns: Float) {
+            val layoutManager: RecyclerView.LayoutManager = GridLayoutManager(this.context, this.context!!.numOfColumns(numOfColumns))
             recyclerView?.layoutManager = layoutManager
             recyclerView?.adapter = adapter
             adapter?.notifyDataSetChanged()
@@ -448,8 +595,15 @@ class Functionx {
         }
 
         fun Context.setPattern(imageView: ImageView, @DrawableRes drawableRes: Int){
-            imageView.setImageDrawable(TileDrawable(
-                ContextCompat.getDrawable(this, drawableRes)!!, Shader.TileMode.REPEAT))
+            imageView.setImageDrawable(
+                TileDrawable(
+                ContextCompat.getDrawable(this, drawableRes)!!, Shader.TileMode.REPEAT)
+            )
+        }
+
+        @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
+        fun View.backgroundTint(@ColorRes colorRes: Int) {
+            this.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(context, colorRes))
         }
 
         fun getToday(pattern: String): String? {
@@ -513,6 +667,13 @@ class Functionx {
             args.putString("data", bundle)
             bottomSheet.arguments = args
             bottomSheet.show((this as FragmentActivity).supportFragmentManager, bottomSheet.tag)
+        }
+
+        fun Fragment.instanceSheet(bottomSheet: BottomSheetDialogFragment, bundle: String?) {
+            val args = Bundle()
+            args.putString("data", bundle)
+            bottomSheet.arguments = args
+            bottomSheet.show(childFragmentManager, bottomSheet.tag)
         }
 
         fun setThreadPolicy(){
@@ -603,6 +764,13 @@ class Functionx {
             Log.d("TAG", "adjustDisplayScaleBefore: ${configuration.densityDpi}")
             if(getScreenResolution() >= 1080) lockSize(configuration, sizeFHD)
             else lockSize(configuration, sizeHD)
+        }
+
+        fun String.formatDate(before: String, after: String): String? {
+            val dateFormat = SimpleDateFormat(before, Locale("id", "ID"))
+            val date = dateFormat.parse(this)
+            val output = SimpleDateFormat(after, Locale("id", "ID"))
+            return output.format(date!!)
         }
     }
 }

@@ -1,4 +1,4 @@
-package com.acdev.commonFunction.common
+package com.acdev.commonFunction.util
 
 import android.graphics.*
 import android.graphics.Shader.TileMode
