@@ -23,6 +23,7 @@ import android.os.Bundle
 import android.os.StrictMode
 import android.provider.Settings
 import android.text.Html
+import android.text.format.DateFormat
 import android.util.Base64
 import android.util.DisplayMetrics
 import android.util.Log
@@ -52,6 +53,8 @@ import com.acdev.commonFunction.util.LibQue.Companion.libque
 import com.acdev.commonFunction.R
 import com.acdev.commonFunction.common.*
 import com.acdev.commonFunction.common.Toast
+import com.acdev.commonFunction.util.Functionx.Companion.datePicker
+import com.acdev.commonFunction.util.Functionx.Companion.datePickerWithTime
 import com.acdev.commonFunction.util.Preference.Companion.readPrefsBoolean
 import com.amulyakhare.textdrawable.TextDrawable
 import com.amulyakhare.textdrawable.util.ColorGenerator
@@ -64,6 +67,8 @@ import com.google.android.material.tabs.TabLayout
 import com.google.android.material.textfield.MaterialAutoCompleteTextView
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
+import com.google.android.material.timepicker.MaterialTimePicker
+import com.google.android.material.timepicker.TimeFormat
 import com.google.android.play.core.review.ReviewManagerFactory
 import com.h6ah4i.android.tablayouthelper.TabLayoutHelper
 import com.sanojpunchihewa.updatemanager.UpdateManager
@@ -551,6 +556,44 @@ class Functionx {
                 datePicker.addOnPositiveButtonClickListener { this.editText!!.setText(it.toDate(format)) }
             }
         }
+
+        fun TextInputLayout.timePicker(title: String, timeFormat: Int? = null){
+            this.editText!!.setOnClickListener {
+                val isSystem24Hour = DateFormat.is24HourFormat(this.context.getCompatActivity()!!)
+                val clockFormat = if(isSystem24Hour) TimeFormat.CLOCK_24H else TimeFormat.CLOCK_12H
+                val picker = MaterialTimePicker.Builder()
+                    .setTimeFormat(timeFormat ?: clockFormat)
+                    .setHour(12)
+                    .setMinute(0)
+                    .setTitleText(title)
+                    .build()
+                picker.show((this.context.getCompatActivity())!!.supportFragmentManager, "TIME_PICKER")
+                picker.addOnPositiveButtonClickListener {c-> this.editText!!.setText("${picker.hour.toString().add0()}:${picker.minute.toString().add0()}") }
+            }
+        }
+
+        fun TextInputLayout.datePickerWithTime(title: String, titleTimePicker: String, format: String, timeFormat: Int? = null){
+            this.editText!!.setOnClickListener {
+                val builder = MaterialDatePicker.Builder.datePicker()
+                builder.setTitleText(title)
+                val datePicker = builder.build()
+                datePicker.show((this.context.getCompatActivity())!!.supportFragmentManager, "DATE_PICKER")
+                datePicker.addOnPositiveButtonClickListener {
+                    val isSystem24Hour = DateFormat.is24HourFormat(this.context.getCompatActivity()!!)
+                    val clockFormat = if(isSystem24Hour) TimeFormat.CLOCK_24H else TimeFormat.CLOCK_12H
+                    val picker = MaterialTimePicker.Builder()
+                        .setTimeFormat(timeFormat ?: clockFormat)
+                        .setHour(12)
+                        .setMinute(0)
+                        .setTitleText(titleTimePicker)
+                        .build()
+                    picker.show((this.context.getCompatActivity())!!.supportFragmentManager, "TIME_PICKER")
+                    picker.addOnPositiveButtonClickListener {c-> this.editText!!.setText("${picker.hour.toString().add0()}:${picker.minute.toString().add0()} - ${it.toDate(format)}") }
+                }
+            }
+        }
+
+        fun String.add0(): String{ return if(this.length < 2) "0$this" else this }
 
         fun Context.getCompatActivity(): AppCompatActivity? {
             return when (this) {
