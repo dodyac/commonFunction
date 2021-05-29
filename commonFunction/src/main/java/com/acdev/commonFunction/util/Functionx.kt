@@ -94,24 +94,10 @@ class Functionx {
         private const val visible: Int = View.VISIBLE
         private const val invisible: Int = View.INVISIBLE
 
-        fun Context.setLayoutManager(adapter: RecyclerView.Adapter<*>?, recyclerView: RecyclerView?, spanCount: Int) {
-            val layoutManager: RecyclerView.LayoutManager = GridLayoutManager(this, spanCount)
-            recyclerView?.layoutManager = layoutManager
-            recyclerView?.adapter = adapter
-            adapter?.notifyDataSetChanged()
-        }
-
         fun RecyclerView.adapter(adapter: RecyclerView.Adapter<*>?, spanCount: Int) {
-            val layoutManager: RecyclerView.LayoutManager = GridLayoutManager(this.context.getCompatActivity(), spanCount)
+            val layoutManager: RecyclerView.LayoutManager = GridLayoutManager(this.context, spanCount)
             this.layoutManager = layoutManager
             this.adapter = adapter
-            adapter?.notifyDataSetChanged()
-        }
-
-        fun Fragment.setLayoutManager(adapter: RecyclerView.Adapter<*>?, recyclerView: RecyclerView?, spanCount: Int) {
-            val layoutManager: RecyclerView.LayoutManager = GridLayoutManager(this.context, spanCount)
-            recyclerView?.layoutManager = layoutManager
-            recyclerView?.adapter = adapter
             adapter?.notifyDataSetChanged()
         }
 
@@ -160,25 +146,17 @@ class Functionx {
         fun CharSequence.isEmailValid(): Boolean { return Patterns.EMAIL_ADDRESS.matcher(this).matches() }
 
         @SuppressLint("ResourceType")
-        fun Context.setImage64(imageView: ImageView, base64: String?) {
-            Glide.with(this.applicationContext).load(Base64.decode(base64, Base64.DEFAULT))
-                .transform(RoundedCorners(8)).into(imageView)
+        fun ImageView.setImage64(base64: String?) {
+            Glide.with(this.context).load(Base64.decode(base64, Base64.DEFAULT))
+                .transform(RoundedCorners(8)).into(this)
         }
 
-        fun Context.setImageUrl(imageView: ImageView, url: String){
-            val circularProgressDrawable = CircularProgressDrawable(this)
+        fun ImageView.setImageUrl(url: String){
+            val circularProgressDrawable = CircularProgressDrawable(this.context)
             circularProgressDrawable.strokeWidth = 2f
             circularProgressDrawable.centerRadius = 30f
             circularProgressDrawable.start()
-            Glide.with(this.applicationContext).load(url).placeholder(circularProgressDrawable).into(imageView) }
-
-        @Suppress("UNCHECKED_CAST")
-        fun Context.stringArrayToAutoComplete(stringArray: Array<String?>, autoComplete: MaterialAutoCompleteTextView?) {
-            val lst: List<String> = listOf(*stringArray) as List<String>
-            val dataAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, lst)
-            dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-            autoComplete?.setAdapter(dataAdapter)
-        }
+            Glide.with(this.context).load(url).placeholder(circularProgressDrawable).into(this) }
 
         fun Context.getWidth(percent: Int): Int {
             val displayMetrics = DisplayMetrics()
@@ -270,27 +248,35 @@ class Functionx {
             } catch (e: Exception) { "" }
         }
 
-        fun Context.getBank(call: Call<BankRegion?>?, autoComplete: MaterialAutoCompleteTextView?) {
+        @Suppress("UNCHECKED_CAST")
+        fun MaterialAutoCompleteTextView.setStringArray(stringArray: Array<String?>) {
+            val lst: List<String> = listOf(*stringArray) as List<String>
+            val dataAdapter = ArrayAdapter(this.context, android.R.layout.simple_spinner_dropdown_item, lst)
+            dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+            this.setAdapter(dataAdapter)
+        }
+
+        fun MaterialAutoCompleteTextView.getBank(call: Call<BankRegion?>?) {
             call?.libque {
                 response = {
-                    if (!it.isSuccessful) toast(Toast.ERROR, getString(R.string.error, it.code(), it.message()))
+                    if (!it.isSuccessful) this@getBank.context.toast(Toast.ERROR, this@getBank.context.getString(R.string.error, it.code(), it.message()))
                     else {
                         if (it.body()!!.success) {
                             val modelDataArrayList = it.body()!!.data
                             val array = arrayOfNulls<String>(modelDataArrayList.size)
                             for ((index, value) in modelDataArrayList.withIndex()) array[index] = value.nama
-                            stringArrayToAutoComplete(array, autoComplete)
+                            this@getBank.setStringArray(array)
                         }
                     }
                 }
-                failure = { toast(Toast.ERROR, R.string.cannotConnect) }
+                failure = { this@getBank.context.toast(Toast.ERROR, R.string.cannotConnect) }
             }
         }
 
-        fun Context.getRegion(call: Call<BankRegion?>?, autoComplete: MaterialAutoCompleteTextView?, region: Region) {
+        fun MaterialAutoCompleteTextView.getRegion(call: Call<BankRegion?>?, region: Region) {
             call?.libque {
                 response = {
-                    if (!it.isSuccessful) toast(Toast.ERROR, getString(R.string.error, it.code(), it.message()))
+                    if (!it.isSuccessful) this@getRegion.context.toast(Toast.ERROR, this@getRegion.context.getString(R.string.error, it.code(), it.message()))
                     else {
                         if (it.body()!!.success) {
                             when (region) {
@@ -301,11 +287,11 @@ class Functionx {
                             }
                             val array = arrayOfNulls<String>(it.body()!!.data.size)
                             for ((index, value) in it.body()!!.data.withIndex()) array[index] = value.nama
-                            stringArrayToAutoComplete(array, autoComplete)
+                            this@getRegion.setStringArray(array)
                         }
                     }
                 }
-                failure = { toast(Toast.ERROR, R.string.cannotConnect) }
+                failure = { this@getRegion.context.toast(Toast.ERROR, R.string.cannotConnect) }
             }
         }
 
@@ -343,7 +329,7 @@ class Functionx {
             }
         }
 
-        fun Context.emptyAuth(mail: TextInputLayout, password: TextInputLayout): Boolean {
+        fun Context.alertAuth(mail: TextInputLayout, password: TextInputLayout): Boolean {
             when {
                 mail.editText!!.text.isEmpty() -> {
                     mail.isErrorEnabled = true
@@ -379,152 +365,59 @@ class Functionx {
             }
         }
 
-        fun Context.emptyMail(mail: TextInputLayout): Boolean {
+        fun TextInputLayout.alertMail(): Boolean {
             when {
-                mail.editText!!.text.isEmpty() -> {
-                    mail.isErrorEnabled = true
-                    mail.error = getString(R.string.emptyMail)
-                    mail.requestFocus()
+                this.editText!!.text.isEmpty() -> {
+                    this.isErrorEnabled = true
+                    this.error = this.context.getString(R.string.emptyMail)
+                    this.requestFocus()
                     return false
                 }
-                !mail.editText!!.text.isEmailValid() -> {
-                    mail.isErrorEnabled = true
-                    mail.error = getString(R.string.notMail)
-                    mail.clearFocus()
-                    mail.requestFocus()
+                !this.editText!!.text.isEmailValid() -> {
+                    this.isErrorEnabled = true
+                    this.error = this.context.getString(R.string.notMail)
+                    this.clearFocus()
+                    this.requestFocus()
                     return false
                 }
                 else -> {
-                    mail.isErrorEnabled = false
+                    this.isErrorEnabled = false
                     return true
                 }
             }
         }
 
-        fun Context.emptyPassword(password: TextInputLayout): Boolean {
+        fun TextInputLayout.alertPassword(): Boolean {
             when {
-                password.editText!!.text.isEmpty() -> {
-                    password.isErrorEnabled = true
-                    password.error = getString(R.string.emptyPassword)
-                    password.requestFocus()
+                this.editText!!.text.isEmpty() -> {
+                    this.isErrorEnabled = true
+                    this.error = this.context.getString(R.string.emptyPassword)
+                    this.requestFocus()
                     return false
                 }
-                password.editText!!.text.length < 8 -> {
-                    password.isErrorEnabled = true
-                    password.error = getString(R.string.shortPassword)
-                    password.clearFocus()
-                    password.requestFocus()
+                this.editText!!.text.length < 8 -> {
+                    this.isErrorEnabled = true
+                    this.error = this.context.getString(R.string.shortPassword)
+                    this.clearFocus()
+                    this.requestFocus()
                     return false
                 }
                 else -> {
-                    password.isErrorEnabled = false
+                    this.isErrorEnabled = false
                     return true
                 }
             }
         }
 
-        fun Context.emptyTil(textInputLayout: TextInputLayout, @StringRes alert: Int): Boolean {
-            return if(textInputLayout.editText!!.text.isEmpty()) {
-                textInputLayout.isErrorEnabled = true
-                textInputLayout.error = getString(alert)
-                textInputLayout.requestFocus()
+        fun TextInputLayout.alertEmpty(@StringRes alert: Int): Boolean {
+            return if(this.editText!!.text.isEmpty()) {
+                this.isErrorEnabled = true
+                this.error = this.context.getString(alert)
+                this.requestFocus()
                 false
             } else {
-                textInputLayout.isErrorEnabled = false
-                textInputLayout.clearFocus()
-                true
-            }
-        }
-
-        fun Fragment.emptyAuth(mail: TextInputLayout, password: TextInputLayout): Boolean {
-            when {
-                mail.editText!!.text.isEmpty() -> {
-                    mail.isErrorEnabled = true
-                    mail.error = getString(R.string.emptyMail)
-                    mail.requestFocus()
-                    return false
-                }
-                !mail.editText!!.text.isEmailValid() -> {
-                    mail.isErrorEnabled = true
-                    mail.error = getString(R.string.notMail)
-                    mail.clearFocus()
-                    mail.requestFocus()
-                    return false
-                }
-                password.editText!!.text.isEmpty() -> {
-                    password.isErrorEnabled = true
-                    password.error = getString(R.string.emptyPassword)
-                    password.requestFocus()
-                    return false
-                }
-                password.editText!!.text.length < 8 -> {
-                    password.isErrorEnabled = true
-                    password.error = getString(R.string.shortPassword)
-                    password.clearFocus()
-                    password.requestFocus()
-                    return false
-                }
-                else -> {
-                    mail.isErrorEnabled = false
-                    password.isErrorEnabled = false
-                    return true
-                }
-            }
-        }
-
-        fun Fragment.emptyMail(mail: TextInputLayout): Boolean {
-            when {
-                mail.editText!!.text.isEmpty() -> {
-                    mail.isErrorEnabled = true
-                    mail.error = getString(R.string.emptyMail)
-                    mail.requestFocus()
-                    return false
-                }
-                !mail.editText!!.text.isEmailValid() -> {
-                    mail.isErrorEnabled = true
-                    mail.error = getString(R.string.notMail)
-                    mail.clearFocus()
-                    mail.requestFocus()
-                    return false
-                }
-                else -> {
-                    mail.isErrorEnabled = false
-                    return true
-                }
-            }
-        }
-
-        fun Fragment.emptyPassword(password: TextInputLayout): Boolean {
-            when {
-                password.editText!!.text.isEmpty() -> {
-                    password.isErrorEnabled = true
-                    password.error = getString(R.string.emptyPassword)
-                    password.requestFocus()
-                    return false
-                }
-                password.editText!!.text.length < 8 -> {
-                    password.isErrorEnabled = true
-                    password.error = getString(R.string.shortPassword)
-                    password.clearFocus()
-                    password.requestFocus()
-                    return false
-                }
-                else -> {
-                    password.isErrorEnabled = false
-                    return true
-                }
-            }
-        }
-
-        fun Fragment.emptyTil(textInputLayout: TextInputLayout, @StringRes alert: Int): Boolean {
-            return if(textInputLayout.editText!!.text.isEmpty()) {
-                textInputLayout.isErrorEnabled = true
-                textInputLayout.error = getString(alert)
-                textInputLayout.requestFocus()
-                false
-            } else {
-                textInputLayout.isErrorEnabled = false
-                textInputLayout.clearFocus()
+                this.isErrorEnabled = false
+                this.clearFocus()
                 true
             }
         }
@@ -535,17 +428,10 @@ class Functionx {
             return (screenWidthDp / columnWidthDp + 0.5).toInt()
         }
 
-        fun Context.setLayoutManagerGrid(adapter: RecyclerView.Adapter<*>?, recyclerView: RecyclerView?, numOfColumns: Float) {
-            val layoutManager: RecyclerView.LayoutManager = GridLayoutManager(this, numOfColumns(numOfColumns))
-            recyclerView?.layoutManager = layoutManager
-            recyclerView?.adapter = adapter
-            adapter?.notifyDataSetChanged()
-        }
-
-        fun Fragment.setLayoutManagerGrid(adapter: RecyclerView.Adapter<*>?, recyclerView: RecyclerView?, numOfColumns: Float) {
-            val layoutManager: RecyclerView.LayoutManager = GridLayoutManager(this.context, this.context!!.numOfColumns(numOfColumns))
-            recyclerView?.layoutManager = layoutManager
-            recyclerView?.adapter = adapter
+        fun RecyclerView.adapterGrid(adapter: RecyclerView.Adapter<*>?, numOfColumns: Float) {
+            val layoutManager: RecyclerView.LayoutManager = GridLayoutManager(this.context, this.context.numOfColumns(numOfColumns))
+            this.layoutManager = layoutManager
+            this.adapter = adapter
             adapter?.notifyDataSetChanged()
         }
 
@@ -603,11 +489,8 @@ class Functionx {
             this.startAutoCycle()
         }
 
-        fun Context.setPattern(imageView: ImageView, @DrawableRes drawableRes: Int){
-            imageView.setImageDrawable(
-                TileDrawable(
-                ContextCompat.getDrawable(this, drawableRes)!!, Shader.TileMode.REPEAT)
-            )
+        fun ImageView.setPattern(@DrawableRes drawableRes: Int){
+            this.setImageDrawable(TileDrawable(ContextCompat.getDrawable(this.context, drawableRes)!!, Shader.TileMode.REPEAT))
         }
 
         @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
@@ -642,6 +525,7 @@ class Functionx {
                 .withMaxResultSize(512, 512).start(context!!, this)
         }
 
+        @Deprecated("Use TexinputLayout.datePicker")
         @SuppressLint("SimpleDateFormat")
         fun Context.datePicker(textInputLayout: TextInputEditText, pattern: String) {
             textInputLayout.setOnClickListener {
@@ -695,18 +579,11 @@ class Functionx {
             return this
         }
 
-        fun Context.instanceSheet(bottomSheet: BottomSheetDialogFragment, bundle: String?) {
+        fun BottomSheetDialogFragment.instance(bundle: String?) {
             val args = Bundle()
             args.putString("data", bundle)
-            bottomSheet.arguments = args
-            bottomSheet.show((this as FragmentActivity).supportFragmentManager, bottomSheet.tag)
-        }
-
-        fun Fragment.instanceSheet(bottomSheet: BottomSheetDialogFragment, bundle: String?) {
-            val args = Bundle()
-            args.putString("data", bundle)
-            bottomSheet.arguments = args
-            bottomSheet.show(childFragmentManager, bottomSheet.tag)
+            this.arguments = args
+            this.show((this.context as FragmentActivity).supportFragmentManager, this.tag)
         }
 
         fun setThreadPolicy(){
@@ -772,9 +649,9 @@ class Functionx {
             startActivity(intent)
         }
 
-        fun Context.showVersion(textView: TextView){
-            try { textView.text = "Versi ${packageManager.getPackageInfo(packageName, 0).versionName}" }
-            catch (e: PackageManager.NameNotFoundException) { toast(Toast.WARNING, e.message.toString()) }
+        fun TextView.showVersion(){
+            try { this.text = "Versi ${this.context.packageManager.getPackageInfo(this.context.packageName, 0).versionName}" }
+            catch (e: PackageManager.NameNotFoundException) { this.context.toast(Toast.WARNING, e.message.toString()) }
         }
 
         fun Context.useCurrentTheme(){
