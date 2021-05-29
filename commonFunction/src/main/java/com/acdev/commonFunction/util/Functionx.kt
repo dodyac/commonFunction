@@ -530,66 +530,43 @@ class Functionx {
                 .withMaxResultSize(512, 512).start(context!!, this)
         }
 
-        @Deprecated("Use TexinputLayout.datePicker")
-        @SuppressLint("SimpleDateFormat")
-        fun Context.datePicker(textInputLayout: TextInputEditText, pattern: String) {
-            textInputLayout.setOnClickListener {
-                val calendar = Calendar.getInstance()
-                val date = DatePickerDialog.OnDateSetListener { view, year, monthOfYear, dayOfMonth ->
-                    calendar[Calendar.YEAR] = year
-                    calendar[Calendar.MONTH] = monthOfYear
-                    calendar[Calendar.DAY_OF_MONTH] = dayOfMonth
-                    val sdf = SimpleDateFormat(pattern)
-                    textInputLayout.setText(sdf.format(calendar.time))
-                }
-                DatePickerDialog(this@datePicker, date, calendar[Calendar.YEAR], calendar[Calendar.MONTH],
-                    calendar[Calendar.DAY_OF_MONTH]).show()
-            }
-        }
-
         fun TextInputLayout.datePicker(title: String, format: String){
-            this.setOnClickListener {
-                val builder = MaterialDatePicker.Builder.datePicker()
-                builder.setTitleText(title)
-                val datePicker = builder.build()
-                datePicker.show((this.context.getCompatActivity())!!.supportFragmentManager, "DATE_PICKER")
-                datePicker.addOnPositiveButtonClickListener { this.editText!!.setText(it.toDate(format)) }
-            }
+            val builder = MaterialDatePicker.Builder.datePicker()
+            builder.setTitleText(title)
+            val datePicker = builder.build()
+            datePicker.show((this.context.getCompatActivity())!!.supportFragmentManager, "DATE_PICKER")
+            datePicker.addOnPositiveButtonClickListener { this.editText!!.setText(it.toDate(format)) }
         }
 
         fun TextInputLayout.timePicker(title: String, timeFormat: Int? = null){
-            this.editText!!.setOnClickListener {
+            val isSystem24Hour = DateFormat.is24HourFormat(this.context.getCompatActivity()!!)
+            val clockFormat = if(isSystem24Hour) TimeFormat.CLOCK_24H else TimeFormat.CLOCK_12H
+            val picker = MaterialTimePicker.Builder()
+                .setTimeFormat(timeFormat ?: clockFormat)
+                .setHour(12)
+                .setMinute(0)
+                .setTitleText(title)
+                .build()
+            picker.show((this.context.getCompatActivity())!!.supportFragmentManager, "TIME_PICKER")
+            picker.addOnPositiveButtonClickListener {c-> this.editText!!.setText("${picker.hour.toString().add0()}:${picker.minute.toString().add0()}") }
+        }
+
+        fun TextInputLayout.datePickerWithTime(title: String, titleTimePicker: String, format: String, timeFormat: Int? = null){
+            val builder = MaterialDatePicker.Builder.datePicker()
+            builder.setTitleText(title)
+            val datePicker = builder.build()
+            datePicker.show((this.context.getCompatActivity())!!.supportFragmentManager, "DATE_PICKER")
+            datePicker.addOnPositiveButtonClickListener {
                 val isSystem24Hour = DateFormat.is24HourFormat(this.context.getCompatActivity()!!)
                 val clockFormat = if(isSystem24Hour) TimeFormat.CLOCK_24H else TimeFormat.CLOCK_12H
                 val picker = MaterialTimePicker.Builder()
                     .setTimeFormat(timeFormat ?: clockFormat)
                     .setHour(12)
                     .setMinute(0)
-                    .setTitleText(title)
+                    .setTitleText(titleTimePicker)
                     .build()
                 picker.show((this.context.getCompatActivity())!!.supportFragmentManager, "TIME_PICKER")
-                picker.addOnPositiveButtonClickListener {c-> this.editText!!.setText("${picker.hour.toString().add0()}:${picker.minute.toString().add0()}") }
-            }
-        }
-
-        fun TextInputLayout.datePickerWithTime(title: String, titleTimePicker: String, format: String, timeFormat: Int? = null){
-            this.editText!!.setOnClickListener {
-                val builder = MaterialDatePicker.Builder.datePicker()
-                builder.setTitleText(title)
-                val datePicker = builder.build()
-                datePicker.show((this.context.getCompatActivity())!!.supportFragmentManager, "DATE_PICKER")
-                datePicker.addOnPositiveButtonClickListener {
-                    val isSystem24Hour = DateFormat.is24HourFormat(this.context.getCompatActivity()!!)
-                    val clockFormat = if(isSystem24Hour) TimeFormat.CLOCK_24H else TimeFormat.CLOCK_12H
-                    val picker = MaterialTimePicker.Builder()
-                        .setTimeFormat(timeFormat ?: clockFormat)
-                        .setHour(12)
-                        .setMinute(0)
-                        .setTitleText(titleTimePicker)
-                        .build()
-                    picker.show((this.context.getCompatActivity())!!.supportFragmentManager, "TIME_PICKER")
-                    picker.addOnPositiveButtonClickListener {c-> this.editText!!.setText("${picker.hour.toString().add0()}:${picker.minute.toString().add0()} - ${it.toDate(format)}") }
-                }
+                picker.addOnPositiveButtonClickListener {c-> this.editText!!.setText("${picker.hour.toString().add0()}:${picker.minute.toString().add0()} - ${it.toDate(format)}") }
             }
         }
 
