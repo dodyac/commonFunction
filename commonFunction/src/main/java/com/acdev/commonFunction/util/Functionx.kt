@@ -579,7 +579,7 @@ class Functionx {
             return this
         }
 
-        fun BottomSheetDialogFragment.instance(bundle: String?) {
+        fun BottomSheetDialogFragment.instanceSheet(bundle: String?) {
             val args = Bundle()
             args.putString("data", bundle)
             this.arguments = args
