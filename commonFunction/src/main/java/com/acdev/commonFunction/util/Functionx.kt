@@ -579,11 +579,11 @@ class Functionx {
             return this
         }
 
-        fun BottomSheetDialogFragment.instanceSheet(bundle: String?) {
+        fun Context.instanceSheet(bottomSheet: BottomSheetDialogFragment,bundle: String?) {
             val args = Bundle()
             args.putString("data", bundle)
-            this.arguments = args
-            this.show((this.context!!.getCompatActivity()!! as FragmentActivity).supportFragmentManager, this.tag)
+            bottomSheet.arguments = args
+            bottomSheet.show((this as FragmentActivity).supportFragmentManager, bottomSheet.tag)
         }
 
         fun setThreadPolicy(){
