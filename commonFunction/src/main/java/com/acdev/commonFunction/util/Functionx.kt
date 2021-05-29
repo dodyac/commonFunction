@@ -5,6 +5,7 @@ import android.app.Activity
 import android.app.DatePickerDialog
 import android.content.ActivityNotFoundException
 import android.content.Context
+import android.content.ContextWrapper
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.content.res.ColorStateList
@@ -58,6 +59,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.card.MaterialCardView
+import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.textfield.MaterialAutoCompleteTextView
 import com.google.android.material.textfield.TextInputEditText
@@ -96,6 +98,13 @@ class Functionx {
             val layoutManager: RecyclerView.LayoutManager = GridLayoutManager(this, spanCount)
             recyclerView?.layoutManager = layoutManager
             recyclerView?.adapter = adapter
+            adapter?.notifyDataSetChanged()
+        }
+
+        fun RecyclerView.adapter(adapter: RecyclerView.Adapter<*>?, spanCount: Int) {
+            val layoutManager: RecyclerView.LayoutManager = GridLayoutManager(this.context.getCompatActivity(), spanCount)
+            this.layoutManager = layoutManager
+            this.adapter = adapter
             adapter?.notifyDataSetChanged()
         }
 
@@ -647,6 +656,30 @@ class Functionx {
                 DatePickerDialog(this@datePicker, date, calendar[Calendar.YEAR], calendar[Calendar.MONTH],
                     calendar[Calendar.DAY_OF_MONTH]).show()
             }
+        }
+
+        fun TextInputLayout.datePicker(title: String, format: String){
+            this.setOnClickListener {
+                val builder = MaterialDatePicker.Builder.datePicker()
+                builder.setTitleText(title)
+                val datePicker = builder.build()
+                datePicker.show((this.context.getCompatActivity())!!.supportFragmentManager, "DATE_PICKER")
+                datePicker.addOnPositiveButtonClickListener { this.editText!!.setText(it.toDate(format)) }
+            }
+        }
+
+        fun Context.getCompatActivity(): AppCompatActivity? {
+            return when (this) {
+                is AppCompatActivity -> this
+                is ContextWrapper -> this.baseContext.getCompatActivity()
+                else -> null
+            }
+        }
+
+        fun Long.toDate(format: String): String {
+            val date = Date(this)
+            val sdf = SimpleDateFormat(format)
+            return sdf.format(date)
         }
 
         fun TextView.html(foo: String){
