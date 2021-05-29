@@ -95,7 +95,7 @@ class Functionx {
         private const val invisible: Int = View.INVISIBLE
 
         fun RecyclerView.adapter(adapter: RecyclerView.Adapter<*>?, spanCount: Int) {
-            val layoutManager: RecyclerView.LayoutManager = GridLayoutManager(this.context, spanCount)
+            val layoutManager: RecyclerView.LayoutManager = GridLayoutManager(this.context.getCompatActivity(), spanCount)
             this.layoutManager = layoutManager
             this.adapter = adapter
             adapter?.notifyDataSetChanged()
@@ -147,7 +147,7 @@ class Functionx {
 
         @SuppressLint("ResourceType")
         fun ImageView.setImage64(base64: String?) {
-            Glide.with(this.context).load(Base64.decode(base64, Base64.DEFAULT))
+            Glide.with(this.context.getCompatActivity()!!).load(Base64.decode(base64, Base64.DEFAULT))
                 .transform(RoundedCorners(8)).into(this)
         }
 
@@ -156,7 +156,7 @@ class Functionx {
             circularProgressDrawable.strokeWidth = 2f
             circularProgressDrawable.centerRadius = 30f
             circularProgressDrawable.start()
-            Glide.with(this.context).load(url).placeholder(circularProgressDrawable).into(this) }
+            Glide.with(this.context.getCompatActivity()!!).load(url).placeholder(circularProgressDrawable).into(this) }
 
         fun Context.getWidth(percent: Int): Int {
             val displayMetrics = DisplayMetrics()
@@ -251,7 +251,7 @@ class Functionx {
         @Suppress("UNCHECKED_CAST")
         fun MaterialAutoCompleteTextView.setStringArray(stringArray: Array<String?>) {
             val lst: List<String> = listOf(*stringArray) as List<String>
-            val dataAdapter = ArrayAdapter(this.context, android.R.layout.simple_spinner_dropdown_item, lst)
+            val dataAdapter = ArrayAdapter(this.context.getCompatActivity()!!, android.R.layout.simple_spinner_dropdown_item, lst)
             dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
             this.setAdapter(dataAdapter)
         }
@@ -259,7 +259,7 @@ class Functionx {
         fun MaterialAutoCompleteTextView.getBank(call: Call<BankRegion?>?) {
             call?.libque {
                 response = {
-                    if (!it.isSuccessful) this@getBank.context.toast(Toast.ERROR, this@getBank.context.getString(R.string.error, it.code(), it.message()))
+                    if (!it.isSuccessful) this@getBank.context.getCompatActivity()!!.toast(Toast.ERROR, this@getBank.context.getString(R.string.error, it.code(), it.message()))
                     else {
                         if (it.body()!!.success) {
                             val modelDataArrayList = it.body()!!.data
@@ -269,14 +269,14 @@ class Functionx {
                         }
                     }
                 }
-                failure = { this@getBank.context.toast(Toast.ERROR, R.string.cannotConnect) }
+                failure = { this@getBank.context.getCompatActivity()!!.toast(Toast.ERROR, R.string.cannotConnect) }
             }
         }
 
         fun MaterialAutoCompleteTextView.getRegion(call: Call<BankRegion?>?, region: Region) {
             call?.libque {
                 response = {
-                    if (!it.isSuccessful) this@getRegion.context.toast(Toast.ERROR, this@getRegion.context.getString(R.string.error, it.code(), it.message()))
+                    if (!it.isSuccessful) this@getRegion.context.getCompatActivity()!!.toast(Toast.ERROR, this@getRegion.context.getString(R.string.error, it.code(), it.message()))
                     else {
                         if (it.body()!!.success) {
                             when (region) {
@@ -291,7 +291,7 @@ class Functionx {
                         }
                     }
                 }
-                failure = { this@getRegion.context.toast(Toast.ERROR, R.string.cannotConnect) }
+                failure = { this@getRegion.context.getCompatActivity()!!.toast(Toast.ERROR, R.string.cannotConnect) }
             }
         }
 
@@ -369,13 +369,13 @@ class Functionx {
             when {
                 this.editText!!.text.isEmpty() -> {
                     this.isErrorEnabled = true
-                    this.error = this.context.getString(R.string.emptyMail)
+                    this.error = this.context.getCompatActivity()!!.getString(R.string.emptyMail)
                     this.requestFocus()
                     return false
                 }
                 !this.editText!!.text.isEmailValid() -> {
                     this.isErrorEnabled = true
-                    this.error = this.context.getString(R.string.notMail)
+                    this.error = this.context.getCompatActivity()!!.getString(R.string.notMail)
                     this.clearFocus()
                     this.requestFocus()
                     return false
@@ -391,13 +391,13 @@ class Functionx {
             when {
                 this.editText!!.text.isEmpty() -> {
                     this.isErrorEnabled = true
-                    this.error = this.context.getString(R.string.emptyPassword)
+                    this.error = this.context.getCompatActivity()!!.getString(R.string.emptyPassword)
                     this.requestFocus()
                     return false
                 }
                 this.editText!!.text.length < 8 -> {
                     this.isErrorEnabled = true
-                    this.error = this.context.getString(R.string.shortPassword)
+                    this.error = this.context.getCompatActivity()!!.getString(R.string.shortPassword)
                     this.clearFocus()
                     this.requestFocus()
                     return false
@@ -412,7 +412,7 @@ class Functionx {
         fun TextInputLayout.alertEmpty(@StringRes alert: Int): Boolean {
             return if(this.editText!!.text.isEmpty()) {
                 this.isErrorEnabled = true
-                this.error = this.context.getString(alert)
+                this.error = this.context.getCompatActivity()!!.getString(alert)
                 this.requestFocus()
                 false
             } else {
@@ -429,7 +429,7 @@ class Functionx {
         }
 
         fun RecyclerView.adapterGrid(adapter: RecyclerView.Adapter<*>?, numOfColumns: Float) {
-            val layoutManager: RecyclerView.LayoutManager = GridLayoutManager(this.context, this.context.numOfColumns(numOfColumns))
+            val layoutManager: RecyclerView.LayoutManager = GridLayoutManager(this.context.getCompatActivity()!!, this.context.getCompatActivity()!!.numOfColumns(numOfColumns))
             this.layoutManager = layoutManager
             this.adapter = adapter
             adapter?.notifyDataSetChanged()
@@ -490,7 +490,7 @@ class Functionx {
         }
 
         fun ImageView.setPattern(@DrawableRes drawableRes: Int){
-            this.setImageDrawable(TileDrawable(ContextCompat.getDrawable(this.context, drawableRes)!!, Shader.TileMode.REPEAT))
+            this.setImageDrawable(TileDrawable(ContextCompat.getDrawable(this.context.getCompatActivity()!!, drawableRes)!!, Shader.TileMode.REPEAT))
         }
 
         @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
@@ -583,7 +583,7 @@ class Functionx {
             val args = Bundle()
             args.putString("data", bundle)
             this.arguments = args
-            this.show((this.context as FragmentActivity).supportFragmentManager, this.tag)
+            this.show((this.context!!.getCompatActivity()!! as FragmentActivity).supportFragmentManager, this.tag)
         }
 
         fun setThreadPolicy(){
@@ -650,8 +650,8 @@ class Functionx {
         }
 
         fun TextView.showVersion(){
-            try { this.text = "Versi ${this.context.packageManager.getPackageInfo(this.context.packageName, 0).versionName}" }
-            catch (e: PackageManager.NameNotFoundException) { this.context.toast(Toast.WARNING, e.message.toString()) }
+            try { this.text = "Versi ${this.context.getCompatActivity()!!.packageManager.getPackageInfo(this.context.getCompatActivity()!!.packageName, 0).versionName}" }
+            catch (e: PackageManager.NameNotFoundException) { this.context.getCompatActivity()!!.toast(Toast.WARNING, e.message.toString()) }
         }
 
         fun Context.useCurrentTheme(){
