@@ -10,7 +10,7 @@ import com.acdev.commonFunction.common.InflateFr
 import com.acdev.commonFunction.util.Functionx.Companion.useCurrentTheme
 import com.smarteist.autoimageslider.SliderViewAdapter
 
-abstract class BaseSlider<VB : ViewBinding>(private val InflateFr: InflateFr<VB>, private val list: List<Any>) :
+abstract class BaseSlider<VB : ViewBinding>(private val InflateFr: InflateFr<VB>, private val list: MutableList<*>) :
     SliderViewAdapter<BaseSlider.ViewHolder>() {
 
     private var _binding: VB? = null
