@@ -10,7 +10,7 @@ import androidx.viewbinding.ViewBinding
 import com.acdev.commonFunction.common.InflateFr
 import com.acdev.commonFunction.util.Functionx.Companion.useCurrentTheme
 
-abstract class BaseAdapter<VB : ViewBinding>(private val InflateFr: InflateFr<VB>, private val list: List<Any>) :
+abstract class BaseAdapter<VB : ViewBinding>(private val InflateFr: InflateFr<VB>, private val list: MutableList<*>) :
     RecyclerView.Adapter<BaseAdapter.ViewHolder<VB>>() {
 
     val gone: Int = View.GONE
@@ -30,7 +30,7 @@ abstract class BaseAdapter<VB : ViewBinding>(private val InflateFr: InflateFr<VB
     class ViewHolder<VB: ViewBinding>(val binding: VB) : RecyclerView.ViewHolder(binding.root)
 
     fun removeItem(position: Int){
-        ArrayList(list).removeAt(position)
+        list.removeAt(position)
         notifyItemChanged(position)
         notifyItemRemoved(position)
         notifyDataSetChanged()
