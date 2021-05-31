@@ -28,4 +28,11 @@ abstract class BaseAdapter<VB : ViewBinding>(private val InflateFr: InflateFr<VB
     override fun getItemCount() = list.size
 
     class ViewHolder<VB: ViewBinding>(val binding: VB) : RecyclerView.ViewHolder(binding.root)
+
+    fun removeItem(position: Int){
+        ArrayList(list).removeAt(position)
+        notifyItemChanged(position)
+        notifyItemRemoved(position)
+        notifyDataSetChanged()
+    }
 }
