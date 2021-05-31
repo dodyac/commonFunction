@@ -1,4 +1,4 @@
-package com.acdev.commonFunction.util
+package com.acdev.commonFunction.util.shimmer
 
 import android.graphics.Paint
 

@@ -1,0 +1,122 @@
+package com.acdev.commonFunction.util
+
+import android.graphics.Bitmap
+import android.graphics.Matrix
+import android.os.Build
+import android.util.Patterns
+import androidx.annotation.RequiresApi
+import androidx.annotation.WorkerThread
+import com.acdev.commonFunction.common.Constantx
+import org.joda.time.DateMidnight
+import org.joda.time.Days
+import java.io.IOException
+import java.net.HttpURLConnection
+import java.net.URL
+import java.text.SimpleDateFormat
+import java.util.*
+import kotlin.String
+
+class TypeData {
+    companion object{
+
+        //Date
+
+        fun getToday(pattern: String): String? {
+            val date = System.currentTimeMillis()
+            val sdf = SimpleDateFormat(pattern, Locale("id", "ID"))
+            return sdf.format(date)
+        }
+
+        fun daysBetween(from: String?, to: String?):Int{
+            return Days.daysBetween(DateMidnight(from!!), DateMidnight(to!!)).days
+        }
+
+        fun String.newFormatDate(pattern: String): String? {
+            val dateFormat = SimpleDateFormat("EEEE, dd MMMM yyyy HH:mm:ss", Locale("id", "ID"))
+            val date = dateFormat.parse(this)
+            val output = SimpleDateFormat(pattern, Locale("id", "ID"))
+            return output.format(date)
+        }
+
+        fun String.formatDate(before: String, after: String): String? {
+            val dateFormat = SimpleDateFormat(before, Locale("id", "ID"))
+            val date = dateFormat.parse(this)
+            val output = SimpleDateFormat(after, Locale("id", "ID"))
+            return output.format(date!!)
+        }
+
+        fun Long.toDate(format: String): String {
+            val date = Date(this)
+            val sdf = SimpleDateFormat(format)
+            return sdf.format(date)
+        }
+
+        //Adding Pattern
+
+        fun String.toCurrency(): String {
+            val stringBuilder = StringBuilder()
+            stringBuilder.append(this)
+            var three = 0
+            for (i in this.length downTo 1) {
+                three++
+                while (three > 3) {
+                    stringBuilder.insert(i - 0, ".")
+                    three = +1
+                }
+            }
+            return Constantx.PATTERN_CURRENCY + stringBuilder.toString() + Constantx.PATTERN_CURRENCY_END
+        }
+
+        fun Long.toCurrency(): String {
+            val stringBuilder = StringBuilder()
+            stringBuilder.append(this.toString())
+            var three = 0
+            for (i in this.toString().length downTo 1) {
+                three++
+                while (three > 3) {
+                    stringBuilder.insert(i - 0, ".")
+                    three = +1
+                }
+            }
+            return Constantx.PATTERN_CURRENCY + stringBuilder.toString() + Constantx.PATTERN_CURRENCY_END
+        }
+
+        fun String.removeCurrency(): String {
+            return this.replace(Constantx.PATTERN_CURRENCY, "").replace(Constantx.PATTERN_CURRENCY_END, "")
+                .replace(".", "")
+        }
+
+        fun String.add62(): String{ return "+62${this.substring(1)}" }
+
+        fun String.add0(): String{ return if(this.length < 2) "0$this" else this }
+
+        //Boolean
+
+        fun CharSequence.isEmailValid(): Boolean { return Patterns.EMAIL_ADDRESS.matcher(this).matches() }
+
+        //Convert Data
+
+        @RequiresApi(Build.VERSION_CODES.N)
+        @WorkerThread
+        fun String.urlFileLength(): Long {
+            var conn: HttpURLConnection? = null
+            return try {
+                conn = URL(this).openConnection() as HttpURLConnection?
+                conn!!.requestMethod = "HEAD"
+                conn.contentLengthLong
+            } catch (e: IOException) { return 0L } finally { conn?.disconnect() }
+        }
+
+        fun Long.formatSize(): String {
+            if (this < 1024) return "$this B"
+            val z = (63 - java.lang.Long.numberOfLeadingZeros(this)) / 10
+            return String.format("%.1f %sB", this.toDouble() / (1L shl z * 10), " KMGTPE"[z])
+        }
+
+        fun Bitmap.rotateImage(angle: Int): Bitmap {
+            val matrix = Matrix()
+            matrix.postRotate(angle.toFloat())
+            return Bitmap.createBitmap(this, 0, 0, this.width, this.height, matrix, true)
+        }
+    }
+}

@@ -13,8 +13,8 @@ import com.acdev.commonFunction.R
 import com.acdev.commonFunction.common.Constantx.Companion.CORNER_DEFAULT
 import com.acdev.commonFunction.common.Constantx.Companion.MAX_WEIGHT
 import com.acdev.commonFunction.common.Constantx.Companion.USE_GRADIENT_DEFAULT
-import com.acdev.commonFunction.util.ShimmerController
-import com.acdev.commonFunction.util.ShimmerView
+import com.acdev.commonFunction.util.shimmer.ShimmerController
+import com.acdev.commonFunction.util.shimmer.ShimmerView
 
 class ShimmerText : AppCompatTextView, ShimmerView {
 
