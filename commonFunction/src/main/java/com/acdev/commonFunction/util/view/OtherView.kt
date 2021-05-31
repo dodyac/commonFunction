@@ -23,8 +23,8 @@ import com.acdev.commonFunction.common.Toast
 import com.acdev.commonFunction.util.Functionx
 import com.acdev.commonFunction.util.Functionx.Companion.getCompatActivity
 import com.acdev.commonFunction.util.Toast.Companion.toast
-import com.acdev.commonFunction.util.TypeData
-import com.acdev.commonFunction.util.TypeData.Companion.add62
+import com.acdev.commonFunction.util.DataType
+import com.acdev.commonFunction.util.DataType.Companion.add62
 import com.google.android.material.card.MaterialCardView
 import com.google.android.material.tabs.TabLayout
 import com.h6ah4i.android.tablayouthelper.TabLayoutHelper
@@ -70,7 +70,7 @@ class OtherView {
                 Toast.WARNING, e.message.toString()) }
         }
 
-        fun View.shareVia(appName: TypeData, packageName: TypeData){
+        fun View.shareVia(appName: String, packageName: String){
             this.setOnClickListener { ShareCompat.IntentBuilder.from(this.context as Activity).setType("text/plain")
                 .setChooserTitle("Bagikan Menggunakan").setText("Unduh aplikasi $appName secara gratis! Silahkan unduh di " +
                         "https://play.google.com/store/apps/details?id=$packageName").startChooser()

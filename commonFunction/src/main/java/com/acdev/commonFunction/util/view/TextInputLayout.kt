@@ -10,9 +10,9 @@ import com.acdev.commonFunction.common.Region
 import com.acdev.commonFunction.model.BankRegion
 import com.acdev.commonFunction.util.Functionx.Companion.getCompatActivity
 import com.acdev.commonFunction.util.LibQue.Companion.libque
-import com.acdev.commonFunction.util.TypeData.Companion.add0
-import com.acdev.commonFunction.util.TypeData.Companion.isEmailValid
-import com.acdev.commonFunction.util.TypeData.Companion.toDate
+import com.acdev.commonFunction.util.DataType.Companion.add0
+import com.acdev.commonFunction.util.DataType.Companion.isEmailValid
+import com.acdev.commonFunction.util.DataType.Companion.toDate
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.textfield.MaterialAutoCompleteTextView
 import com.google.android.material.textfield.TextInputLayout

@@ -16,7 +16,7 @@ import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.String
 
-class TypeData {
+class DataType {
     companion object{
 
         //Date
@@ -113,8 +113,9 @@ class TypeData {
             return String.format("%.1f %sB", this.toDouble() / (1L shl z * 10), " KMGTPE"[z])
         }
 
+
         fun Int.getMessage(): String{
-           return when(this){
+            return when(this){
                 100 -> "Continue"
                 101 -> "Switching Protocols"
                 102 -> "Processing"

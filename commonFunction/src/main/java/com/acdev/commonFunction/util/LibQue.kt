@@ -4,7 +4,7 @@ import android.content.Context
 import com.acdev.commonFunction.R
 import com.acdev.commonFunction.common.Toast
 import com.acdev.commonFunction.util.Toast.Companion.toast
-import com.acdev.commonFunction.util.TypeData.Companion.getMessage
+import com.acdev.commonFunction.util.DataType.Companion.getMessage
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
