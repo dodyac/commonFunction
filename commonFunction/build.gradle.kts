@@ -8,13 +8,10 @@ android {
     compileSdkVersion(Versions.compileSdk)
 
     defaultConfig {
-        applicationId = ApplicationId.appId
         minSdkVersion(Versions.minSdk)
         targetSdkVersion(Versions.targetSdk)
         versionCode = Versions.versionCode
         versionName = Versions.versionName
-        multiDexEnabled = true
-        vectorDrawables.useSupportLibrary = true
         testInstrumentationRunner = Config.testRunner
         consumerProguardFiles("consumer-rules.pro")
     }
