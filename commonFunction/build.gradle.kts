@@ -28,7 +28,6 @@ android {
     }
     buildFeatures.viewBinding = true
     kotlinOptions.jvmTarget = "1.8"
-    lintOptions.disable("ContentDescription")
 }
 
 dependencies {
