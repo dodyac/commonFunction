@@ -1,3 +1,0 @@
-include ':commonFunction'
-include ':app'
-rootProject.name = "Useful Method"
