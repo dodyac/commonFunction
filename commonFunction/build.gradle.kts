@@ -16,6 +16,7 @@ android {
         multiDexEnabled = true
         vectorDrawables.useSupportLibrary = true
         testInstrumentationRunner = Config.testRunner
+        consumerProguardFiles("consumer-rules.pro")
     }
 
     buildTypes {
