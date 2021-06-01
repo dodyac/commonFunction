@@ -1,8 +1,8 @@
 buildscript {
     repositories {
-        google()
         mavenCentral()
         jcenter()
+        google()
     }
     dependencies {
         classpath(Config.Dependencies.androidPlugin)
@@ -12,9 +12,9 @@ buildscript {
 
 allprojects {
     repositories {
-        google()
         mavenCentral()
         jcenter()
+        google()
         maven { url = uri(Config.Repositories.gradleMaven)  }
     }
 }
