@@ -42,4 +42,5 @@ dependencies {
     androidTestImplementation(Libraries.testJunit)
     androidTestImplementation(Libraries.espressoCore)
     implementation(Libraries.material)
+    testImplementation(Libraries.jUnit)
 }
