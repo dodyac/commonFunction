@@ -1,5 +1,5 @@
 plugins {
-    id(Config.Plugins.android)
+    id(Config.Plugins.androidLibrary)
     id(Config.Plugins.kotlinAndroid)
     id(Config.Plugins.kotlinKapt)
 }
