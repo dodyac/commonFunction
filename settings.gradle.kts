@@ -1,3 +1,3 @@
 rootProject.name="Useful Method"
-//include(":app")
+include(":app")
 include(":commonFunction")
