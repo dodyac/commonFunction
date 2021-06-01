@@ -30,6 +30,9 @@ android {
     buildFeatures.viewBinding = true
     kotlinOptions.jvmTarget = "1.8"
     lintOptions.disable("ContentDescription")
+    repositories {
+        maven { url = uri(Config.Repositories.gradleMaven)  }
+    }
 }
 
 dependencies {
