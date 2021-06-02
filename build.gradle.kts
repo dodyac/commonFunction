@@ -10,7 +10,6 @@ buildscript {
 }
 
 allprojects {
-    apply(plugin = "maven")
     repositories {
         mavenCentral()
         google()
@@ -18,3 +17,5 @@ allprojects {
         maven { url = uri(Config.Repositories.pluginGradle) }
     }
 }
+
+tasks.register("clean",Delete::class){ delete(rootProject.buildDir) }

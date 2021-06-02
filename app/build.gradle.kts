@@ -3,6 +3,7 @@ import Libraries.implementationX
 import Libraries.testImplementationX
 
 plugins {
+    `maven-publish`
     id(Config.Plugins.android)
     kotlin(Config.Plugins.kotlinAndroid)
 }
