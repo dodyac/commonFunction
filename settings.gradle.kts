@@ -1,5 +1,6 @@
 rootProject.name="commonFunction"
-include(":app", ":commonFunction")
+//include(":app")
+include(":commonFunction")
 pluginManagement {
     repositories {
         mavenCentral()
