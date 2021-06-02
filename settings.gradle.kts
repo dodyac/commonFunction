@@ -1,3 +1,2 @@
 rootProject.name="commonFunction"
-include(":app")
-include(":commonFunction")
+include(":app", ":commonFunction")

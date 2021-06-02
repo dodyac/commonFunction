@@ -14,8 +14,8 @@ object Config {
 
     object Plugins {
         const val android = "com.android.application"
-        const val kotlinAndroid = "kotlin-android"
-        const val kotlinKapt = "kotlin-kapt"
+        const val kotlinAndroid = "android"
+        const val kotlinKapt = "kapt"
         const val androidLibrary = "com.android.library"
     }
 }

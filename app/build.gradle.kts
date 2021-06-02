@@ -1,10 +1,15 @@
+import Libraries.androidTestImplementationX
+import Libraries.implementationX
+import Libraries.testImplementationX
+
 plugins {
     id(Config.Plugins.android)
-    id(Config.Plugins.kotlinAndroid)
+    kotlin(Config.Plugins.kotlinAndroid)
 }
 
 android {
     compileSdkVersion(Versions.compileSdk)
+    buildToolsVersion(Versions.buildTool)
 
     defaultConfig {
         applicationId = ApplicationId.appId
@@ -32,14 +37,7 @@ android {
 }
 
 dependencies {
-    implementation(Libraries.kotlinStdlib)
-    implementation(Libraries.coreKtx)
-    implementation(Libraries.appCompat)
-    implementation(Libraries.constraintLayout)
-    implementation(Libraries.legacySupport)
-    implementation(Libraries.fragmentKtx)
-    androidTestImplementation(Libraries.testJunit)
-    androidTestImplementation(Libraries.espressoCore)
-    implementation(Libraries.material)
-    testImplementation(Libraries.jUnit)
+    implementationX(Libraries.appRootLibraries)
+    androidTestImplementationX(Libraries.androidTestLibraries)
+    testImplementationX(Libraries.testLibraries)
 }

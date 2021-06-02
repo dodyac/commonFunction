@@ -1,11 +1,17 @@
+import Libraries.androidTestImplementationX
+import Libraries.implementationX
+import Libraries.kaptX
+import Libraries.testImplementationX
+
 plugins {
     id(Config.Plugins.androidLibrary)
-    id(Config.Plugins.kotlinAndroid)
-    id(Config.Plugins.kotlinKapt)
+    kotlin(Config.Plugins.kotlinAndroid)
+    kotlin(Config.Plugins.kotlinKapt)
 }
 
 android {
     compileSdkVersion(Versions.compileSdk)
+    buildToolsVersion(Versions.buildTool)
 
     defaultConfig {
         minSdkVersion(Versions.minSdk)
@@ -31,30 +37,8 @@ android {
 }
 
 dependencies {
-    implementation(Libraries.kotlinStdlib)
-    implementation(Libraries.coreKtx)
-    implementation(Libraries.appCompat)
-    implementation(Libraries.constraintLayout)
-    implementation(Libraries.legacySupport)
-    implementation(Libraries.fragmentKtx)
-    androidTestImplementation(Libraries.testJunit)
-    androidTestImplementation(Libraries.espressoCore)
-    implementation(Libraries.material)
-    implementation(Libraries.toasty)
-    implementation(Libraries.glide)
-    implementation(Libraries.swipeRefresh)
-    implementation(Libraries.jodaTime)
-    implementation(Libraries.textDrawable)
-    implementation(Libraries.finestWebView)
-    implementation(Libraries.shimmerRecycler)
-    implementation(Libraries.loaderView)
-    implementation(Libraries.inAppUpdater)
-    implementation(Libraries.tabLayoutHelper)
-    implementation(Libraries.playCoreKtx)
-    kapt(Libraries.glideKapt)
-    implementation(Libraries.imageSlider)
-    implementation(Libraries.retrofit)
-    implementation(Libraries.retrofitGson)
-    implementation(Libraries.uCrop)
-    testImplementation(Libraries.jUnit)
+    implementationX(Libraries.appLibraries)
+    androidTestImplementationX(Libraries.androidTestLibraries)
+    kaptX(Libraries.kapt)
+    testImplementationX(Libraries.testLibraries)
 }

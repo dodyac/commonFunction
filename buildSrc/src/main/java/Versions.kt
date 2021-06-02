@@ -3,6 +3,7 @@ object Versions {
     const val gradle = "4.2.1"
 
     const val compileSdk = 30
+    const val buildTool = "30.0.2"
     const val minSdk = 21
     const val targetSdk = 30
     const val versionCode = 1
