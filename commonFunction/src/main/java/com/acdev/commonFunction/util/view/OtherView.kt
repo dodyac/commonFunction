@@ -15,7 +15,6 @@ import androidx.annotation.ColorRes
 import androidx.annotation.RequiresApi
 import androidx.core.app.ShareCompat
 import androidx.core.content.ContextCompat
-import androidx.core.text.HtmlCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.setMargins
 import androidx.viewpager.widget.ViewPager
@@ -37,75 +36,74 @@ class OtherView {
         }
 
         fun View.setMargin(margin: Int) {
-            if (layoutParams is ViewGroup.MarginLayoutParams) {
-                val p = layoutParams as ViewGroup.MarginLayoutParams
+            if (this.layoutParams is ViewGroup.MarginLayoutParams) {
+                val p = this.layoutParams as ViewGroup.MarginLayoutParams
                 p.setMargins(margin)
-                requestLayout()
+                this.requestLayout()
             }
         }
 
         @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
         fun View.backgroundTint(@ColorRes colorRes: Int) {
-            backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(context, colorRes))
+            this.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(context, colorRes))
         }
 
         fun MaterialCardView.nestedClick(view: View) {
-            setOnClickListener { if (view.visibility == Functionx.gone) view.visibility =
+            this.setOnClickListener { if (view.visibility == Functionx.gone) view.visibility =
                 Functionx.visible else view.visibility = Functionx.gone
             }
         }
 
         fun TextView.html(foo: String){
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) text = Html.fromHtml(foo, Html.FROM_HTML_MODE_COMPACT)
-            else text = HtmlCompat.fromHtml(foo, HtmlCompat.FROM_HTML_MODE_LEGACY)
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) this.text = Html.fromHtml(foo, Html.FROM_HTML_MODE_COMPACT)
+            else this.text = Html.fromHtml(foo)
         }
 
         fun TabLayout.setupWithViewPagerHelper(viewPager: ViewPager){
-            setupWithViewPager(viewPager)
+            this.setupWithViewPager(viewPager)
             TabLayoutHelper(this, viewPager).isAutoAdjustTabModeEnabled = true
         }
 
         fun TextView.showVersion(){
-            try { text = "Versi ${context.getCompatActivity()!!.packageManager.getPackageInfo(context.getCompatActivity()!!.packageName, 0).versionName}" }
-            catch (e: PackageManager.NameNotFoundException) { context.getCompatActivity()!!.toast(Toast.WARNING, e.message.toString()) }
+            try { this.text = "Versi ${this.context.getCompatActivity()!!.packageManager.getPackageInfo(this.context.getCompatActivity()!!.packageName, 0).versionName}" }
+            catch (e: PackageManager.NameNotFoundException) { this.context.getCompatActivity()!!.toast(
+                Toast.WARNING, e.message.toString()) }
         }
 
         fun View.shareVia(appName: String, packageName: String){
-            setOnClickListener { ShareCompat.IntentBuilder.from(context as Activity).setType("text/plain")
+            this.setOnClickListener { ShareCompat.IntentBuilder.from(this.context as Activity).setType("text/plain")
                 .setChooserTitle("Bagikan Menggunakan").setText("Unduh aplikasi $appName secara gratis! Silahkan unduh di " +
                         "https://play.google.com/store/apps/details?id=$packageName").startChooser()
             }
         }
 
         fun View.socialMediaOnclick(data: String, socialMedia: SocialMedia){
-            setOnClickListener {
+            this.setOnClickListener {
                 when(socialMedia){
                     SocialMedia.FACEBOOK -> {
                         val i = Intent(Intent.ACTION_VIEW)
                         i.data = Uri.parse("https://$data")
-                        context.startActivity(i)
+                        this.context.startActivity(i)
                     }
                     SocialMedia.INSTAGRAM -> {
                         val uri = Uri.parse("http://instagram.com/_u/${data.replace("www.instagram.com/","")}")
                         val intent = Intent(Intent.ACTION_VIEW, uri)
                         intent.setPackage("com.instagram.android")
-                        try { context.startActivity(intent) } catch (e: ActivityNotFoundException) {
-                            context.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("http://$data")))
+                        try { this.context.startActivity(intent) } catch (e: ActivityNotFoundException) {
+                            this.context.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("http://$data")))
                         }
                     }
                     SocialMedia.WHATSAPP -> {
                         val i = Intent(Intent.ACTION_VIEW)
                         i.data = Uri.parse("https://api.whatsapp.com/send?phone=${data.add62()}")
-                        context.startActivity(i)
+                        this.context.startActivity(i)
                     }
                     SocialMedia.GMAIL -> {
-                        try { context.startActivity(Intent(Intent.ACTION_VIEW , Uri.parse("mailto:$data"))) }
+                        try { this.context.startActivity(Intent(Intent.ACTION_VIEW , Uri.parse("mailto:$data"))) }
                         catch(e: ActivityNotFoundException){}
                     }
                 }
             }
         }
-
-
     }
 }

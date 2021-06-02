@@ -6,9 +6,8 @@ import android.content.ContextWrapper
 import android.content.Intent
 import android.content.res.Configuration
 import android.net.ConnectivityManager
-import android.net.NetworkCapabilities
+import android.net.NetworkInfo
 import android.net.Uri
-import android.os.Build
 import android.os.Bundle
 import android.os.StrictMode
 import android.provider.Settings
@@ -34,8 +33,8 @@ import com.yalantis.ucrop.UCrop
 import java.io.File
 import java.util.*
 
-@Suppress("DEPRECATION")
 class Functionx {
+    @Suppress("DEPRECATION")
     companion object {
 
         const val gone: Int = View.GONE
@@ -50,30 +49,9 @@ class Functionx {
         }
 
         fun Context.isNetworkAvailable(): Boolean {
-            var result = false
             val connectivityManager = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                val networkCapabilities = connectivityManager.activeNetwork ?: return false
-                val actNw = connectivityManager.getNetworkCapabilities(networkCapabilities) ?: return false
-                result = when {
-                    actNw.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) -> true
-                    actNw.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) -> true
-                    actNw.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET) -> true
-                    else -> false
-                }
-            } else {
-                connectivityManager.run {
-                    connectivityManager.activeNetworkInfo?.run {
-                        result = when (type) {
-                            ConnectivityManager.TYPE_WIFI -> true
-                            ConnectivityManager.TYPE_MOBILE -> true
-                            ConnectivityManager.TYPE_ETHERNET -> true
-                            else -> false
-                        }
-                    }
-                }
-            }
-            return result
+            return connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE)!!.state == NetworkInfo.State.CONNECTED ||
+                    connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI)!!.state == NetworkInfo.State.CONNECTED
         }
 
         fun Activity.webView(url: String, @ColorRes color: Int) {
@@ -111,7 +89,7 @@ class Functionx {
         fun Context.getCompatActivity(): AppCompatActivity? {
             return when (this) {
                 is AppCompatActivity -> this
-                is ContextWrapper -> baseContext.getCompatActivity()
+                is ContextWrapper -> this.baseContext.getCompatActivity()
                 else -> null
             }
         }
@@ -169,7 +147,7 @@ class Functionx {
                 val wm = getSystemService(Context.WINDOW_SERVICE) as WindowManager
                 wm.defaultDisplay.getMetrics(metrics)
                 metrics.scaledDensity = configuration.densityDpi * metrics.density
-                resources.updateConfiguration(configuration, metrics)
+                this.resources.updateConfiguration(configuration, metrics)
             }
         }
 

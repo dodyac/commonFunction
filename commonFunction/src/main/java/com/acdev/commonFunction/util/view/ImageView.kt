@@ -27,16 +27,16 @@ class ImageView {
 
         @SuppressLint("ResourceType")
         fun ImageView.setImage64(base64: String?) {
-            Glide.with(context.getCompatActivity()!!).load(decode(base64, DEFAULT))
+            Glide.with(this.context.getCompatActivity()!!).load(decode(base64, DEFAULT))
                 .transform(RoundedCorners(8)).into(this)
         }
 
         fun ImageView.setImageUrl(url: String){
-            val circularProgressDrawable = CircularProgressDrawable(context)
+            val circularProgressDrawable = CircularProgressDrawable(this.context)
             circularProgressDrawable.strokeWidth = 2f
             circularProgressDrawable.centerRadius = 30f
             circularProgressDrawable.start()
-            Glide.with(context.getCompatActivity()!!).load(url).placeholder(circularProgressDrawable).into(this)
+            Glide.with(this.context.getCompatActivity()!!).load(url).placeholder(circularProgressDrawable).into(this)
         }
         fun ImageView?.default(name: String?, @ColorRes color: Int) {
             val textDrawable = TextDrawable.builder()
@@ -68,18 +68,18 @@ class ImageView {
         fun ImageView.toBase64(): String? {
             return try {
                 val byteArrayOutputStream = ByteArrayOutputStream()
-                (drawable as BitmapDrawable).bitmap.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream)
+                (this.drawable as BitmapDrawable).bitmap.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream)
                 val byteArray = byteArrayOutputStream.toByteArray()
                 encodeToString(byteArray, DEFAULT)
             } catch (e: Exception) { "" }
         }
 
         fun ImageView.tint(@ColorRes colorRes: Int) {
-            ImageViewCompat.setImageTintList(this, ColorStateList.valueOf(ContextCompat.getColor(context, colorRes)))
+            ImageViewCompat.setImageTintList(this, ColorStateList.valueOf(ContextCompat.getColor(this.context, colorRes)))
         }
 
         fun ImageView.setPattern(@DrawableRes drawableRes: Int){
-            setImageDrawable(TileDrawable(ContextCompat.getDrawable(context.getCompatActivity()!!, drawableRes)!!, Shader.TileMode.REPEAT))
+            this.setImageDrawable(TileDrawable(ContextCompat.getDrawable(this.context.getCompatActivity()!!, drawableRes)!!, Shader.TileMode.REPEAT))
         }
     }
 }

@@ -10,11 +10,9 @@ import com.acdev.commonFunction.common.InflateFr
 import com.acdev.commonFunction.util.Functionx.Companion.useCurrentTheme
 import com.smarteist.autoimageslider.SliderViewAdapter
 
-abstract class BaseSlider<VB : ViewBinding>(private val InflateFr: InflateFr<VB>, private val list: MutableList<*>) :
-    SliderViewAdapter<BaseSlider.ViewHolder>() {
+abstract class BaseSlider<VB : ViewBinding>(private val InflateFr: InflateFr<VB>, private val list: List<Any>) :
+    SliderViewAdapter<BaseSlider.ViewHolder<VB>>() {
 
-    private var _binding: VB? = null
-    val binding get() = _binding!!
     val gone: Int = View.GONE
     val visible: Int = View.VISIBLE
     val invisible: Int = View.INVISIBLE
@@ -22,12 +20,12 @@ abstract class BaseSlider<VB : ViewBinding>(private val InflateFr: InflateFr<VB>
 
     override fun getCount() = list.size
 
-    override fun onCreateViewHolder(parent: ViewGroup): ViewHolder? {
+    override fun onCreateViewHolder(parent: ViewGroup): ViewHolder<VB>? {
         parent.context.useCurrentTheme()
         context = parent.context
-        _binding = InflateFr.invoke((parent.context.getSystemService(Activity.LAYOUT_INFLATER_SERVICE) as LayoutInflater), parent, false)
-        return ViewHolder(binding.root)
+        val binding = InflateFr.invoke((parent.context.getSystemService(Activity.LAYOUT_INFLATER_SERVICE) as LayoutInflater), parent, false)
+        return ViewHolder(binding)
     }
 
-    class ViewHolder(itemView: View) : SliderViewAdapter.ViewHolder(itemView)
+    class ViewHolder<VB: ViewBinding>(val binding: VB) : SliderViewAdapter.ViewHolder(binding.root)
 }
