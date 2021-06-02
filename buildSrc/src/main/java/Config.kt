@@ -8,7 +8,8 @@ object Config {
     }
 
     object Repositories {
-        const val gradleMaven = "https://jitpack.io"
+        const val jitPack = "https://jitpack.io"
+        const val pluginGradle = "https://plugins.gradle.org/m2/"
     }
 
     object Plugins {

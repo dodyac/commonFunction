@@ -4,6 +4,7 @@ import android.content.Context
 import android.graphics.drawable.Drawable
 import android.os.Build
 import android.util.AttributeSet
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -134,6 +135,6 @@ class ShimmerRecycler : RecyclerView {
 
     private fun getColor(id: Int): Int {
         return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) context.getColor(id)
-        else resources.getColor(id)
+        else ContextCompat.getColor(context,id)
     }
 }

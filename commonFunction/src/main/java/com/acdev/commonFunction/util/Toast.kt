@@ -29,19 +29,19 @@ class Toast {
 
         fun Fragment.toast(toast: Toast, string: String) {
             when (toast) {
-                Toast.INFO -> Toasty.info(this.context!!, string, android.widget.Toast.LENGTH_LONG, true).show()
-                Toast.SUCCESS -> Toasty.success(this.context!!, string, android.widget.Toast.LENGTH_LONG, true).show()
-                Toast.WARNING -> Toasty.warning(this.context!!, string, android.widget.Toast.LENGTH_LONG, true).show()
-                Toast.ERROR -> Toasty.error(this.context!!, string, android.widget.Toast.LENGTH_LONG, true).show()
+                Toast.INFO -> Toasty.info(context!!, string, android.widget.Toast.LENGTH_LONG, true).show()
+                Toast.SUCCESS -> Toasty.success(context!!, string, android.widget.Toast.LENGTH_LONG, true).show()
+                Toast.WARNING -> Toasty.warning(context!!, string, android.widget.Toast.LENGTH_LONG, true).show()
+                Toast.ERROR -> Toasty.error(context!!, string, android.widget.Toast.LENGTH_LONG, true).show()
             }
         }
 
         fun Fragment.toast(toast: Toast, @StringRes string: Int) {
             when (toast) {
-                Toast.INFO -> Toasty.info(this.context!!, getString(string), android.widget.Toast.LENGTH_LONG, true).show()
-                Toast.SUCCESS -> Toasty.success(this.context!!, getString(string), android.widget.Toast.LENGTH_LONG, true).show()
-                Toast.WARNING -> Toasty.warning(this.context!!, getString(string), android.widget.Toast.LENGTH_LONG, true).show()
-                Toast.ERROR -> Toasty.error(this.context!!, getString(string), android.widget.Toast.LENGTH_LONG, true).show()
+                Toast.INFO -> Toasty.info(context!!, getString(string), android.widget.Toast.LENGTH_LONG, true).show()
+                Toast.SUCCESS -> Toasty.success(context!!, getString(string), android.widget.Toast.LENGTH_LONG, true).show()
+                Toast.WARNING -> Toasty.warning(context!!, getString(string), android.widget.Toast.LENGTH_LONG, true).show()
+                Toast.ERROR -> Toasty.error(context!!, getString(string), android.widget.Toast.LENGTH_LONG, true).show()
             }
         }
 

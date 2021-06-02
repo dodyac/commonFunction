@@ -29,12 +29,12 @@ class TextInputLayout {
             val builder = MaterialDatePicker.Builder.datePicker()
             builder.setTitleText(title)
             val datePicker = builder.build()
-            datePicker.show((this.context.getCompatActivity())!!.supportFragmentManager, "DATE_PICKER")
-            datePicker.addOnPositiveButtonClickListener { this.editText!!.setText(it.toDate(format)) }
+            datePicker.show((context.getCompatActivity())!!.supportFragmentManager, "DATE_PICKER")
+            datePicker.addOnPositiveButtonClickListener { editText!!.setText(it.toDate(format)) }
         }
 
         fun TextInputLayout.timePicker(title: String, timeFormat: Int? = null){
-            val isSystem24Hour = DateFormat.is24HourFormat(this.context.getCompatActivity()!!)
+            val isSystem24Hour = DateFormat.is24HourFormat(context.getCompatActivity()!!)
             val clockFormat = if(isSystem24Hour) TimeFormat.CLOCK_24H else TimeFormat.CLOCK_12H
             val picker = MaterialTimePicker.Builder()
                 .setTimeFormat(timeFormat ?: clockFormat)
@@ -42,17 +42,17 @@ class TextInputLayout {
                 .setMinute(0)
                 .setTitleText(title)
                 .build()
-            picker.show((this.context.getCompatActivity())!!.supportFragmentManager, "TIME_PICKER")
-            picker.addOnPositiveButtonClickListener {c-> this.editText!!.setText("${picker.hour.toString().add0()}:${picker.minute.toString().add0()}") }
+            picker.show((context.getCompatActivity())!!.supportFragmentManager, "TIME_PICKER")
+            picker.addOnPositiveButtonClickListener { editText!!.setText("${picker.hour.toString().add0()}:${picker.minute.toString().add0()}") }
         }
 
         fun TextInputLayout.datePickerWithTime(title: String, titleTimePicker: String, format: String, timeFormat: Int? = null){
             val builder = MaterialDatePicker.Builder.datePicker()
             builder.setTitleText(title)
             val datePicker = builder.build()
-            datePicker.show((this.context.getCompatActivity())!!.supportFragmentManager, "DATE_PICKER")
+            datePicker.show((context.getCompatActivity())!!.supportFragmentManager, "DATE_PICKER")
             datePicker.addOnPositiveButtonClickListener {
-                val isSystem24Hour = DateFormat.is24HourFormat(this.context.getCompatActivity()!!)
+                val isSystem24Hour = DateFormat.is24HourFormat(context.getCompatActivity()!!)
                 val clockFormat = if(isSystem24Hour) TimeFormat.CLOCK_24H else TimeFormat.CLOCK_12H
                 val picker = MaterialTimePicker.Builder()
                     .setTimeFormat(timeFormat ?: clockFormat)
@@ -60,8 +60,8 @@ class TextInputLayout {
                     .setMinute(0)
                     .setTitleText(titleTimePicker)
                     .build()
-                picker.show((this.context.getCompatActivity())!!.supportFragmentManager, "TIME_PICKER")
-                picker.addOnPositiveButtonClickListener {c-> this.editText!!.setText("${picker.hour.toString().add0()}:${picker.minute.toString().add0()} - ${it.toDate(format)}") }
+                picker.show((context.getCompatActivity())!!.supportFragmentManager, "TIME_PICKER")
+                picker.addOnPositiveButtonClickListener { c-> editText!!.setText("${picker.hour.toString().add0()}:${picker.minute.toString().add0()} - ${it.toDate(format)}") }
             }
         }
 
@@ -103,21 +103,21 @@ class TextInputLayout {
 
         fun TextInputLayout.alertMail(): Boolean {
             when {
-                this.editText!!.text.isEmpty() -> {
-                    this.isErrorEnabled = true
-                    this.error = this.context.getCompatActivity()!!.getString(R.string.emptyMail)
-                    this.requestFocus()
+                editText!!.text.isEmpty() -> {
+                    isErrorEnabled = true
+                    error = context.getCompatActivity()!!.getString(R.string.emptyMail)
+                    requestFocus()
                     return false
                 }
-                !this.editText!!.text.isEmailValid() -> {
-                    this.isErrorEnabled = true
-                    this.error = this.context.getCompatActivity()!!.getString(R.string.notMail)
-                    this.clearFocus()
-                    this.requestFocus()
+                !editText!!.text.isEmailValid() -> {
+                    isErrorEnabled = true
+                    error = context.getCompatActivity()!!.getString(R.string.notMail)
+                    clearFocus()
+                    requestFocus()
                     return false
                 }
                 else -> {
-                    this.isErrorEnabled = false
+                    isErrorEnabled = false
                     return true
                 }
             }
@@ -125,35 +125,35 @@ class TextInputLayout {
 
         fun TextInputLayout.alertPassword(): Boolean {
             when {
-                this.editText!!.text.isEmpty() -> {
-                    this.isErrorEnabled = true
-                    this.error = this.context.getCompatActivity()!!.getString(R.string.emptyPassword)
-                    this.requestFocus()
+                editText!!.text.isEmpty() -> {
+                    isErrorEnabled = true
+                    error = context.getCompatActivity()!!.getString(R.string.emptyPassword)
+                    requestFocus()
                     return false
                 }
-                this.editText!!.text.length < 8 -> {
-                    this.isErrorEnabled = true
-                    this.error = this.context.getCompatActivity()!!.getString(R.string.shortPassword)
-                    this.clearFocus()
-                    this.requestFocus()
+                editText!!.text.length < 8 -> {
+                    isErrorEnabled = true
+                    error = context.getCompatActivity()!!.getString(R.string.shortPassword)
+                    clearFocus()
+                    requestFocus()
                     return false
                 }
                 else -> {
-                    this.isErrorEnabled = false
+                    isErrorEnabled = false
                     return true
                 }
             }
         }
 
         fun TextInputLayout.alertEmpty(@StringRes alert: Int): Boolean {
-            return if(this.editText!!.text.isEmpty()) {
-                this.isErrorEnabled = true
-                this.error = this.context.getCompatActivity()!!.getString(alert)
-                this.requestFocus()
+            return if(editText!!.text.isEmpty()) {
+                isErrorEnabled = true
+                error = context.getCompatActivity()!!.getString(alert)
+                requestFocus()
                 false
             } else {
-                this.isErrorEnabled = false
-                this.clearFocus()
+                isErrorEnabled = false
+                clearFocus()
                 true
             }
         }
@@ -163,14 +163,14 @@ class TextInputLayout {
         @Suppress("UNCHECKED_CAST")
         fun MaterialAutoCompleteTextView.setStringArray(stringArray: Array<String?>) {
             val lst: List<String> = listOf(*stringArray) as List<String>
-            val dataAdapter = ArrayAdapter(this.context.getCompatActivity()!!, android.R.layout.simple_spinner_dropdown_item, lst)
+            val dataAdapter = ArrayAdapter(context.getCompatActivity()!!, android.R.layout.simple_spinner_dropdown_item, lst)
             dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-            this.setAdapter(dataAdapter)
+            setAdapter(dataAdapter)
         }
 
         fun MaterialAutoCompleteTextView.getBank(call: Call<BankRegion?>?) {
-            call?.libque(this.context) {
-                val modelDataArrayList = this.body()!!.data
+            call?.libque(context) {
+                val modelDataArrayList = body()!!.data
                 val array = arrayOfNulls<String>(modelDataArrayList.size)
                 for ((index, value) in modelDataArrayList.withIndex()) array[index] = value.nama
                 this@getBank.setStringArray(array)
@@ -178,15 +178,15 @@ class TextInputLayout {
         }
 
         fun MaterialAutoCompleteTextView.getRegion(call: Call<BankRegion?>?, region: Region) {
-            call?.libque(this.context) {
+            call?.libque(context) {
                 when (region) {
-                    Region.PROVINCE -> Constantx.PROVINCE = this.body()!!.data
-                    Region.CITY -> Constantx.CITY = this.body()!!.data
-                    Region.DISTRICT -> Constantx.DISTRICT = this.body()!!.data
-                    Region.VILLAGE -> Constantx.VILLAGE = this.body()!!.data
+                    Region.PROVINCE -> Constantx.PROVINCE = body()!!.data
+                    Region.CITY -> Constantx.CITY = body()!!.data
+                    Region.DISTRICT -> Constantx.DISTRICT = body()!!.data
+                    Region.VILLAGE -> Constantx.VILLAGE = body()!!.data
                 }
-                val array = arrayOfNulls<String>(this.body()!!.data.size)
-                for ((index, value) in this.body()!!.data.withIndex()) array[index] = value.nama
+                val array = arrayOfNulls<String>(body()!!.data.size)
+                for ((index, value) in body()!!.data.withIndex()) array[index] = value.nama
                 this@getRegion.setStringArray(array)
             }
         }

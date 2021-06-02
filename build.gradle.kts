@@ -1,7 +1,6 @@
 buildscript {
     repositories {
         mavenCentral()
-        jcenter()
         google()
     }
     dependencies {
@@ -13,9 +12,9 @@ buildscript {
 allprojects {
     repositories {
         mavenCentral()
-        jcenter()
         google()
-        maven { url = uri(Config.Repositories.gradleMaven)  }
+        maven { url = uri(Config.Repositories.jitPack) }
+        maven { url = uri(Config.Repositories.pluginGradle) }
     }
 }
 
