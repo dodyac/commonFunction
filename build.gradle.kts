@@ -18,5 +18,3 @@ allprojects {
         maven { url = uri(Config.Repositories.pluginGradle) }
     }
 }
-
-tasks.register("clean",Delete::class){ delete(rootProject.buildDir) }
