@@ -1,5 +1,5 @@
-rootProject.name="commonFunction"
-//include(":app")
+rootProject.name="Useful Method"
+include(":app")
 include(":commonFunction")
 pluginManagement {
     repositories {
