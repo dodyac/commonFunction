@@ -2,6 +2,8 @@ buildscript {
     repositories {
         mavenCentral()
         google()
+        maven { url = uri(Config.Repositories.jitPack) }
+        maven { url = uri(Config.Repositories.pluginGradle) }
     }
     dependencies {
         classpath(Config.Dependencies.androidPlugin)
