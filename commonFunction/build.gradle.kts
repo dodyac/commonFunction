@@ -4,7 +4,6 @@ import Libraries.kaptX
 import Libraries.testImplementationX
 
 plugins {
-    maven
     id(Config.Plugins.androidLibrary)
     kotlin(Config.Plugins.kotlinAndroid)
     kotlin(Config.Plugins.kotlinKapt)

@@ -3,7 +3,6 @@ import Libraries.implementationX
 import Libraries.testImplementationX
 
 plugins {
-    maven
     id(Config.Plugins.android)
     kotlin(Config.Plugins.kotlinAndroid)
 }

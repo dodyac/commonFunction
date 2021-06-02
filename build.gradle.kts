@@ -10,6 +10,7 @@ buildscript {
 }
 
 allprojects {
+    apply(plugin = "maven")
     repositories {
         mavenCentral()
         google()
