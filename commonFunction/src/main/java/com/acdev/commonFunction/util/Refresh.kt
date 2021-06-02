@@ -7,7 +7,7 @@ class Refresh {
     class Listener(context: Context) : SwipeRefreshLayout(context) {
         private var action: ((OnRefreshListener) -> Unit)? = null
 
-        override fun setOnRefreshListener(listener: OnRefreshListener?) { this.action?.invoke(listener!!) }
+        override fun setOnRefreshListener(listener: OnRefreshListener?) { action?.invoke(listener!!) }
     }
 
     companion object {
@@ -15,8 +15,8 @@ class Refresh {
             val listen = Listener(context!!)
             action.invoke(listen)
             this?.setOnRefreshListener {
-                this.postDelayed({
-                    this.isRefreshing = false
+                postDelayed({
+                    isRefreshing = false
                     action.invoke(listen)
                 }, 2)
             }

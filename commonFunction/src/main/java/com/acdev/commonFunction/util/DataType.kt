@@ -7,8 +7,8 @@ import android.util.Patterns
 import androidx.annotation.RequiresApi
 import androidx.annotation.WorkerThread
 import com.acdev.commonFunction.common.Constantx
-import org.joda.time.DateMidnight
 import org.joda.time.Days
+import org.joda.time.LocalDate
 import java.io.IOException
 import java.net.HttpURLConnection
 import java.net.URL
@@ -28,12 +28,12 @@ class DataType {
         }
 
         fun daysBetween(from: String?, to: String?):Int{
-            return Days.daysBetween(DateMidnight(from!!), DateMidnight(to!!)).days
+            return Days.daysBetween(LocalDate(from!!), LocalDate(to!!)).days
         }
 
         fun String.newFormatDate(pattern: String): String? {
             val dateFormat = SimpleDateFormat("EEEE, dd MMMM yyyy HH:mm:ss", Locale("id", "ID"))
-            val date = dateFormat.parse(this)
+            val date = dateFormat.parse(this)!!
             val output = SimpleDateFormat(pattern, Locale("id", "ID"))
             return output.format(date)
         }
@@ -57,7 +57,7 @@ class DataType {
             val stringBuilder = StringBuilder()
             stringBuilder.append(this)
             var three = 0
-            for (i in this.length downTo 1) {
+            for (i in length downTo 1) {
                 three++
                 while (three > 3) {
                     stringBuilder.insert(i - 0, ".")
@@ -69,9 +69,9 @@ class DataType {
 
         fun Long.toCurrency(): String {
             val stringBuilder = StringBuilder()
-            stringBuilder.append(this.toString())
+            stringBuilder.append(toString())
             var three = 0
-            for (i in this.toString().length downTo 1) {
+            for (i in toString().length downTo 1) {
                 three++
                 while (three > 3) {
                     stringBuilder.insert(i - 0, ".")
@@ -82,13 +82,13 @@ class DataType {
         }
 
         fun String.removeCurrency(): String {
-            return this.replace(Constantx.PATTERN_CURRENCY, "").replace(Constantx.PATTERN_CURRENCY_END, "")
+            return replace(Constantx.PATTERN_CURRENCY, "").replace(Constantx.PATTERN_CURRENCY_END, "")
                 .replace(".", "")
         }
 
-        fun String.add62(): String{ return "+62${this.substring(1)}" }
+        fun String.add62(): String{ return "+62${substring(1)}" }
 
-        fun String.add0(): String{ return if(this.length < 2) "0$this" else this }
+        fun String.add0(): String{ return if(length < 2) "0$this" else this }
 
         //Boolean
 
@@ -110,7 +110,7 @@ class DataType {
         fun Long.formatSize(): String {
             if (this < 1024) return "$this B"
             val z = (63 - java.lang.Long.numberOfLeadingZeros(this)) / 10
-            return String.format("%.1f %sB", this.toDouble() / (1L shl z * 10), " KMGTPE"[z])
+            return String.format("%.1f %sB", toDouble() / (1L shl z * 10), " KMGTPE"[z])
         }
 
 
@@ -184,7 +184,7 @@ class DataType {
         fun Bitmap.rotateImage(angle: Int): Bitmap {
             val matrix = Matrix()
             matrix.postRotate(angle.toFloat())
-            return Bitmap.createBitmap(this, 0, 0, this.width, this.height, matrix, true)
+            return Bitmap.createBitmap(this, 0, 0, width, height, matrix, true)
         }
     }
 }
