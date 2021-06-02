@@ -4,6 +4,7 @@ import Libraries.kaptX
 import Libraries.testImplementationX
 
 plugins {
+    `maven-publish`
     id(Config.Plugins.androidLibrary)
     kotlin(Config.Plugins.kotlinAndroid)
     kotlin(Config.Plugins.kotlinKapt)
