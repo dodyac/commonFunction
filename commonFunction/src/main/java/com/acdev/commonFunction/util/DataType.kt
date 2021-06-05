@@ -53,23 +53,9 @@ class DataType {
 
         //Adding Pattern
 
-        fun String.toCurrency(): String {
+        fun Any.toCurrency(): String {
             val stringBuilder = StringBuilder()
             stringBuilder.append(this)
-            var three = 0
-            for (i in length downTo 1) {
-                three++
-                while (three > 3) {
-                    stringBuilder.insert(i - 0, ".")
-                    three = +1
-                }
-            }
-            return Constantx.PATTERN_CURRENCY + stringBuilder.toString() + Constantx.PATTERN_CURRENCY_END
-        }
-
-        fun Long.toCurrency(): String {
-            val stringBuilder = StringBuilder()
-            stringBuilder.append(toString())
             var three = 0
             for (i in toString().length downTo 1) {
                 three++
@@ -80,6 +66,8 @@ class DataType {
             }
             return Constantx.PATTERN_CURRENCY + stringBuilder.toString() + Constantx.PATTERN_CURRENCY_END
         }
+
+        fun String.withBearer(): String{ return "Bearer $this" }
 
         fun String.removeCurrency(): String {
             return replace(Constantx.PATTERN_CURRENCY, "").replace(Constantx.PATTERN_CURRENCY_END, "")

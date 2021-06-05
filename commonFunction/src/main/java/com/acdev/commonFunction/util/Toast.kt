@@ -3,6 +3,7 @@ package com.acdev.commonFunction.util
 import android.content.Context
 import androidx.annotation.StringRes
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.RecyclerView
 import com.acdev.commonFunction.common.Toast
 import es.dmoral.toasty.Toasty
 

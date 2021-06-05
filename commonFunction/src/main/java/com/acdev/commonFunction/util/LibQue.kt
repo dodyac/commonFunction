@@ -11,7 +11,7 @@ import retrofit2.Response
 
 class LibQue {
 
-    class CallBackx<T>(val context: Context, private val response: (Response<T>.() -> Unit)) : Callback<T> {
+    class CallBackX<T>(val context: Context, private val response: (Response<T>.() -> Unit)) : Callback<T> {
         override fun onResponse(call: Call<T>, response: Response<T>) {
             if (!response.isSuccessful) {
                 context.toast(Toast.ERROR, context.getString(R.string.error,
@@ -27,8 +27,8 @@ class LibQue {
     }
 
     companion object {
-        fun <T> Call<T>?.libque(context: Context, response: Response<T>.() -> Unit) {
-            val callBack = CallBackx(context, response)
+        fun <T> Call<T>?.libQue(context: Context, response: Response<T>.() -> Unit) {
+            val callBack = CallBackX(context, response)
             this?.enqueue(callBack)
         }
     }

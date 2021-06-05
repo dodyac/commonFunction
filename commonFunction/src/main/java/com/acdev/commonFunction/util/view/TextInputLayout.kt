@@ -9,7 +9,7 @@ import com.acdev.commonFunction.common.Constantx
 import com.acdev.commonFunction.common.Region
 import com.acdev.commonFunction.model.BankRegion
 import com.acdev.commonFunction.util.Functionx.Companion.getCompatActivity
-import com.acdev.commonFunction.util.LibQue.Companion.libque
+import com.acdev.commonFunction.util.LibQue.Companion.libQue
 import com.acdev.commonFunction.util.DataType.Companion.add0
 import com.acdev.commonFunction.util.DataType.Companion.isEmailValid
 import com.acdev.commonFunction.util.DataType.Companion.toDate
@@ -169,7 +169,7 @@ class TextInputLayout {
         }
 
         fun MaterialAutoCompleteTextView.getBank(call: Call<BankRegion?>?) {
-            call?.libque(context) {
+            call?.libQue(context) {
                 val modelDataArrayList = body()!!.data
                 val array = arrayOfNulls<String>(modelDataArrayList.size)
                 for ((index, value) in modelDataArrayList.withIndex()) array[index] = value.nama
@@ -178,7 +178,7 @@ class TextInputLayout {
         }
 
         fun MaterialAutoCompleteTextView.getRegion(call: Call<BankRegion?>?, region: Region) {
-            call?.libque(context) {
+            call?.libQue(context) {
                 when (region) {
                     Region.PROVINCE -> Constantx.PROVINCE = body()!!.data
                     Region.CITY -> Constantx.CITY = body()!!.data
