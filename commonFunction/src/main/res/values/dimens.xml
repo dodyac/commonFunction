@@ -18,9 +18,10 @@
     <dimen name="photo_size_extra_large">170dp</dimen>
     <dimen name="margin_2dp">2dp</dimen>
     <dimen name="margin_4dp">4dp</dimen>
-    <dimen name="margin_6dp">4dp</dimen>
+    <dimen name="margin_5dp">5dp</dimen>
+    <dimen name="margin_6dp">5dp</dimen>
     <dimen name="margin_8dp">8dp</dimen>
-    <dimen name="margin_10dp">8dp</dimen>
+    <dimen name="margin_10dp">10dp</dimen>
     <dimen name="margin_12dp">12dp</dimen>
     <dimen name="margin_14dp">14dp</dimen>
     <dimen name="margin_16dp">16dp</dimen>
@@ -44,5 +45,6 @@
     <dimen name="margin_64dp">64dp</dimen>
     <dimen name="margin_128dp">128dp</dimen>
     <dimen name="margin_150dp">150dp</dimen>
+    <dimen name="margin_200dp">200dp</dimen>
     <!-- Default screen margins, per the Android Design guidelines. -->
 </resources>

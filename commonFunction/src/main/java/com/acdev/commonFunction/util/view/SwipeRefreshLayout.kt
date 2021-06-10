@@ -1,9 +1,9 @@
-package com.acdev.commonFunction.util
+package com.acdev.commonFunction.util.view
 
 import android.content.Context
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 
-class Refresh {
+class SwipeRefreshLayout {
     class Listener(context: Context) : SwipeRefreshLayout(context) {
         private var action: ((OnRefreshListener) -> Unit)? = null
 
@@ -11,10 +11,10 @@ class Refresh {
     }
 
     companion object {
-        fun SwipeRefreshLayout?.set(context: Context?, action: Listener.() -> Unit) {
-            val listen = Listener(context!!)
+        fun SwipeRefreshLayout.listener(action: Listener.() -> Unit) {
+            val listen = Listener(context)
             action.invoke(listen)
-            this?.setOnRefreshListener {
+            setOnRefreshListener {
                 postDelayed({
                     isRefreshing = false
                     action.invoke(listen)
