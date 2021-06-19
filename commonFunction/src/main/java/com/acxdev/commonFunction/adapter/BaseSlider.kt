@@ -7,7 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.viewbinding.ViewBinding
 import com.acxdev.commonFunction.common.InflateFr
-import com.acxdev.commonFunction.util.Functionx.Companion.useCurrentTheme
+import com.acxdev.commonFunction.util.FunctionX.Companion.useCurrentTheme
 import com.smarteist.autoimageslider.SliderViewAdapter
 
 abstract class BaseSlider<VB : ViewBinding>(private val InflateFr: InflateFr<VB>, private val list: List<Any>) :

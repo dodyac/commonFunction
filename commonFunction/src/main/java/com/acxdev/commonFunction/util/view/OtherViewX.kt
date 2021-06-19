@@ -21,15 +21,15 @@ import androidx.core.view.setMargins
 import androidx.viewpager.widget.ViewPager
 import com.acxdev.commonFunction.common.SocialMedia
 import com.acxdev.commonFunction.common.Toast
-import com.acxdev.commonFunction.util.Functionx
-import com.acxdev.commonFunction.util.Functionx.Companion.getCompatActivity
+import com.acxdev.commonFunction.util.FunctionX
+import com.acxdev.commonFunction.util.FunctionX.Companion.getCompatActivity
 import com.acxdev.commonFunction.util.Toast.Companion.toast
-import com.acxdev.commonFunction.util.DataType.Companion.add62
+import com.acxdev.commonFunction.util.DataTypeX.Companion.add62
 import com.google.android.material.card.MaterialCardView
 import com.google.android.material.tabs.TabLayout
 import com.h6ah4i.android.tablayouthelper.TabLayoutHelper
 
-class OtherView {
+class OtherViewX {
     companion object{
         fun View.layoutTint(@ColorRes colorRes: Int) {
             ViewCompat.setBackgroundTintList(this, ColorStateList.valueOf(ContextCompat.getColor(context, colorRes)))
@@ -49,14 +49,14 @@ class OtherView {
         }
 
         fun MaterialCardView.nestedClick(view: View) {
-            setOnClickListener { if (view.visibility == Functionx.gone) view.visibility =
-                Functionx.visible else view.visibility = Functionx.gone
+            setOnClickListener { if (view.visibility == FunctionX.gone) view.visibility =
+                FunctionX.visible else view.visibility = FunctionX.gone
             }
         }
 
         fun TextView.html(foo: String){
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) text = Html.fromHtml(foo, Html.FROM_HTML_MODE_COMPACT)
-            else text = HtmlCompat.fromHtml(foo, HtmlCompat.FROM_HTML_MODE_LEGACY)
+            text = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) Html.fromHtml(foo, Html.FROM_HTML_MODE_COMPACT)
+            else HtmlCompat.fromHtml(foo, HtmlCompat.FROM_HTML_MODE_LEGACY)
         }
 
         fun TabLayout.setupWithViewPagerHelper(viewPager: ViewPager){

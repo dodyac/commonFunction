@@ -12,11 +12,13 @@ import org.joda.time.LocalDate
 import java.io.IOException
 import java.net.HttpURLConnection
 import java.net.URL
+import java.text.DecimalFormat
+import java.text.DecimalFormatSymbols
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.String
 
-class DataType {
+class DataTypeX {
     companion object{
 
         //Date
@@ -51,9 +53,22 @@ class DataType {
             return sdf.format(date)
         }
 
+        fun Long.toDateEpoc(format: String): String {
+            val netDate = Date(this * 1000)
+            val sdf = SimpleDateFormat(format)
+            return sdf.format(netDate)
+        }
+
+        fun Double.toDateEpoc(format: String): String {
+            val netDate = Date(this.toLong() * 1000)
+            val sdf = SimpleDateFormat(format)
+            return sdf.format(netDate)
+        }
+
+
         //Adding Pattern
 
-        fun Any.toCurrency(): String {
+        fun Any.toIDR(): String {
             val stringBuilder = StringBuilder()
             stringBuilder.append(this)
             var three = 0
@@ -67,9 +82,18 @@ class DataType {
             return Constantx.PATTERN_CURRENCY + stringBuilder.toString() + Constantx.PATTERN_CURRENCY_END
         }
 
+        fun Any.toUSD(): String{
+            val format = DecimalFormat("###,###,##0.##", DecimalFormatSymbols.getInstance(Locale.US))
+            return "$${format.format(toString().toBigDecimal())}"
+        }
+
+        fun Any?.toPercent(): String {
+            val format = DecimalFormat("0.##")
+            return "${format.format(toString().removePrefix("-").toBigDecimal())}%"
+        }
         fun String.withBearer(): String{ return "Bearer $this" }
 
-        fun String.removeCurrency(): String {
+        fun String.removeIDR(): String {
             return replace(Constantx.PATTERN_CURRENCY, "").replace(Constantx.PATTERN_CURRENCY_END, "")
                 .replace(".", "")
         }

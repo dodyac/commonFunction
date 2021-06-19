@@ -3,13 +3,13 @@ package com.acxdev.commonFunction.util.view
 import android.content.Context
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.acxdev.commonFunction.util.Functionx.Companion.getCompatActivity
+import com.acxdev.commonFunction.util.FunctionX.Companion.getCompatActivity
 import com.smarteist.autoimageslider.IndicatorView.animation.type.IndicatorAnimationType
 import com.smarteist.autoimageslider.SliderAnimations
 import com.smarteist.autoimageslider.SliderView
 import com.smarteist.autoimageslider.SliderViewAdapter
 
-class RecyclerView {
+class RecyclerViewX {
     companion object{
 
         fun RecyclerView.adapter(adapter: RecyclerView.Adapter<*>?, spanCount: Int) {

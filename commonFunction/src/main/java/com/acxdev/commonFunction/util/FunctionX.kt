@@ -34,7 +34,7 @@ import com.yalantis.ucrop.UCrop
 import java.io.File
 import java.util.*
 
-class Functionx {
+class FunctionX {
     @Suppress("DEPRECATION")
     companion object {
 

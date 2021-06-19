@@ -3,8 +3,6 @@ package com.acxdev.commonFunction.util
 import android.content.Context
 import com.acxdev.commonFunction.common.Constantx.Companion.LOGGED
 import com.acxdev.commonFunction.common.Constantx.Companion.PREFERENCE
-import com.acxdev.commonFunction.common.Constantx.Companion.TOKEN
-
 class Preference {
     companion object {
 
@@ -36,27 +34,31 @@ class Preference {
             editor.apply()
         }
 
-        fun Context.readPrefs(path: String): String? {
-            return getSharedPreferences(PREFERENCE, Context.MODE_PRIVATE).getString(path, "")
+        fun Context.readPrefs(path: String, defValue: String? = null): String? {
+            return getSharedPreferences(PREFERENCE, Context.MODE_PRIVATE).getString(path, defValue ?: "")
         }
 
-        fun Context.readPrefsBoolean(path: String): Boolean {
-            return getSharedPreferences(PREFERENCE, Context.MODE_PRIVATE).getBoolean(path, false)
+        fun Context.readPrefsBoolean(path: String, defValue: Boolean? = null): Boolean {
+            return getSharedPreferences(PREFERENCE, Context.MODE_PRIVATE).getBoolean(path, defValue ?: false)
         }
 
-        fun Context.readPrefsCustom(name: String, path: String): String? {
-            return getSharedPreferences(name, 0).getString(path, "")
+        fun Context.readPrefsCustom(name: String, path: String, defValue: String? = null): String? {
+            return getSharedPreferences(name, 0).getString(path, defValue ?: "")
         }
 
-        fun Context.readPrefsCustomBoolean(name: String, path: String): Boolean {
-            return getSharedPreferences(name, 0).getBoolean(path, false)
+        fun Context.readPrefsCustomBoolean(name: String, path: String, defValue: Boolean? = null): Boolean {
+            return getSharedPreferences(name, 0).getBoolean(path, defValue ?: false)
+        }
+
+        fun Context.logout() {
+            val prefs = getSharedPreferences(PREFERENCE, Context.MODE_PRIVATE)
+            val editor = prefs.edit()
+            editor.remove(LOGGED).apply()
         }
 
         fun Context.deletePrefs() {
             val prefs = getSharedPreferences(PREFERENCE, Context.MODE_PRIVATE)
-            val editor = prefs.edit()
-            editor.remove(LOGGED).apply()
-            editor.remove(TOKEN).commit()
+            prefs.edit().clear().apply()
         }
 
         fun Context.deletePrefsCustom(name: String) {
@@ -75,14 +77,5 @@ class Preference {
         fun Context.isLogged(): Boolean {
             return getSharedPreferences(PREFERENCE, Context.MODE_PRIVATE).getString(LOGGED, "") == LOGGED
         }
-
-        fun Context.insertToken(data: String) {
-            val prefs = getSharedPreferences(PREFERENCE, Context.MODE_PRIVATE)
-            val editor = prefs.edit()
-            editor.putString(TOKEN, data)
-            editor.apply()
-        }
-
-        fun Context.readToken(): String { return "Bearer " + readPrefs(TOKEN) }
     }
 }

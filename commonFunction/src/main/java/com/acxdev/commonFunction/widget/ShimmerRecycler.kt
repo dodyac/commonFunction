@@ -55,7 +55,7 @@ class ShimmerRecycler : RecyclerView {
             mShimmerAngle = a.getInteger(R.styleable.ShimmerRecycler_angle, ANGLE)
             mShimmerColor = a.getColor(R.styleable.ShimmerRecycler_color, getColor(R.color.white))
             mShimmerItemBackground = a.getDrawable(R.styleable.ShimmerRecycler_item_background)
-            mShimmerDuration = a.getInteger(R.styleable.ShimmerRecycler_duration, 1500)
+            mShimmerDuration = a.getInteger(R.styleable.ShimmerRecycler_shimmer_duration, 1500)
             mShimmerMaskWidth = a.getFloat(R.styleable.ShimmerRecycler_mask_width, 0.5f)
             isAnimationReversed = a.getBoolean(R.styleable.ShimmerRecycler_reverse_animation, false)
         } finally { a.recycle() }

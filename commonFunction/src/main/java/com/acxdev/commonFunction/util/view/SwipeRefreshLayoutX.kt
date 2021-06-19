@@ -3,7 +3,7 @@ package com.acxdev.commonFunction.util.view
 import android.content.Context
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 
-class SwipeRefreshLayout {
+class SwipeRefreshLayoutX {
     class Listener(context: Context) : SwipeRefreshLayout(context) {
         private var action: ((OnRefreshListener) -> Unit)? = null
 

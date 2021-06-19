@@ -19,7 +19,7 @@
         <attr name="color" format="color|reference" />
         <attr name="angle" format="integer|reference" />
         <attr name="item_background" format="color|reference" />
-        <attr name="duration" format="integer|reference" />
+        <attr name="shimmer_duration" format="integer|reference" />
         <attr name="mask_width" format="float|reference" />
         <attr name="reverse_animation" format="boolean|reference" />
         <attr name="emptyLayout" format="reference" />

@@ -8,11 +8,11 @@ import com.acxdev.commonFunction.R
 import com.acxdev.commonFunction.common.Constantx
 import com.acxdev.commonFunction.common.Region
 import com.acxdev.commonFunction.model.BankRegion
-import com.acxdev.commonFunction.util.Functionx.Companion.getCompatActivity
+import com.acxdev.commonFunction.util.FunctionX.Companion.getCompatActivity
 import com.acxdev.commonFunction.util.LibQue.Companion.libQue
-import com.acxdev.commonFunction.util.DataType.Companion.add0
-import com.acxdev.commonFunction.util.DataType.Companion.isEmailValid
-import com.acxdev.commonFunction.util.DataType.Companion.toDate
+import com.acxdev.commonFunction.util.DataTypeX.Companion.add0
+import com.acxdev.commonFunction.util.DataTypeX.Companion.isEmailValid
+import com.acxdev.commonFunction.util.DataTypeX.Companion.toDate
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.textfield.MaterialAutoCompleteTextView
 import com.google.android.material.textfield.TextInputLayout
@@ -20,7 +20,7 @@ import com.google.android.material.timepicker.MaterialTimePicker
 import com.google.android.material.timepicker.TimeFormat
 import retrofit2.Call
 
-class TextInputLayout {
+class TextInputLayoutX {
     companion object{
 
         //TextInputLayout
