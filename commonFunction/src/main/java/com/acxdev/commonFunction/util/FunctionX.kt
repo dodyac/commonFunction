@@ -116,15 +116,15 @@ class FunctionX {
             }
         }
 
-        fun Fragment.instance(bundle: String): Fragment {
-            val wd = this
+        fun Fragment.putExtra(bundle: String, secondData: String? = null, secondBundle: String? = null): Fragment {
             val args = Bundle()
             args.putString("data", bundle)
-            wd.arguments = args
+            args.putString(secondData, secondBundle)
+            arguments = args
             return this
         }
 
-        fun Context.instanceSheet(bottomSheet: BottomSheetDialogFragment, bundle: String? = null) {
+        fun Context.showSheetWithExtra(bottomSheet: BottomSheetDialogFragment, bundle: String? = null) {
             val args = Bundle()
             args.putString("data", bundle)
             bottomSheet.arguments = args

@@ -1,5 +1,6 @@
 package com.acxdev.commonFunction.util
 
+import android.annotation.SuppressLint
 import android.graphics.Bitmap
 import android.graphics.Matrix
 import android.os.Build
@@ -18,53 +19,44 @@ import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.String
 
+@SuppressLint("SimpleDateFormat")
 class DataTypeX {
     companion object{
 
         //Date
 
-        fun getToday(pattern: String): String? {
+        fun getToday(pattern: String, locale: Locale? = null): String? {
             val date = System.currentTimeMillis()
-            val sdf = SimpleDateFormat(pattern, Locale("id", "ID"))
+            val sdf = if(locale!= null) SimpleDateFormat(pattern, locale) else SimpleDateFormat(pattern)
             return sdf.format(date)
         }
 
-        fun daysBetween(from: String?, to: String?):Int{
-            return Days.daysBetween(LocalDate(from!!), LocalDate(to!!)).days
-        }
+        fun daysBetween(from: String?, to: String?):Int{ return Days.daysBetween(LocalDate(from!!), LocalDate(to!!)).days }
 
-        fun String.newFormatDate(pattern: String): String? {
-            val dateFormat = SimpleDateFormat("EEEE, dd MMMM yyyy HH:mm:ss", Locale("id", "ID"))
-            val date = dateFormat.parse(this)!!
-            val output = SimpleDateFormat(pattern, Locale("id", "ID"))
-            return output.format(date)
-        }
-
-        fun String.formatDate(before: String, after: String): String? {
-            val dateFormat = SimpleDateFormat(before, Locale("id", "ID"))
+        fun String.formatDate(before: String, after: String, locale: Locale? = null): String? {
+            val dateFormat = if(locale!= null) SimpleDateFormat(before, locale) else SimpleDateFormat(before)
             val date = dateFormat.parse(this)
-            val output = SimpleDateFormat(after, Locale("id", "ID"))
+            val output = if(locale!= null) SimpleDateFormat(after, locale) else SimpleDateFormat(after)
             return output.format(date!!)
         }
 
-        fun Long.toDate(format: String): String {
+        fun Long.toDate(format: String, locale: Locale? = null): String {
             val date = Date(this)
-            val sdf = SimpleDateFormat(format)
+            val sdf = if(locale!= null) SimpleDateFormat(format, locale) else SimpleDateFormat(format)
             return sdf.format(date)
         }
 
-        fun Long.toDateEpoc(format: String): String {
+        fun Long.toDateEpoc(format: String, locale: Locale? = null): String {
             val netDate = Date(this * 1000)
-            val sdf = SimpleDateFormat(format)
+            val sdf = if(locale!= null) SimpleDateFormat(format, locale) else SimpleDateFormat(format)
             return sdf.format(netDate)
         }
 
-        fun Double.toDateEpoc(format: String): String {
+        fun Double.toDateEpoc(format: String, locale: Locale? = null): String {
             val netDate = Date(this.toLong() * 1000)
-            val sdf = SimpleDateFormat(format)
+            val sdf = if(locale!= null) SimpleDateFormat(format, locale) else SimpleDateFormat(format)
             return sdf.format(netDate)
         }
-
 
         //Adding Pattern
 
