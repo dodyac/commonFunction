@@ -116,10 +116,11 @@ class FunctionX {
             }
         }
 
-        fun Fragment.putExtra(bundle: String, secondData: String? = null, secondBundle: String? = null): Fragment {
+        fun Fragment.putExtra(bundle: String, secondData: String? = null, secondBundle: String? = null, thirdData: String? = null, thirdBundle: String? = null): Fragment {
             val args = Bundle()
             args.putString("data", bundle)
             args.putString(secondData, secondBundle)
+            args.putString(thirdData, thirdBundle)
             arguments = args
             return this
         }
