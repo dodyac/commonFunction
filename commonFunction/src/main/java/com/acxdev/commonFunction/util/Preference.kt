@@ -1,8 +1,9 @@
 package com.acxdev.commonFunction.util
 
 import android.content.Context
-import com.acxdev.commonFunction.common.Constantx.Companion.LOGGED
-import com.acxdev.commonFunction.common.Constantx.Companion.PREFERENCE
+import com.acxdev.commonFunction.common.ConstantX.Companion.LOGGED
+import com.acxdev.commonFunction.common.ConstantX.Companion.PREFERENCE
+
 class Preference {
     companion object {
 
@@ -52,8 +53,7 @@ class Preference {
 
         fun Context.logout() {
             val prefs = getSharedPreferences(PREFERENCE, Context.MODE_PRIVATE)
-            val editor = prefs.edit()
-            editor.remove(LOGGED).apply()
+            prefs.edit().remove(LOGGED).apply()
         }
 
         fun Context.deletePrefs() {
@@ -63,8 +63,7 @@ class Preference {
 
         fun Context.deletePrefsCustom(name: String) {
             val prefs = getSharedPreferences(name, 0)
-            val editor = prefs.edit()
-            editor.clear().apply()
+            prefs.edit().clear().apply()
         }
 
         fun Context.logged() {

@@ -35,4 +35,6 @@ abstract class BaseAdapter<VB : ViewBinding>(private val InflateFr: InflateFr<VB
         notifyItemRemoved(position)
         notifyDataSetChanged()
     }
+
+    interface OnClick<T>{ fun onItemClick(item: T, position: Int) }
 }

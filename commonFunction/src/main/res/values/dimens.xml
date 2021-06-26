@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="padding_parent">16dp</dimen>
+    <dimen name="padding_parent_small">8dp</dimen>
     <dimen name="button_height">60dp</dimen>
     <dimen name="card_corner_extra_small">4dp</dimen>
     <dimen name="card_corner_small">8dp</dimen>

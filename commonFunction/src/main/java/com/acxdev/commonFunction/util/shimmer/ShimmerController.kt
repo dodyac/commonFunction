@@ -5,10 +5,10 @@ import android.animation.ValueAnimator
 import android.animation.ValueAnimator.AnimatorUpdateListener
 import android.graphics.*
 import android.view.animation.LinearInterpolator
-import com.acxdev.commonFunction.common.Constantx
-import com.acxdev.commonFunction.common.Constantx.Companion.COLOR_DEFAULT_GRADIENT
-import com.acxdev.commonFunction.common.Constantx.Companion.MAX_WEIGHT
-import com.acxdev.commonFunction.common.Constantx.Companion.MIN_WEIGHT
+import com.acxdev.commonFunction.common.ConstantX
+import com.acxdev.commonFunction.common.ConstantX.Companion.COLOR_DEFAULT_GRADIENT
+import com.acxdev.commonFunction.common.ConstantX.Companion.MAX_WEIGHT
+import com.acxdev.commonFunction.common.ConstantX.Companion.MIN_WEIGHT
 
 class ShimmerController(view: ShimmerView) : AnimatorUpdateListener {
     private var shimmerView: ShimmerView? = view
@@ -18,8 +18,8 @@ class ShimmerController(view: ShimmerView) : AnimatorUpdateListener {
     private var valueAnimator: ValueAnimator? = null
     private var widthWeight = MAX_WEIGHT
     private var heightWeight = MAX_WEIGHT
-    private var useGradient = Constantx.USE_GRADIENT_DEFAULT
-    private var corners = Constantx.CORNER_DEFAULT
+    private var useGradient = ConstantX.USE_GRADIENT_DEFAULT
+    private var corners = ConstantX.CORNER_DEFAULT
     private val maxColorConstantValue = 255
     private val animationCycleDuration = 750
 

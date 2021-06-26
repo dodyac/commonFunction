@@ -1,9 +1,8 @@
 package com.acxdev.commonFunction.common
 
 import android.graphics.Color
-import com.acxdev.commonFunction.model.Datum
 
-class Constantx {
+class ConstantX {
     companion object{
         val COLOR_DEFAULT_GRADIENT = Color.rgb(245, 245, 245)
         const val MIN_WEIGHT = 0.0f
@@ -15,12 +14,9 @@ class Constantx {
         const val PATTERN_CURRENCY = "Rp "
         const val PATTERN_CURRENCY_END = ",-"
         const val PREFERENCE = "prefs"
+        const val ZERO = "0"
         const val TOKEN = "token"
         const val LOGGED = "logged"
         const val DARK_MODE = "dark"
-        lateinit var PROVINCE: List<Datum>
-        lateinit var CITY: List<Datum>
-        lateinit var DISTRICT: List<Datum>
-        lateinit var VILLAGE: List<Datum>
     }
 }

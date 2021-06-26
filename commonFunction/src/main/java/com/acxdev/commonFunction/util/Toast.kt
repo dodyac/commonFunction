@@ -9,7 +9,7 @@ import es.dmoral.toasty.Toasty
 class Toast {
     companion object{
 
-        fun Context.toast(toast: Toast, string: String) {
+        fun Context.toasty(toast: Toast, string: String) {
             when (toast) {
                 Toast.INFO -> Toasty.info(this, string, android.widget.Toast.LENGTH_LONG, true).show()
                 Toast.SUCCESS -> Toasty.success(this, string, android.widget.Toast.LENGTH_LONG, true).show()
@@ -18,7 +18,7 @@ class Toast {
             }
         }
 
-        fun Context.toast(toast: Toast, @StringRes string: Int) {
+        fun Context.toasty(toast: Toast, @StringRes string: Int) {
             when (toast) {
                 Toast.INFO -> Toasty.info(this, getString(string), android.widget.Toast.LENGTH_LONG, true).show()
                 Toast.SUCCESS -> Toasty.success(this, getString(string), android.widget.Toast.LENGTH_LONG, true).show()
@@ -27,7 +27,7 @@ class Toast {
             }
         }
 
-        fun Fragment.toast(toast: Toast, string: String) {
+        fun Fragment.toasty(toast: Toast, string: String) {
             when (toast) {
                 Toast.INFO -> Toasty.info(context!!, string, android.widget.Toast.LENGTH_LONG, true).show()
                 Toast.SUCCESS -> Toasty.success(context!!, string, android.widget.Toast.LENGTH_LONG, true).show()
@@ -36,7 +36,7 @@ class Toast {
             }
         }
 
-        fun Fragment.toast(toast: Toast, @StringRes string: Int) {
+        fun Fragment.toasty(toast: Toast, @StringRes string: Int) {
             when (toast) {
                 Toast.INFO -> Toasty.info(context!!, getString(string), android.widget.Toast.LENGTH_LONG, true).show()
                 Toast.SUCCESS -> Toasty.success(context!!, getString(string), android.widget.Toast.LENGTH_LONG, true).show()
@@ -46,5 +46,13 @@ class Toast {
         }
 
         fun singleToast(){ Toasty.Config.getInstance().allowQueue(false).apply() }
+
+        fun Fragment.toast(@StringRes string: Int) {
+            android.widget.Toast.makeText(context!!, getString(string), android.widget.Toast.LENGTH_LONG).show()
+        }
+
+        fun Context.toast(string: String) {
+            android.widget.Toast.makeText(this, string, android.widget.Toast.LENGTH_LONG).show()
+        }
     }
 }

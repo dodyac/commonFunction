@@ -18,8 +18,6 @@ abstract class BaseSlider<VB : ViewBinding>(private val InflateFr: InflateFr<VB>
     val invisible: Int = View.INVISIBLE
     lateinit var context: Context
 
-    override fun getCount() = list.size
-
     override fun onCreateViewHolder(parent: ViewGroup): ViewHolder<VB>? {
         parent.context.useCurrentTheme()
         context = parent.context
@@ -27,5 +25,9 @@ abstract class BaseSlider<VB : ViewBinding>(private val InflateFr: InflateFr<VB>
         return ViewHolder(binding)
     }
 
+    override fun getCount() = list.size
+
     class ViewHolder<VB: ViewBinding>(val binding: VB) : SliderViewAdapter.ViewHolder(binding.root)
+
+    interface OnClick<T>{ fun onItemClick(item: T, position: Int) }
 }

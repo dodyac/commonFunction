@@ -7,7 +7,7 @@ import android.os.Build
 import android.util.Patterns
 import androidx.annotation.RequiresApi
 import androidx.annotation.WorkerThread
-import com.acxdev.commonFunction.common.Constantx
+import com.acxdev.commonFunction.common.ConstantX
 import org.joda.time.Days
 import org.joda.time.LocalDate
 import java.io.IOException
@@ -46,13 +46,13 @@ class DataTypeX {
             return sdf.format(date)
         }
 
-        fun Long.toDateEpoc(format: String, locale: Locale? = null): String {
+        fun Long.toDateEpoch(format: String, locale: Locale? = null): String {
             val netDate = Date(this * 1000)
             val sdf = if(locale!= null) SimpleDateFormat(format, locale) else SimpleDateFormat(format)
             return sdf.format(netDate)
         }
 
-        fun Double.toDateEpoc(format: String, locale: Locale? = null): String {
+        fun Double.toDateEpoch(format: String, locale: Locale? = null): String {
             val netDate = Date(this.toLong() * 1000)
             val sdf = if(locale!= null) SimpleDateFormat(format, locale) else SimpleDateFormat(format)
             return sdf.format(netDate)
@@ -71,7 +71,7 @@ class DataTypeX {
                     three = +1
                 }
             }
-            return Constantx.PATTERN_CURRENCY + stringBuilder.toString() + Constantx.PATTERN_CURRENCY_END
+            return ConstantX.PATTERN_CURRENCY + stringBuilder.toString() + ConstantX.PATTERN_CURRENCY_END
         }
 
         fun Any.toUSD(): String{
@@ -86,7 +86,7 @@ class DataTypeX {
         fun String.withBearer(): String{ return "Bearer $this" }
 
         fun String.removeIDR(): String {
-            return replace(Constantx.PATTERN_CURRENCY, "").replace(Constantx.PATTERN_CURRENCY_END, "")
+            return replace(ConstantX.PATTERN_CURRENCY, "").replace(ConstantX.PATTERN_CURRENCY_END, "")
                 .replace(".", "")
         }
 
@@ -116,7 +116,6 @@ class DataTypeX {
             val z = (63 - java.lang.Long.numberOfLeadingZeros(this)) / 10
             return String.format("%.1f %sB", toDouble() / (1L shl z * 10), " KMGTPE"[z])
         }
-
 
         fun Int.getMessage(): String{
             return when(this){

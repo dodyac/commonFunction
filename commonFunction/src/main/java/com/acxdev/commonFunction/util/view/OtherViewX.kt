@@ -21,11 +21,9 @@ import androidx.core.view.setMargins
 import androidx.viewpager.widget.ViewPager
 import com.acxdev.commonFunction.common.SocialMedia
 import com.acxdev.commonFunction.common.Toast
-import com.acxdev.commonFunction.util.FunctionX
 import com.acxdev.commonFunction.util.FunctionX.Companion.getCompatActivity
-import com.acxdev.commonFunction.util.Toast.Companion.toast
+import com.acxdev.commonFunction.util.Toast.Companion.toasty
 import com.acxdev.commonFunction.util.DataTypeX.Companion.add62
-import com.google.android.material.card.MaterialCardView
 import com.google.android.material.tabs.TabLayout
 import com.h6ah4i.android.tablayouthelper.TabLayoutHelper
 
@@ -48,12 +46,6 @@ class OtherViewX {
             backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(context, colorRes))
         }
 
-        fun MaterialCardView.nestedClick(view: View) {
-            setOnClickListener { if (view.visibility == FunctionX.gone) view.visibility =
-                FunctionX.visible else view.visibility = FunctionX.gone
-            }
-        }
-
         fun TextView.html(foo: String){
             text = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) Html.fromHtml(foo, Html.FROM_HTML_MODE_COMPACT)
             else HtmlCompat.fromHtml(foo, HtmlCompat.FROM_HTML_MODE_LEGACY)
@@ -66,7 +58,7 @@ class OtherViewX {
 
         fun TextView.showVersion(){
             try { text = "Versi ${context.getCompatActivity()!!.packageManager.getPackageInfo(context.getCompatActivity()!!.packageName, 0).versionName}" }
-            catch (e: PackageManager.NameNotFoundException) { context.getCompatActivity()!!.toast(
+            catch (e: PackageManager.NameNotFoundException) { context.getCompatActivity()!!.toasty(
                 Toast.WARNING, e.message.toString()) }
         }
 

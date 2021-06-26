@@ -24,7 +24,7 @@ import androidx.fragment.app.FragmentActivity
 import com.acxdev.commonFunction.common.*
 import com.acxdev.commonFunction.common.Toast
 import com.acxdev.commonFunction.util.Preference.Companion.readPrefsBoolean
-import com.acxdev.commonFunction.util.Toast.Companion.toast
+import com.acxdev.commonFunction.util.Toast.Companion.toasty
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.play.core.review.ReviewManagerFactory
 import com.sanojpunchihewa.updatemanager.UpdateManager
@@ -93,7 +93,7 @@ class FunctionX {
 
         fun Context.cropError(data: Intent?) {
             val cropError = data?.let { UCrop.getError(it) }
-            if (cropError != null) toast(Toast.ERROR, cropError.message!!)
+            if (cropError != null) toasty(Toast.ERROR, cropError.message!!)
         }
 
         fun Activity.startCrop(uri: Uri?) {
@@ -184,7 +184,7 @@ class FunctionX {
         }
 
         fun Context.useCurrentTheme(){
-            AppCompatDelegate.setDefaultNightMode(if(readPrefsBoolean(Constantx.DARK_MODE))
+            AppCompatDelegate.setDefaultNightMode(if(readPrefsBoolean(ConstantX.DARK_MODE))
                 AppCompatDelegate.MODE_NIGHT_YES else AppCompatDelegate.MODE_NIGHT_NO)
         }
 

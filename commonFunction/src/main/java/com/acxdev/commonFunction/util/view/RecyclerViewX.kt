@@ -15,8 +15,7 @@ class RecyclerViewX {
     companion object{
 
         fun RecyclerView.adapter(adapter: RecyclerView.Adapter<*>?, isSnap: Boolean? = null, hasFixed: Boolean? = null) {
-            layoutManager =  LinearLayoutManager(context.getCompatActivity()!!, LinearLayoutManager.HORIZONTAL ,false)
-            this.layoutManager = layoutManager
+            layoutManager = LinearLayoutManager(context.getCompatActivity()!!, LinearLayoutManager.HORIZONTAL ,false)
             this.adapter = adapter
             if(isSnap == true){
                 val snapHelper = LinearSnapHelper()
@@ -26,15 +25,13 @@ class RecyclerViewX {
         }
 
         fun RecyclerView.adapter(adapter: RecyclerView.Adapter<*>?, spanCount: Int, hasFixed: Boolean? = null) {
-            val layoutManager: RecyclerView.LayoutManager = GridLayoutManager(context.getCompatActivity(), spanCount)
-            this.layoutManager = layoutManager
+            this.layoutManager = GridLayoutManager(context.getCompatActivity(), spanCount)
             this.adapter = adapter
             if(hasFixed == true) setHasFixedSize(true)
         }
 
         fun RecyclerView.adapterGrid(adapter: RecyclerView.Adapter<*>?, numOfColumns: Float, hasFixed: Boolean? = null) {
-            val layoutManager: RecyclerView.LayoutManager = GridLayoutManager(context.getCompatActivity()!!, context.getCompatActivity()!!.numOfColumns(numOfColumns))
-            this.layoutManager = layoutManager
+            this.layoutManager = GridLayoutManager(context.getCompatActivity()!!, context.getCompatActivity()!!.numOfColumns(numOfColumns))
             this.adapter = adapter
             if(hasFixed == true) setHasFixedSize(true)
         }

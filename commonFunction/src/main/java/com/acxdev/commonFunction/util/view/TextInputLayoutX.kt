@@ -5,11 +5,7 @@ import android.text.format.DateFormat
 import android.widget.ArrayAdapter
 import androidx.annotation.StringRes
 import com.acxdev.commonFunction.R
-import com.acxdev.commonFunction.common.Constantx
-import com.acxdev.commonFunction.common.Region
-import com.acxdev.commonFunction.model.BankRegion
 import com.acxdev.commonFunction.util.FunctionX.Companion.getCompatActivity
-import com.acxdev.commonFunction.util.LibQue.Companion.libQue
 import com.acxdev.commonFunction.util.DataTypeX.Companion.add0
 import com.acxdev.commonFunction.util.DataTypeX.Companion.isEmailValid
 import com.acxdev.commonFunction.util.DataTypeX.Companion.toDate
@@ -18,7 +14,6 @@ import com.google.android.material.textfield.MaterialAutoCompleteTextView
 import com.google.android.material.textfield.TextInputLayout
 import com.google.android.material.timepicker.MaterialTimePicker
 import com.google.android.material.timepicker.TimeFormat
-import retrofit2.Call
 
 class TextInputLayoutX {
     companion object{
@@ -161,34 +156,10 @@ class TextInputLayoutX {
         //MaterialAutoCompleteTextView
 
         @Suppress("UNCHECKED_CAST")
-        fun MaterialAutoCompleteTextView.setStringArray(stringArray: Array<String?>) {
-            val lst: List<String> = listOf(*stringArray) as List<String>
-            val dataAdapter = ArrayAdapter(context.getCompatActivity()!!, android.R.layout.simple_spinner_dropdown_item, lst)
+        fun MaterialAutoCompleteTextView.setStringArray(list: List<String>) {
+            val dataAdapter = ArrayAdapter(context.getCompatActivity()!!, android.R.layout.simple_spinner_dropdown_item, list)
             dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
             setAdapter(dataAdapter)
-        }
-
-        fun MaterialAutoCompleteTextView.getBank(call: Call<BankRegion?>?) {
-            call?.libQue(context) {
-                val modelDataArrayList = body()!!.data
-                val array = arrayOfNulls<String>(modelDataArrayList.size)
-                for ((index, value) in modelDataArrayList.withIndex()) array[index] = value.nama
-                this@getBank.setStringArray(array)
-            }
-        }
-
-        fun MaterialAutoCompleteTextView.getRegion(call: Call<BankRegion?>?, region: Region) {
-            call?.libQue(context) {
-                when (region) {
-                    Region.PROVINCE -> Constantx.PROVINCE = body()!!.data
-                    Region.CITY -> Constantx.CITY = body()!!.data
-                    Region.DISTRICT -> Constantx.DISTRICT = body()!!.data
-                    Region.VILLAGE -> Constantx.VILLAGE = body()!!.data
-                }
-                val array = arrayOfNulls<String>(body()!!.data.size)
-                for ((index, value) in body()!!.data.withIndex()) array[index] = value.nama
-                this@getRegion.setStringArray(array)
-            }
         }
     }
 }
