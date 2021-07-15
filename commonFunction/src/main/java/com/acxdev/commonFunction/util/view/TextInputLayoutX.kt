@@ -140,10 +140,10 @@ class TextInputLayoutX {
             }
         }
 
-        fun TextInputLayout.alertEmpty(@StringRes alert: Int): Boolean {
+        fun TextInputLayout.alertEmpty(): Boolean {
             return if(editText!!.text.isEmpty()) {
                 isErrorEnabled = true
-                error = context.getCompatActivity()!!.getString(alert)
+                error = "${hint ?: ""} tidak boleh kosong!"
                 requestFocus()
                 false
             } else {

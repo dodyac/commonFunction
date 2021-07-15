@@ -6,9 +6,9 @@ import android.animation.ValueAnimator.AnimatorUpdateListener
 import android.graphics.*
 import android.view.animation.LinearInterpolator
 import com.acxdev.commonFunction.common.ConstantX
-import com.acxdev.commonFunction.common.ConstantX.Companion.COLOR_DEFAULT_GRADIENT
-import com.acxdev.commonFunction.common.ConstantX.Companion.MAX_WEIGHT
-import com.acxdev.commonFunction.common.ConstantX.Companion.MIN_WEIGHT
+import com.acxdev.commonFunction.common.ConstantX.COLOR_DEFAULT_GRADIENT
+import com.acxdev.commonFunction.common.ConstantX.MAX_WEIGHT
+import com.acxdev.commonFunction.common.ConstantX.MIN_WEIGHT
 
 class ShimmerController(view: ShimmerView) : AnimatorUpdateListener {
     private var shimmerView: ShimmerView? = view

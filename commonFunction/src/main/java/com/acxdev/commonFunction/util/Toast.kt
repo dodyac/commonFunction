@@ -11,48 +11,48 @@ class Toast {
 
         fun Context.toasty(toast: Toast, string: String) {
             when (toast) {
-                Toast.INFO -> Toasty.info(this, string, android.widget.Toast.LENGTH_LONG, true).show()
-                Toast.SUCCESS -> Toasty.success(this, string, android.widget.Toast.LENGTH_LONG, true).show()
-                Toast.WARNING -> Toasty.warning(this, string, android.widget.Toast.LENGTH_LONG, true).show()
-                Toast.ERROR -> Toasty.error(this, string, android.widget.Toast.LENGTH_LONG, true).show()
+                Toast.INFO -> Toasty.info(applicationContext, string, android.widget.Toast.LENGTH_LONG, true).show()
+                Toast.SUCCESS -> Toasty.success(applicationContext, string, android.widget.Toast.LENGTH_LONG, true).show()
+                Toast.WARNING -> Toasty.warning(applicationContext, string, android.widget.Toast.LENGTH_LONG, true).show()
+                Toast.ERROR -> Toasty.error(applicationContext, string, android.widget.Toast.LENGTH_LONG, true).show()
             }
         }
 
         fun Context.toasty(toast: Toast, @StringRes string: Int) {
             when (toast) {
-                Toast.INFO -> Toasty.info(this, getString(string), android.widget.Toast.LENGTH_LONG, true).show()
-                Toast.SUCCESS -> Toasty.success(this, getString(string), android.widget.Toast.LENGTH_LONG, true).show()
-                Toast.WARNING -> Toasty.warning(this, getString(string), android.widget.Toast.LENGTH_LONG, true).show()
-                Toast.ERROR -> Toasty.error(this, getString(string), android.widget.Toast.LENGTH_LONG, true).show()
+                Toast.INFO -> Toasty.info(applicationContext, getString(string), android.widget.Toast.LENGTH_LONG, true).show()
+                Toast.SUCCESS -> Toasty.success(applicationContext, getString(string), android.widget.Toast.LENGTH_LONG, true).show()
+                Toast.WARNING -> Toasty.warning(applicationContext, getString(string), android.widget.Toast.LENGTH_LONG, true).show()
+                Toast.ERROR -> Toasty.error(applicationContext, getString(string), android.widget.Toast.LENGTH_LONG, true).show()
             }
         }
 
         fun Fragment.toasty(toast: Toast, string: String) {
             when (toast) {
-                Toast.INFO -> Toasty.info(context!!, string, android.widget.Toast.LENGTH_LONG, true).show()
-                Toast.SUCCESS -> Toasty.success(context!!, string, android.widget.Toast.LENGTH_LONG, true).show()
-                Toast.WARNING -> Toasty.warning(context!!, string, android.widget.Toast.LENGTH_LONG, true).show()
-                Toast.ERROR -> Toasty.error(context!!, string, android.widget.Toast.LENGTH_LONG, true).show()
+                Toast.INFO -> Toasty.info(context!!.applicationContext, string, android.widget.Toast.LENGTH_LONG, true).show()
+                Toast.SUCCESS -> Toasty.success(context!!.applicationContext, string, android.widget.Toast.LENGTH_LONG, true).show()
+                Toast.WARNING -> Toasty.warning(context!!.applicationContext, string, android.widget.Toast.LENGTH_LONG, true).show()
+                Toast.ERROR -> Toasty.error(context!!.applicationContext, string, android.widget.Toast.LENGTH_LONG, true).show()
             }
         }
 
         fun Fragment.toasty(toast: Toast, @StringRes string: Int) {
             when (toast) {
-                Toast.INFO -> Toasty.info(context!!, getString(string), android.widget.Toast.LENGTH_LONG, true).show()
-                Toast.SUCCESS -> Toasty.success(context!!, getString(string), android.widget.Toast.LENGTH_LONG, true).show()
-                Toast.WARNING -> Toasty.warning(context!!, getString(string), android.widget.Toast.LENGTH_LONG, true).show()
-                Toast.ERROR -> Toasty.error(context!!, getString(string), android.widget.Toast.LENGTH_LONG, true).show()
+                Toast.INFO -> Toasty.info(context!!.applicationContext, getString(string), android.widget.Toast.LENGTH_LONG, true).show()
+                Toast.SUCCESS -> Toasty.success(context!!.applicationContext, getString(string), android.widget.Toast.LENGTH_LONG, true).show()
+                Toast.WARNING -> Toasty.warning(context!!.applicationContext, getString(string), android.widget.Toast.LENGTH_LONG, true).show()
+                Toast.ERROR -> Toasty.error(context!!.applicationContext, getString(string), android.widget.Toast.LENGTH_LONG, true).show()
             }
         }
 
         fun singleToast(){ Toasty.Config.getInstance().allowQueue(false).apply() }
 
         fun Fragment.toast(@StringRes string: Int) {
-            android.widget.Toast.makeText(context!!, getString(string), android.widget.Toast.LENGTH_LONG).show()
+            android.widget.Toast.makeText(context!!.applicationContext, getString(string), android.widget.Toast.LENGTH_LONG).show()
         }
 
         fun Context.toast(string: String) {
-            android.widget.Toast.makeText(this, string, android.widget.Toast.LENGTH_LONG).show()
+            android.widget.Toast.makeText(applicationContext, string, android.widget.Toast.LENGTH_LONG).show()
         }
     }
 }

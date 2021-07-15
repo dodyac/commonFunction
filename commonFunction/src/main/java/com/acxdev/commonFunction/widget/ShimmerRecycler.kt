@@ -9,8 +9,8 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.acxdev.commonFunction.R
-import com.acxdev.commonFunction.common.ConstantX.Companion.ANGLE
-import com.acxdev.commonFunction.common.ConstantX.Companion.CHILD_COUNT
+import com.acxdev.commonFunction.common.ConstantX.ANGLE
+import com.acxdev.commonFunction.common.ConstantX.CHILD_COUNT
 import com.mikelau.views.shimmer.BindViewHolderPlugin
 import com.mikelau.views.shimmer.ShimmerAdapter
 

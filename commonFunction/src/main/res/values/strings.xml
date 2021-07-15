@@ -16,14 +16,12 @@
     <string name="bank">Bank</string>
     <string name="accountNumber">Nomor Rekening</string>
     <string name="behalfOf">Atas Nama</string>
-    <string name="receiver">Nama Penerima</string>
     <string name="name">Nama</string>
     <string name="phone">Nomor Telepon</string>
     <string name="city">Kota</string>
     <string name="address">Alamat</string>
     <string name="job">Pekerjaan</string>
     <string name="nik">NIK</string>
-    <string name="phoneWa">Nomor Whatsapp</string>
     <string name="province">Provinsi</string>
     <string name="district">Kecamatan</string>
     <string name="village">Desa</string>
@@ -36,22 +34,6 @@
     <string name="emptyMail">E-mail tidak boleh kosong!</string>
     <string name="emptyPassword">Kata sandi tidak boleh kosong!</string>
     <string name="shortPassword">Kata sandi terlalu pendek!</string>
-    <string name="emptyNik">NIK tidak boleh kosong!</string>
-    <string name="emptyName">Nama tidak boleh kosong!</string>
-    <string name="emptyAddress">Alamat tidak boleh kosong!</string>
-    <string name="emptyProvince">Provinsi tidak boleh kosong!</string>
-    <string name="emptyCity">Kota tidak boleh kosong!</string>
-    <string name="emptyDistrict">Kecamatan tidak boleh kosong!</string>
-    <string name="emptyVillage">Desa tidak boleh kosong!</string>
-    <string name="emptyPhone">Nomor telepon tidak boleh kosong!</string>
-    <string name="emptyWhatsapp">Nomor whatsapp tidak boleh kosong!</string>
-    <string name="emptyFacebook">Facebook tidak boleh kosong!</string>
-    <string name="emptyInstagram">Instagram tidak boleh kosong!</string>
-    <string name="emptyBank">Bank yang digunakan tidak boleh kosong!</string>
-    <string name="emptyBehalfOf">Nama pemegang rekening tidak boleh kosong!</string>
-    <string name="emptyAccountNumber">Nomor rekening tidak boleh kosong!</string>
-    <string name="emptyJob">Pekerjaan tidak boleh kosong!</string>
-    <string name="emptyPhoto">Foto tidak boleh kosong!</string>
     <string name="notMail">Silahkan masukkan e-mail dengan benar!</string>
     <string name="cannotConnect">Tidak dapat terhubung ke server!</string>
     <string name="tapAgain">Tekan sekali lagi untuk keluar</string>
@@ -73,32 +55,14 @@
     <string name="notification">Notifikasi</string>
     <string name="old">Terdahulu</string>
     <string name="today">Hari ini</string>
-    <string name="transfer">Transfer</string>
-    <string name="withdraw">Withdraw</string>
-    <string name="waiting">Menunggu</string>
     <string name="success">Sukses</string>
     <string name="failed">Gagal</string>
-    <string name="total">Total</string>
-    <string name="inactive">Belum Aktif</string>
-    <string name="active">Aktif</string>
-    <string name="commission">Komisi</string>
-    <string name="achievement">Pencapaian</string>
     <string name="history">Riwayat</string>
-    <string name="order">Pesanan</string>
-    <string name="mailInstruction">Silahkan masukkan alamat email Anda pada form yang telah disediakan</string>
     <string name="account">Akun</string>
-    <string name="changeProfile">Ubah Profil</string>
     <string name="next">Selanjutnya</string>
     <string-array name="gender">
         <item>Laki-laki</item>
         <item>Perempuan</item>
     </string-array>
     <string name="error">%d - %s</string>
-    <string name="affiliate">Afiliasi</string>
-    <string name="emptyLamaUsaha">Lama usaha tidak boleh kosong!</string>
-    <string name="emptyArmada">Armada tidak boleh kosong!</string>
-    <string name="emptyBirthdate">Tanggal Lahir tidak boleh kosong!</string>
-    <string name="privates">Pribadi</string>
-    <string name="publics">Umum</string>
-    <string name="message">Pesan</string>
 </resources>

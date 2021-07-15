@@ -56,8 +56,8 @@ class OtherViewX {
             TabLayoutHelper(this, viewPager).isAutoAdjustTabModeEnabled = true
         }
 
-        fun TextView.showVersion(){
-            try { text = "Versi ${context.getCompatActivity()!!.packageManager.getPackageInfo(context.getCompatActivity()!!.packageName, 0).versionName}" }
+        fun TextView.showVersion(prefix: String){
+            try { text = "$prefix ${context.getCompatActivity()!!.packageManager.getPackageInfo(context.getCompatActivity()!!.packageName, 0).versionName}" }
             catch (e: PackageManager.NameNotFoundException) { context.getCompatActivity()!!.toasty(
                 Toast.WARNING, e.message.toString()) }
         }

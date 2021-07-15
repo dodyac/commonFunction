@@ -10,8 +10,8 @@ import android.util.AttributeSet
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.core.content.ContextCompat.getColor
 import com.acxdev.commonFunction.R
-import com.acxdev.commonFunction.common.ConstantX.Companion.CORNER_DEFAULT
-import com.acxdev.commonFunction.common.ConstantX.Companion.USE_GRADIENT_DEFAULT
+import com.acxdev.commonFunction.common.ConstantX.CORNER_DEFAULT
+import com.acxdev.commonFunction.common.ConstantX.USE_GRADIENT_DEFAULT
 import com.acxdev.commonFunction.util.shimmer.ShimmerController
 import com.acxdev.commonFunction.util.shimmer.ShimmerView
 

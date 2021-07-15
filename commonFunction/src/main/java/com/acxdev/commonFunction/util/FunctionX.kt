@@ -14,7 +14,6 @@ import android.os.StrictMode
 import android.provider.Settings
 import android.util.DisplayMetrics
 import android.util.Log
-import android.view.View
 import android.view.WindowManager
 import androidx.annotation.*
 import androidx.appcompat.app.AppCompatActivity
@@ -23,7 +22,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import com.acxdev.commonFunction.common.*
 import com.acxdev.commonFunction.common.Toast
-import com.acxdev.commonFunction.util.Preference.Companion.readPrefsBoolean
+import com.acxdev.commonFunction.util.Preference.Companion.readPrefs
 import com.acxdev.commonFunction.util.Toast.Companion.toasty
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.play.core.review.ReviewManagerFactory
@@ -37,11 +36,6 @@ import java.util.*
 class FunctionX {
     @Suppress("DEPRECATION")
     companion object {
-
-        const val gone: Int = View.GONE
-        const val visible: Int = View.VISIBLE
-        const val invisible: Int = View.INVISIBLE
-
         fun Context.getWidth(percent: Int): Int {
             val displayMetrics = DisplayMetrics()
             val windowManager = getSystemService(Context.WINDOW_SERVICE) as WindowManager
@@ -184,7 +178,7 @@ class FunctionX {
         }
 
         fun Context.useCurrentTheme(){
-            AppCompatDelegate.setDefaultNightMode(if(readPrefsBoolean(ConstantX.DARK_MODE))
+            AppCompatDelegate.setDefaultNightMode(if(readPrefs().getBoolean(ConstantX.DARK_MODE,false))
                 AppCompatDelegate.MODE_NIGHT_YES else AppCompatDelegate.MODE_NIGHT_NO)
         }
 
@@ -203,6 +197,25 @@ class FunctionX {
             Log.d("TAG", "adjustDisplayScaleBefore: ${configuration.densityDpi}")
             if(getScreenResolution() >= 1080) lockSize(configuration, sizeFHD)
             else lockSize(configuration, sizeHD)
+        }
+
+        fun Context.getCacheSize(): Long {
+            var size: Long = 0
+            size += getDirSize(cacheDir!!)
+            size += getDirSize(externalCacheDir!!)
+            return size
+        }
+
+        fun getDirSize(dir: File): Long {
+            var size: Long = 0
+            for (file in dir.listFiles()) {
+                if (file != null && file.isDirectory) {
+                    size += getDirSize(file)
+                } else if (file != null && file.isFile) {
+                    size += file.length()
+                }
+            }
+            return size
         }
     }
 }

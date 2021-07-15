@@ -38,6 +38,7 @@ class ImageViewX {
             circularProgressDrawable.start()
             Glide.with(context.getCompatActivity()!!).load(url).placeholder(circularProgressDrawable).into(this)
         }
+
         fun ImageView?.default(name: String?, @ColorRes color: Int) {
             val textDrawable = TextDrawable.builder()
                 .beginConfig()

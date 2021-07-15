@@ -1,55 +1,41 @@
 package com.acxdev.commonFunction.util
 
 import android.content.Context
-import com.acxdev.commonFunction.common.ConstantX.Companion.LOGGED
-import com.acxdev.commonFunction.common.ConstantX.Companion.PREFERENCE
+import android.content.SharedPreferences
+import com.acxdev.commonFunction.common.ConstantX.LOGGED
+import com.acxdev.commonFunction.common.ConstantX.PREFERENCE
 
 class Preference {
     companion object {
-
-        fun Context.insertPrefs(path: String, data: String) {
+        fun Context.insertPrefs(path: String, data: Any?) {
             val prefs = getSharedPreferences(PREFERENCE, Context.MODE_PRIVATE)
             val editor = prefs.edit()
-            editor.putString(path, data)
+            when(data){
+                is Boolean -> editor.putBoolean(path, data)
+                is String -> editor.putString(path, data)
+                is Int -> editor.putInt(path, data)
+                is Long -> editor.putLong(path, data)
+                is Float -> editor.putFloat(path, data)
+            }
             editor.apply()
         }
 
-        fun Context.insertPrefs(path: String, data: Boolean) {
-            val prefs = getSharedPreferences(PREFERENCE, Context.MODE_PRIVATE)
-            val editor = prefs.edit()
-            editor.putBoolean(path, data)
-            editor.apply()
-        }
-
-        fun Context.insertPrefsCustom(name: String, path: String, data: String) {
+        fun Context.insertPrefsCustom(name: String, path: String, data: Any?) {
             val prefs = getSharedPreferences(name, 0)
             val editor = prefs.edit()
-            editor.putString(path, data)
+            when(data){
+                is Boolean -> editor.putBoolean(path, data)
+                is String -> editor.putString(path, data)
+                is Int -> editor.putInt(path, data)
+                is Long -> editor.putLong(path, data)
+                is Float -> editor.putFloat(path, data)
+            }
             editor.apply()
         }
 
-        fun Context.insertPrefsCustom(name: String, path: String, data: Boolean) {
-            val prefs = getSharedPreferences(name, 0)
-            val editor = prefs.edit()
-            editor.putBoolean(path, data)
-            editor.apply()
-        }
+        fun Context.readPrefs(): SharedPreferences { return getSharedPreferences(PREFERENCE, Context.MODE_PRIVATE) }
 
-        fun Context.readPrefs(path: String, defValue: String? = null): String? {
-            return getSharedPreferences(PREFERENCE, Context.MODE_PRIVATE).getString(path, defValue ?: "")
-        }
-
-        fun Context.readPrefsBoolean(path: String, defValue: Boolean? = null): Boolean {
-            return getSharedPreferences(PREFERENCE, Context.MODE_PRIVATE).getBoolean(path, defValue ?: false)
-        }
-
-        fun Context.readPrefsCustom(name: String, path: String, defValue: String? = null): String? {
-            return getSharedPreferences(name, 0).getString(path, defValue ?: "")
-        }
-
-        fun Context.readPrefsCustomBoolean(name: String, path: String, defValue: Boolean? = null): Boolean {
-            return getSharedPreferences(name, 0).getBoolean(path, defValue ?: false)
-        }
+        fun Context.readPrefsCustom(name: String): SharedPreferences { return getSharedPreferences(name,0) }
 
         fun Context.logout() {
             val prefs = getSharedPreferences(PREFERENCE, Context.MODE_PRIVATE)
@@ -74,7 +60,7 @@ class Preference {
         }
 
         fun Context.isLogged(): Boolean {
-            return getSharedPreferences(PREFERENCE, Context.MODE_PRIVATE).getString(LOGGED, "") == LOGGED
+            return getSharedPreferences(PREFERENCE, Context.MODE_PRIVATE).getString(LOGGED,"") == LOGGED
         }
     }
 }

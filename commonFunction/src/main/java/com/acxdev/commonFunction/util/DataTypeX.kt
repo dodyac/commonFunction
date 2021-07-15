@@ -60,18 +60,9 @@ class DataTypeX {
 
         //Adding Pattern
 
-        fun Any.toIDR(): String {
-            val stringBuilder = StringBuilder()
-            stringBuilder.append(this)
-            var three = 0
-            for (i in toString().length downTo 1) {
-                three++
-                while (three > 3) {
-                    stringBuilder.insert(i - 0, ".")
-                    three = +1
-                }
-            }
-            return ConstantX.PATTERN_CURRENCY + stringBuilder.toString() + ConstantX.PATTERN_CURRENCY_END
+        fun Any.toIDR(): String{
+            val format = DecimalFormat("###,###,###,###,##0.##", DecimalFormatSymbols.getInstance(Locale("id", "ID")))
+            return "Rp${format.format(toString().toBigDecimal())}"
         }
 
         fun Any.toUSD(): String{
@@ -84,11 +75,6 @@ class DataTypeX {
             return "${format.format(toString().removePrefix("-").toBigDecimal())}%"
         }
         fun String.withBearer(): String{ return "Bearer $this" }
-
-        fun String.removeIDR(): String {
-            return replace(ConstantX.PATTERN_CURRENCY, "").replace(ConstantX.PATTERN_CURRENCY_END, "")
-                .replace(".", "")
-        }
 
         fun String.add62(): String{ return "+62${substring(1)}" }
 
@@ -117,8 +103,50 @@ class DataTypeX {
             return String.format("%.1f %sB", toDouble() / (1L shl z * 10), " KMGTPE"[z])
         }
 
-        fun Int.getMessage(): String{
-            return when(this){
+        fun Any?.isErrorToast(): Boolean{
+            return when(toString().toInt()){
+                404 -> true
+                405 -> true
+                406 -> true
+                407 -> true
+                408 -> true
+                409 -> true
+                410 -> true
+                411 -> true
+                412 -> true
+                413 -> true
+                414 -> true
+                415 -> true
+                416 -> true
+                417 -> true
+                418 -> true
+                421 -> true
+                422 -> true
+                423 -> true
+                424 -> true
+                425 -> true
+                426 -> true
+                428 -> true
+                429 -> true
+                431 -> true
+                451 -> true
+                500 -> true
+                501 -> true
+                502 -> true
+                503 -> true
+                504 -> true
+                505 -> true
+                506 -> true
+                507 -> true
+                508 -> true
+                510 -> true
+                511 -> true
+                else -> false
+            }
+        }
+
+        fun Any?.getMessage(): String{
+            return when(toString().toInt()){
                 100 -> "Continue"
                 101 -> "Switching Protocols"
                 102 -> "Processing"
