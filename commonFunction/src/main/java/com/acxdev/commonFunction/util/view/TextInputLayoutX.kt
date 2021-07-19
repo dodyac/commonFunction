@@ -25,12 +25,12 @@ class TextInputLayoutX {
             val builder = MaterialDatePicker.Builder.datePicker()
             builder.setTitleText(title)
             val datePicker = builder.build()
-            datePicker.show((context.getCompatActivity())!!.supportFragmentManager, "DATE_PICKER")
+            datePicker.show((context.getCompatActivity()).supportFragmentManager, "DATE_PICKER")
             datePicker.addOnPositiveButtonClickListener { editText!!.setText(it.toDate(format)) }
         }
 
         fun TextInputLayout.timePicker(title: String, timeFormat: Int? = null){
-            val isSystem24Hour = DateFormat.is24HourFormat(context.getCompatActivity()!!)
+            val isSystem24Hour = DateFormat.is24HourFormat(context.getCompatActivity())
             val clockFormat = if(isSystem24Hour) TimeFormat.CLOCK_24H else TimeFormat.CLOCK_12H
             val picker = MaterialTimePicker.Builder()
                 .setTimeFormat(timeFormat ?: clockFormat)
@@ -38,7 +38,7 @@ class TextInputLayoutX {
                 .setMinute(0)
                 .setTitleText(title)
                 .build()
-            picker.show((context.getCompatActivity())!!.supportFragmentManager, "TIME_PICKER")
+            picker.show((context.getCompatActivity()).supportFragmentManager, "TIME_PICKER")
             picker.addOnPositiveButtonClickListener {editText!!.setText("${picker.hour.toString().add0()}:${picker.minute.toString().add0()}") }
         }
 
@@ -46,9 +46,9 @@ class TextInputLayoutX {
             val builder = MaterialDatePicker.Builder.datePicker()
             builder.setTitleText(title)
             val datePicker = builder.build()
-            datePicker.show((context.getCompatActivity())!!.supportFragmentManager, "DATE_PICKER")
+            datePicker.show((context.getCompatActivity()).supportFragmentManager, "DATE_PICKER")
             datePicker.addOnPositiveButtonClickListener {
-                val isSystem24Hour = DateFormat.is24HourFormat(context.getCompatActivity()!!)
+                val isSystem24Hour = DateFormat.is24HourFormat(context.getCompatActivity())
                 val clockFormat = if(isSystem24Hour) TimeFormat.CLOCK_24H else TimeFormat.CLOCK_12H
                 val picker = MaterialTimePicker.Builder()
                     .setTimeFormat(timeFormat ?: clockFormat)
@@ -56,7 +56,7 @@ class TextInputLayoutX {
                     .setMinute(0)
                     .setTitleText(titleTimePicker)
                     .build()
-                picker.show((context.getCompatActivity())!!.supportFragmentManager, "TIME_PICKER")
+                picker.show((context.getCompatActivity()).supportFragmentManager, "TIME_PICKER")
                 picker.addOnPositiveButtonClickListener {_-> editText!!.setText("${picker.hour.toString().add0()}:${picker.minute.toString().add0()} - ${it.toDate(format)}") }
             }
         }
@@ -161,7 +161,7 @@ class TextInputLayoutX {
         //MaterialAutoCompleteTextView
 
         fun MaterialAutoCompleteTextView.set(@StringRes array: Int) {
-            val dataAdapter = ArrayAdapter(context.getCompatActivity()!!, android.R.layout.simple_spinner_dropdown_item, context.resources.getStringArray(array))
+            val dataAdapter = ArrayAdapter(context.getCompatActivity(), android.R.layout.simple_spinner_dropdown_item, context.resources.getStringArray(array))
             dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
             setAdapter(dataAdapter)
         }

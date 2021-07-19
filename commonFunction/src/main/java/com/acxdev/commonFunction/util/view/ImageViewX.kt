@@ -27,7 +27,7 @@ class ImageViewX {
 
         @SuppressLint("ResourceType")
         fun ImageView.setImage64(base64: String?) {
-            Glide.with(context.getCompatActivity()!!).load(decode(base64, DEFAULT))
+            Glide.with(context.getCompatActivity()).load(decode(base64, DEFAULT))
                 .transform(RoundedCorners(8)).into(this)
         }
 
@@ -36,7 +36,7 @@ class ImageViewX {
             circularProgressDrawable.strokeWidth = 2f
             circularProgressDrawable.centerRadius = 30f
             circularProgressDrawable.start()
-            Glide.with(context.getCompatActivity()!!).load(url).placeholder(circularProgressDrawable).into(this)
+            Glide.with(context.getCompatActivity()).load(url).placeholder(circularProgressDrawable).into(this)
         }
 
         fun ImageView?.default(name: String?, @ColorRes color: Int) {
@@ -80,7 +80,7 @@ class ImageViewX {
         }
 
         fun ImageView.setPattern(@DrawableRes drawableRes: Int){
-            setImageDrawable(TileDrawable(ContextCompat.getDrawable(context.getCompatActivity()!!, drawableRes)!!, Shader.TileMode.REPEAT))
+            setImageDrawable(TileDrawable(ContextCompat.getDrawable(context.getCompatActivity(), drawableRes)!!, Shader.TileMode.REPEAT))
         }
     }
 }

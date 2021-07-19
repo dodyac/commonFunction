@@ -61,8 +61,7 @@ class OtherViewX {
 
         fun TextView.showVersion(prefix: String){
             try { text = "$prefix ${context.getCompatActivity()!!.packageManager.getPackageInfo(context.getCompatActivity()!!.packageName, 0).versionName}" }
-            catch (e: PackageManager.NameNotFoundException) { context.getCompatActivity()!!.toasty(
-                Toast.WARNING, e.message.toString()) }
+            catch (e: PackageManager.NameNotFoundException) { context.getCompatActivity().toasty(Toast.WARNING, e.message.toString()) }
         }
 
         fun View.shareVia(appName: String, packageName: String){

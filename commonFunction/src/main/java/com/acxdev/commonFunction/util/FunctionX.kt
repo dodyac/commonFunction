@@ -14,6 +14,7 @@ import android.os.StrictMode
 import android.provider.Settings
 import android.util.DisplayMetrics
 import android.util.Log
+import android.view.View
 import android.view.WindowManager
 import androidx.annotation.*
 import androidx.appcompat.app.AppCompatActivity
@@ -110,11 +111,11 @@ class FunctionX {
                 .withMaxResultSize(512, 512).start(context!!, this)
         }
 
-        fun Context.getCompatActivity(): AppCompatActivity? {
+        fun Context.getCompatActivity(): AppCompatActivity {
             return when (this) {
                 is AppCompatActivity -> this
                 is ContextWrapper -> baseContext.getCompatActivity()
-                else -> null
+                else -> (this as AppCompatActivity)
             }
         }
 
@@ -226,6 +227,8 @@ class FunctionX {
             return size
         }
 
-        fun Context.getView() = (this as Activity).window.decorView.rootView
+        fun Context.getView(): View {
+          return getCompatActivity().window.decorView.rootView
+        }
     }
 }
