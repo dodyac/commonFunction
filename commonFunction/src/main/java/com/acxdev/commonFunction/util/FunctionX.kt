@@ -22,7 +22,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import com.acxdev.commonFunction.common.*
 import com.acxdev.commonFunction.common.Toast
-import com.acxdev.commonFunction.util.Preference.Companion.readPrefs
+import com.acxdev.commonFunction.util.Preference.Companion.getPrefs
 import com.acxdev.commonFunction.util.Toast.Companion.toasty
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.play.core.review.ReviewManagerFactory
@@ -78,6 +78,14 @@ class FunctionX {
             FinestWebView.Builder(this).toolbarColorRes(color).swipeRefreshColorRes(color).show(getString(url))
         }
 
+        fun Fragment.webView(url: String, @ColorRes color: Int) {
+            FinestWebView.Builder(context as Activity).toolbarColorRes(color).swipeRefreshColorRes(color).show(url)
+        }
+
+        fun Fragment.webView(@StringRes url: Int, @ColorRes color: Int) {
+            FinestWebView.Builder(context as Activity).toolbarColorRes(color).swipeRefreshColorRes(color).show(getString(url))
+        }
+
         fun Context.openPDFDocument(filename: String) {
             val pdfIntent = Intent(Intent.ACTION_VIEW)
             pdfIntent.setDataAndType(Uri.parse(filename), "application/pdf")
@@ -112,7 +120,7 @@ class FunctionX {
 
         fun Fragment.putExtra(bundle: String, secondData: String? = null, secondBundle: String? = null, thirdData: String? = null, thirdBundle: String? = null): Fragment {
             val args = Bundle()
-            args.putString("data", bundle)
+            args.putString(ConstantX.DATA, bundle)
             args.putString(secondData, secondBundle)
             args.putString(thirdData, thirdBundle)
             arguments = args
@@ -121,7 +129,7 @@ class FunctionX {
 
         fun Context.showSheetWithExtra(bottomSheet: BottomSheetDialogFragment, bundle: String? = null) {
             val args = Bundle()
-            args.putString("data", bundle)
+            args.putString(ConstantX.DATA, bundle)
             bottomSheet.arguments = args
             bottomSheet.show((this as FragmentActivity).supportFragmentManager, bottomSheet.tag)
         }
@@ -178,7 +186,7 @@ class FunctionX {
         }
 
         fun Context.useCurrentTheme(){
-            AppCompatDelegate.setDefaultNightMode(if(readPrefs().getBoolean(ConstantX.DARK_MODE,false))
+            AppCompatDelegate.setDefaultNightMode(if(getPrefs().getBoolean(ConstantX.DARK_MODE,false))
                 AppCompatDelegate.MODE_NIGHT_YES else AppCompatDelegate.MODE_NIGHT_NO)
         }
 
@@ -217,5 +225,7 @@ class FunctionX {
             }
             return size
         }
+
+        fun Context.getView() = (this as Activity).window.decorView.rootView
     }
 }

@@ -10,8 +10,7 @@ object ConstantX {
     const val USE_GRADIENT_DEFAULT = false
     const val ANGLE = 20
     const val CHILD_COUNT = 3
-    const val PATTERN_CURRENCY = "Rp "
-    const val PATTERN_CURRENCY_END = ",-"
+    const val HOUR_MINUTE = "HH:mm"
     const val PREFERENCE = "prefs"
     const val ZERO = "0"
     const val COLON = ":"
@@ -20,4 +19,6 @@ object ConstantX {
     const val NULL = "null"
     const val DOT = "."
     const val DARK_MODE = "dark"
+    const val IS_FIRST_TIME = "isFirstTime"
+    const val DATA = "data"
 }

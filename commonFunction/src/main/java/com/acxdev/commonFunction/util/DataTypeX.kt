@@ -212,6 +212,10 @@ class DataTypeX {
             }
         }
 
+        fun Any?.toZero(): String{
+            return if(toString().isEmpty() || toString() == ConstantX.NULL) ConstantX.ZERO else toString()
+        }
+
         fun Bitmap.rotateImage(angle: Int): Bitmap {
             val matrix = Matrix()
             matrix.postRotate(angle.toFloat())

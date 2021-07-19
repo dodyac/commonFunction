@@ -7,7 +7,7 @@ import com.acxdev.commonFunction.common.ConstantX.PREFERENCE
 
 class Preference {
     companion object {
-        fun Context.insertPrefs(path: String, data: Any?) {
+        fun Context.putPrefs(path: String, data: Any?) {
             val prefs = getSharedPreferences(PREFERENCE, Context.MODE_PRIVATE)
             val editor = prefs.edit()
             when(data){
@@ -20,7 +20,7 @@ class Preference {
             editor.apply()
         }
 
-        fun Context.insertPrefsCustom(name: String, path: String, data: Any?) {
+        fun Context.putPrefsCustom(name: String, path: String, data: Any?) {
             val prefs = getSharedPreferences(name, 0)
             val editor = prefs.edit()
             when(data){
@@ -33,21 +33,21 @@ class Preference {
             editor.apply()
         }
 
-        fun Context.readPrefs(): SharedPreferences { return getSharedPreferences(PREFERENCE, Context.MODE_PRIVATE) }
+        fun Context.getPrefs(): SharedPreferences { return getSharedPreferences(PREFERENCE, Context.MODE_PRIVATE) }
 
-        fun Context.readPrefsCustom(name: String): SharedPreferences { return getSharedPreferences(name,0) }
+        fun Context.getPrefsCustom(name: String): SharedPreferences { return getSharedPreferences(name,0) }
 
         fun Context.logout() {
             val prefs = getSharedPreferences(PREFERENCE, Context.MODE_PRIVATE)
             prefs.edit().remove(LOGGED).apply()
         }
 
-        fun Context.deletePrefs() {
+        fun Context.removePrefs() {
             val prefs = getSharedPreferences(PREFERENCE, Context.MODE_PRIVATE)
             prefs.edit().clear().apply()
         }
 
-        fun Context.deletePrefsCustom(name: String) {
+        fun Context.removePrefsCustom(name: String) {
             val prefs = getSharedPreferences(name, 0)
             prefs.edit().clear().apply()
         }

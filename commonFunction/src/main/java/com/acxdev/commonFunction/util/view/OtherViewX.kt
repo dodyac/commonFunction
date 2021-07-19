@@ -17,8 +17,11 @@ import androidx.core.app.ShareCompat
 import androidx.core.content.ContextCompat
 import androidx.core.text.HtmlCompat
 import androidx.core.view.ViewCompat
+import androidx.core.view.get
 import androidx.core.view.setMargins
+import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager.widget.ViewPager
+import androidx.viewpager2.widget.ViewPager2
 import com.acxdev.commonFunction.common.SocialMedia
 import com.acxdev.commonFunction.common.Toast
 import com.acxdev.commonFunction.util.FunctionX.Companion.getCompatActivity
@@ -96,6 +99,25 @@ class OtherViewX {
                     }
                 }
             }
+        }
+
+        fun ViewPager2.setWrapContent(){
+            registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
+                override fun onPageSelected(position: Int) {
+                    super.onPageSelected(position)
+                    val view = (this@setWrapContent[0] as RecyclerView).layoutManager?.findViewByPosition(position)
+
+                    view?.post {
+                        val wMeasureSpec = View.MeasureSpec.makeMeasureSpec(view.width, View.MeasureSpec.EXACTLY)
+                        val hMeasureSpec = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED)
+                        view.measure(wMeasureSpec, hMeasureSpec)
+
+                        if (layoutParams.height != view.measuredHeight) {
+                            layoutParams = (layoutParams).also { lp -> lp.height = view.measuredHeight }
+                        }
+                    }
+                }
+            })
         }
     }
 }

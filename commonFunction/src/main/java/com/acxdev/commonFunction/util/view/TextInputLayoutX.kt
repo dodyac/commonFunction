@@ -5,6 +5,7 @@ import android.text.format.DateFormat
 import android.widget.ArrayAdapter
 import androidx.annotation.StringRes
 import com.acxdev.commonFunction.R
+import com.acxdev.commonFunction.common.Language
 import com.acxdev.commonFunction.util.FunctionX.Companion.getCompatActivity
 import com.acxdev.commonFunction.util.DataTypeX.Companion.add0
 import com.acxdev.commonFunction.util.DataTypeX.Companion.isEmailValid
@@ -140,10 +141,14 @@ class TextInputLayoutX {
             }
         }
 
-        fun TextInputLayout.alertEmpty(): Boolean {
+        fun TextInputLayout.alertEmpty(language: Language): Boolean {
             return if(editText!!.text.isEmpty()) {
                 isErrorEnabled = true
-                error = "${hint ?: ""} tidak boleh kosong!"
+                val alert = when(language){
+                    Language.EN -> "cannot be empty!"
+                    Language.ID -> "tidak boleh kosong!"
+                }
+                error = "$hint $alert"
                 requestFocus()
                 false
             } else {
@@ -155,9 +160,8 @@ class TextInputLayoutX {
 
         //MaterialAutoCompleteTextView
 
-        @Suppress("UNCHECKED_CAST")
-        fun MaterialAutoCompleteTextView.setStringArray(list: List<String>) {
-            val dataAdapter = ArrayAdapter(context.getCompatActivity()!!, android.R.layout.simple_spinner_dropdown_item, list)
+        fun MaterialAutoCompleteTextView.set(@StringRes array: Int) {
+            val dataAdapter = ArrayAdapter(context.getCompatActivity()!!, android.R.layout.simple_spinner_dropdown_item, context.resources.getStringArray(array))
             dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
             setAdapter(dataAdapter)
         }
