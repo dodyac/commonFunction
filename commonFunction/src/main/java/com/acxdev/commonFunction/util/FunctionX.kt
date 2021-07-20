@@ -116,7 +116,7 @@ class FunctionX {
             return when (this) {
                 is AppCompatActivity -> this
                 is ContextWrapper -> baseContext.getCompatActivity()
-                is Application -> applicationContext.getCompatActivity()
+                is Application -> baseContext.getCompatActivity()
                 else -> (this as AppCompatActivity)
             }
         }
