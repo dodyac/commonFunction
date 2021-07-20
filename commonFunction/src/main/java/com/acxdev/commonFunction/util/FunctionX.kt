@@ -1,6 +1,7 @@
 package com.acxdev.commonFunction.util
 
 import android.app.Activity
+import android.app.Application
 import android.content.Context
 import android.content.ContextWrapper
 import android.content.Intent
@@ -115,6 +116,7 @@ class FunctionX {
             return when (this) {
                 is AppCompatActivity -> this
                 is ContextWrapper -> baseContext.getCompatActivity()
+                is Application -> applicationContext.getCompatActivity()
                 else -> (this as AppCompatActivity)
             }
         }
