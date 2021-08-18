@@ -1,68 +1,6 @@
 <resources>
-    <string name="slideToLearn">Geser untuk mempelajari lebih lanjut</string>
-    <!-- Button -->
-    <string name="signIn">Masuk</string>
-    <string name="signUp">Daftar</string>
-    <string name="send">Kirim</string>
-    <string name="back">Kembali</string>
-    <string name="skip">Lewati</string>
-    <string name="cancel">Batal</string>
-    <string name="yes">Ya</string>
-    <string name="no">Tidak</string>
-    <string name="exit">Keluar</string>
-    <!-- Form -->
-    <string name="mail">E-mail</string>
-    <string name="password">Kata Sandi</string>
-    <string name="bank">Bank</string>
-    <string name="accountNumber">Nomor Rekening</string>
-    <string name="behalfOf">Atas Nama</string>
-    <string name="name">Nama</string>
-    <string name="phone">Nomor Telepon</string>
-    <string name="city">Kota</string>
-    <string name="address">Alamat</string>
-    <string name="job">Pekerjaan</string>
-    <string name="nik">NIK</string>
-    <string name="province">Provinsi</string>
-    <string name="district">Kecamatan</string>
-    <string name="village">Desa</string>
-    <string name="facebook">Facebook</string>
-    <string name="instagram">Instagram</string>
-    <string name="postalCode">Kode Pos</string>
-    <string name="gender">Jenis Kelamin</string>
-    <string name="birthDate">Tanggal Lahir</string>
-    <!-- Alert -->
     <string name="emptyMail">E-mail tidak boleh kosong!</string>
     <string name="emptyPassword">Kata sandi tidak boleh kosong!</string>
     <string name="shortPassword">Kata sandi terlalu pendek!</string>
     <string name="notMail">Silahkan masukkan e-mail dengan benar!</string>
-    <string name="cannotConnect">Tidak dapat terhubung ke server!</string>
-    <string name="tapAgain">Tekan sekali lagi untuk keluar</string>
-    <string name="sureToExit">Apakah Anda yakin untuk keluar?</string>
-    <string name="sureToDelete">Apakah Anda yakin untuk menghapus?</string>
-    <string name="minNik">Karakter NIK minimal 16 digit!</string>
-    <string name="minPostalCode">Karakter Kode Pos minimal 5 digit!</string>
-    <string name="youSure">Apakah Anda sudah yakin data yang Anda masukkan sudah benar?</string>
-    <string name="emptyGender">Jenis Kelamin tidak boleh kosong!</string>
-    <string name="emptyBirthDate">Tanggal Lahir tidak boleh kosong!</string>
-    <string name="emptyPostalCode">Kode Pos tidak boleh kosong!</string>
-    <!-- Text -->
-    <string name="welcome">Selamat datang</string>
-    <string name="forgotPassword">Lupa Kata Sandi?</string>
-    <string name="privacyPolicy">Kebijakan Privasi</string>
-    <string name="home">Beranda</string>
-    <string name="balance">Saldo</string>
-    <string name="transaction">Transaksi</string>
-    <string name="notification">Notifikasi</string>
-    <string name="old">Terdahulu</string>
-    <string name="today">Hari ini</string>
-    <string name="success">Sukses</string>
-    <string name="failed">Gagal</string>
-    <string name="history">Riwayat</string>
-    <string name="account">Akun</string>
-    <string name="next">Selanjutnya</string>
-    <string-array name="gender">
-        <item>Laki-laki</item>
-        <item>Perempuan</item>
-    </string-array>
-    <string name="error">%d - %s</string>
 </resources>

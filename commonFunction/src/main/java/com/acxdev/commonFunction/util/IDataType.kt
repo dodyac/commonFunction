@@ -7,20 +7,17 @@ import android.os.Build
 import android.util.Patterns
 import androidx.annotation.RequiresApi
 import androidx.annotation.WorkerThread
-import com.acxdev.commonFunction.common.ConstantX
-import org.joda.time.Days
-import org.joda.time.LocalDate
+import com.acxdev.commonFunction.common.IConstant
 import java.io.IOException
 import java.net.HttpURLConnection
 import java.net.URL
 import java.text.DecimalFormat
-import java.text.DecimalFormatSymbols
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.String
 
 @SuppressLint("SimpleDateFormat")
-class DataTypeX {
+class IDataType {
     companion object{
 
         //Date
@@ -30,8 +27,6 @@ class DataTypeX {
             val sdf = if(locale!= null) SimpleDateFormat(pattern, locale) else SimpleDateFormat(pattern)
             return sdf.format(date)
         }
-
-        fun daysBetween(from: String?, to: String?):Int{ return Days.daysBetween(LocalDate(from!!), LocalDate(to!!)).days }
 
         fun String.formatDate(before: String, after: String, locale: Locale? = null): String? {
             val dateFormat = if(locale!= null) SimpleDateFormat(before, locale) else SimpleDateFormat(before)
@@ -59,16 +54,6 @@ class DataTypeX {
         }
 
         //Adding Pattern
-
-        fun Any.toIDR(): String{
-            val format = DecimalFormat("###,###,###,###,##0.##", DecimalFormatSymbols.getInstance(Locale("id", "ID")))
-            return "Rp${format.format(toString().toBigDecimal())}"
-        }
-
-        fun Any.toUSD(): String{
-            val format = DecimalFormat("###,###,##0.##", DecimalFormatSymbols.getInstance(Locale.US))
-            return "$${format.format(toString().toBigDecimal())}"
-        }
 
         fun Any?.toPercent(): String {
             val format = DecimalFormat("0.##")
@@ -213,7 +198,7 @@ class DataTypeX {
         }
 
         fun Any?.toZero(): String{
-            return if(toString().isEmpty() || toString() == ConstantX.NULL) ConstantX.ZERO else toString()
+            return if(toString().isEmpty() || toString() == IConstant.NULL) IConstant.ZERO else toString()
         }
 
         fun Bitmap.rotateImage(angle: Int): Bitmap {

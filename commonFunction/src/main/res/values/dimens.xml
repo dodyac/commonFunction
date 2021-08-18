@@ -19,6 +19,7 @@
     <dimen name="image_size_extra_large">170dp</dimen>
     <dimen name="x0dp">0dp</dimen>
     <dimen name="x2dp">2dp</dimen>
+    <dimen name="x3dp">3dp</dimen>
     <dimen name="x4dp">4dp</dimen>
     <dimen name="x5dp">5dp</dimen>
     <dimen name="x6dp">5dp</dimen>

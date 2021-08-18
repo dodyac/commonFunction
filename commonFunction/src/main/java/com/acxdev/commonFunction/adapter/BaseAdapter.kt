@@ -2,20 +2,18 @@ package com.acxdev.commonFunction.adapter
 
 import android.app.Activity
 import android.content.Context
-import android.database.MatrixCursor
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewbinding.ViewBinding
-import com.acxdev.commonFunction.common.InflateFr
-import com.acxdev.commonFunction.databinding.LayoutShimmerBinding
+import com.acxdev.commonFunction.common.InflateViewGroup
 import com.acxdev.commonFunction.util.Diff
-import com.acxdev.commonFunction.util.FunctionX.Companion.getView
-import com.acxdev.commonFunction.util.FunctionX.Companion.useCurrentTheme
+import com.acxdev.commonFunction.util.IFunction.Companion.getView
+import com.acxdev.commonFunction.util.IFunction.Companion.useCurrentTheme
 
-abstract class BaseAdapter<VB : ViewBinding, T>(private val InflateFr: InflateFr<VB>, private val list: MutableList<T>) :
+abstract class BaseAdapter<VB : ViewBinding, T>(private val inflateViewGroup: InflateViewGroup<VB>, private val list: MutableList<T>) :
     RecyclerView.Adapter<BaseAdapter.ViewHolder<VB>>() {
 
     val gone: Int = View.GONE
@@ -28,7 +26,7 @@ abstract class BaseAdapter<VB : ViewBinding, T>(private val InflateFr: InflateFr
         context = parent.context
         context.useCurrentTheme()
         rootView = context.getView()
-        val binding = InflateFr.invoke((parent.context.getSystemService(Activity.LAYOUT_INFLATER_SERVICE) as LayoutInflater), parent, false)
+        val binding = inflateViewGroup.invoke((parent.context.getSystemService(Activity.LAYOUT_INFLATER_SERVICE) as LayoutInflater), parent, false)
         return ViewHolder(binding)
     }
 

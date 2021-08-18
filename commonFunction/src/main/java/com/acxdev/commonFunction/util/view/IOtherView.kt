@@ -24,13 +24,13 @@ import androidx.viewpager.widget.ViewPager
 import androidx.viewpager2.widget.ViewPager2
 import com.acxdev.commonFunction.common.SocialMedia
 import com.acxdev.commonFunction.common.Toast
-import com.acxdev.commonFunction.util.FunctionX.Companion.getCompatActivity
+import com.acxdev.commonFunction.util.IFunction.Companion.getCompatActivity
 import com.acxdev.commonFunction.util.Toast.Companion.toasty
-import com.acxdev.commonFunction.util.DataTypeX.Companion.add62
+import com.acxdev.commonFunction.util.IDataType.Companion.add62
 import com.google.android.material.tabs.TabLayout
 import com.h6ah4i.android.tablayouthelper.TabLayoutHelper
 
-class OtherViewX {
+class IOtherView {
     companion object{
         fun View.layoutTint(@ColorRes colorRes: Int) {
             ViewCompat.setBackgroundTintList(this, ColorStateList.valueOf(ContextCompat.getColor(context, colorRes)))

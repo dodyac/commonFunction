@@ -1,3 +1,3 @@
 package com.acxdev.commonFunction.common
 
-enum class SocialMedia(val value: Int) { FACEBOOK(1), INSTAGRAM(2), WHATSAPP(3), GMAIL(4) }
+enum class SocialMedia { FACEBOOK, INSTAGRAM, WHATSAPP, GMAIL }

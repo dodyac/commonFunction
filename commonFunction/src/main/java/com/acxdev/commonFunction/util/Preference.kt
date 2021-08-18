@@ -2,8 +2,8 @@ package com.acxdev.commonFunction.util
 
 import android.content.Context
 import android.content.SharedPreferences
-import com.acxdev.commonFunction.common.ConstantX.LOGGED
-import com.acxdev.commonFunction.common.ConstantX.PREFERENCE
+import com.acxdev.commonFunction.common.IConstant.LOGGED
+import com.acxdev.commonFunction.common.IConstant.PREFERENCE
 
 class Preference {
     companion object {

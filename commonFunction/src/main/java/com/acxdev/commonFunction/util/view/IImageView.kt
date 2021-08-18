@@ -19,10 +19,10 @@ import android.widget.ImageView
 import androidx.core.content.ContextCompat
 import androidx.core.widget.ImageViewCompat
 import androidx.swiperefreshlayout.widget.CircularProgressDrawable
-import com.acxdev.commonFunction.util.FunctionX.Companion.getCompatActivity
+import com.acxdev.commonFunction.util.IFunction.Companion.getCompatActivity
 import com.acxdev.commonFunction.util.TileDrawable
 
-class ImageViewX {
+class IImageView {
     companion object{
 
         @SuppressLint("ResourceType")

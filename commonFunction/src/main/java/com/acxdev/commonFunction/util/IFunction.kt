@@ -28,14 +28,12 @@ import com.acxdev.commonFunction.util.Preference.Companion.getPrefs
 import com.acxdev.commonFunction.util.Toast.Companion.toasty
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.play.core.review.ReviewManagerFactory
-import com.sanojpunchihewa.updatemanager.UpdateManager
-import com.sanojpunchihewa.updatemanager.UpdateManagerConstant
 import com.thefinestartist.finestwebview.FinestWebView
 import com.yalantis.ucrop.UCrop
 import java.io.File
 import java.util.*
 
-class FunctionX {
+class IFunction {
     @Suppress("DEPRECATION")
     companion object {
         fun Context.getWidth(percent: Int): Int {
@@ -72,20 +70,12 @@ class FunctionX {
             return result
         }
 
-        fun Activity.webView(url: String, @ColorRes color: Int) {
-            FinestWebView.Builder(this).toolbarColorRes(color).swipeRefreshColorRes(color).show(url)
+        fun Context.webView(url: String, @ColorRes color: Int) {
+            FinestWebView.Builder(this as Activity).toolbarColorRes(color).swipeRefreshColorRes(color).show(url)
         }
 
-        fun Activity.webView(@StringRes url: Int, @ColorRes color: Int) {
-            FinestWebView.Builder(this).toolbarColorRes(color).swipeRefreshColorRes(color).show(getString(url))
-        }
-
-        fun Fragment.webView(url: String, @ColorRes color: Int) {
-            FinestWebView.Builder(context as Activity).toolbarColorRes(color).swipeRefreshColorRes(color).show(url)
-        }
-
-        fun Fragment.webView(@StringRes url: Int, @ColorRes color: Int) {
-            FinestWebView.Builder(context as Activity).toolbarColorRes(color).swipeRefreshColorRes(color).show(getString(url))
+        fun Context.webView(@StringRes url: Int, @ColorRes color: Int) {
+            FinestWebView.Builder(this as Activity).toolbarColorRes(color).swipeRefreshColorRes(color).show(getString(url))
         }
 
         fun Context.openPDFDocument(filename: String) {
@@ -123,7 +113,7 @@ class FunctionX {
 
         fun Fragment.putExtra(bundle: String, secondData: String? = null, secondBundle: String? = null, thirdData: String? = null, thirdBundle: String? = null): Fragment {
             val args = Bundle()
-            args.putString(ConstantX.DATA, bundle)
+            args.putString(IConstant.DATA, bundle)
             args.putString(secondData, secondBundle)
             args.putString(thirdData, thirdBundle)
             arguments = args
@@ -132,7 +122,7 @@ class FunctionX {
 
         fun Context.showSheetWithExtra(bottomSheet: BottomSheetDialogFragment, bundle: String? = null) {
             val args = Bundle()
-            args.putString(ConstantX.DATA, bundle)
+            args.putString(IConstant.DATA, bundle)
             bottomSheet.arguments = args
             bottomSheet.show((this as FragmentActivity).supportFragmentManager, bottomSheet.tag)
         }
@@ -140,11 +130,6 @@ class FunctionX {
         fun setThreadPolicy(){
             val policy = StrictMode.ThreadPolicy.Builder().permitAll().build()
             StrictMode.setThreadPolicy(policy)
-        }
-
-        fun AppCompatActivity.checkUpdateImmediately(){
-            val updateManager = UpdateManager.Builder(this).mode(UpdateManagerConstant.IMMEDIATE)
-            updateManager.start()
         }
 
         fun Context.showRate(){
@@ -189,7 +174,7 @@ class FunctionX {
         }
 
         fun Context.useCurrentTheme(){
-            AppCompatDelegate.setDefaultNightMode(if(getPrefs().getBoolean(ConstantX.DARK_MODE,false))
+            AppCompatDelegate.setDefaultNightMode(if(getPrefs().getBoolean(IConstant.DARK_MODE,false))
                 AppCompatDelegate.MODE_NIGHT_YES else AppCompatDelegate.MODE_NIGHT_NO)
         }
 

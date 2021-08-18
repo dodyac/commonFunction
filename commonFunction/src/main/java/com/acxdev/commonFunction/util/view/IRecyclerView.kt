@@ -5,13 +5,13 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.LinearSnapHelper
 import androidx.recyclerview.widget.RecyclerView
-import com.acxdev.commonFunction.util.FunctionX.Companion.getCompatActivity
+import com.acxdev.commonFunction.util.IFunction.Companion.getCompatActivity
 import com.smarteist.autoimageslider.IndicatorView.animation.type.IndicatorAnimationType
 import com.smarteist.autoimageslider.SliderAnimations
 import com.smarteist.autoimageslider.SliderView
 import com.smarteist.autoimageslider.SliderViewAdapter
 
-class RecyclerViewX {
+class IRecyclerView {
     companion object{
 
         fun RecyclerView.set(adapter: RecyclerView.Adapter<*>?, isSnap: Boolean? = null, hasFixed: Boolean? = null) {

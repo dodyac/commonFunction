@@ -3,20 +3,20 @@ package com.acxdev.commonFunction.util.view
 import android.content.Context
 import android.text.format.DateFormat
 import android.widget.ArrayAdapter
-import androidx.annotation.StringRes
+import androidx.annotation.ArrayRes
 import com.acxdev.commonFunction.R
 import com.acxdev.commonFunction.common.Language
-import com.acxdev.commonFunction.util.FunctionX.Companion.getCompatActivity
-import com.acxdev.commonFunction.util.DataTypeX.Companion.add0
-import com.acxdev.commonFunction.util.DataTypeX.Companion.isEmailValid
-import com.acxdev.commonFunction.util.DataTypeX.Companion.toDate
+import com.acxdev.commonFunction.util.IFunction.Companion.getCompatActivity
+import com.acxdev.commonFunction.util.IDataType.Companion.add0
+import com.acxdev.commonFunction.util.IDataType.Companion.isEmailValid
+import com.acxdev.commonFunction.util.IDataType.Companion.toDate
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.textfield.MaterialAutoCompleteTextView
 import com.google.android.material.textfield.TextInputLayout
 import com.google.android.material.timepicker.MaterialTimePicker
 import com.google.android.material.timepicker.TimeFormat
 
-class TextInputLayoutX {
+class ITextInputLayout {
     companion object{
 
         //TextInputLayout
@@ -101,13 +101,13 @@ class TextInputLayoutX {
             when {
                 editText!!.text.isEmpty() -> {
                     isErrorEnabled = true
-                    error = context.getCompatActivity()!!.getString(R.string.emptyMail)
+                    error = context.getCompatActivity().getString(R.string.emptyMail)
                     requestFocus()
                     return false
                 }
                 !editText!!.text.isEmailValid() -> {
                     isErrorEnabled = true
-                    error = context.getCompatActivity()!!.getString(R.string.notMail)
+                    error = context.getCompatActivity().getString(R.string.notMail)
                     clearFocus()
                     requestFocus()
                     return false
@@ -123,13 +123,13 @@ class TextInputLayoutX {
             when {
                 editText!!.text.isEmpty() -> {
                     isErrorEnabled = true
-                    error = context.getCompatActivity()!!.getString(R.string.emptyPassword)
+                    error = context.getCompatActivity().getString(R.string.emptyPassword)
                     requestFocus()
                     return false
                 }
                 editText!!.text.length < 8 -> {
                     isErrorEnabled = true
-                    error = context.getCompatActivity()!!.getString(R.string.shortPassword)
+                    error = context.getCompatActivity().getString(R.string.shortPassword)
                     clearFocus()
                     requestFocus()
                     return false
@@ -160,7 +160,7 @@ class TextInputLayoutX {
 
         //MaterialAutoCompleteTextView
 
-        fun MaterialAutoCompleteTextView.set(@StringRes array: Int) {
+        fun MaterialAutoCompleteTextView.set(@ArrayRes array: Int) {
             val dataAdapter = ArrayAdapter(context.getCompatActivity(), android.R.layout.simple_spinner_dropdown_item, context.resources.getStringArray(array))
             dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
             setAdapter(dataAdapter)
