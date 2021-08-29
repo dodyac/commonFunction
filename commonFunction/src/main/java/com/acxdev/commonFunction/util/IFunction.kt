@@ -124,7 +124,7 @@ class IFunction {
             val args = Bundle()
             args.putString(IConstant.DATA, bundle)
             bottomSheet.arguments = args
-            bottomSheet.show((this as FragmentActivity).supportFragmentManager, bottomSheet.tag)
+            bottomSheet.show(getCompatActivity().supportFragmentManager, bottomSheet.tag)
         }
 
         fun setThreadPolicy(){
