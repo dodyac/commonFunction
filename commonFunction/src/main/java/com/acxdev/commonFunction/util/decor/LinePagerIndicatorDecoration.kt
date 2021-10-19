@@ -12,7 +12,11 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ItemDecoration
 
-class LinePagerIndicatorDecoration(colorActive: String, colorInactive: String) : ItemDecoration() {
+class LinePagerIndicatorDecoration(
+    colorActive: String,
+    colorInactive: String
+) : ItemDecoration() {
+
     private val colorActive = Color.parseColor(colorActive)
     private val colorInactive = Color.parseColor(colorInactive)
 
@@ -71,7 +75,12 @@ class LinePagerIndicatorDecoration(colorActive: String, colorInactive: String) :
         drawHighlights(c, indicatorStartX, indicatorPosY, activePosition, progress, itemCount)
     }
 
-    private fun drawInactiveIndicators(c: Canvas, indicatorStartX: Float, indicatorPosY: Float, itemCount: Int) {
+    private fun drawInactiveIndicators(
+        c: Canvas,
+        indicatorStartX: Float,
+        indicatorPosY: Float,
+        itemCount: Int
+    ) {
         mPaint.color = colorInactive
 
         // width of item indicator including padding
@@ -84,7 +93,14 @@ class LinePagerIndicatorDecoration(colorActive: String, colorInactive: String) :
         }
     }
 
-    private fun drawHighlights(c: Canvas, indicatorStartX: Float, indicatorPosY: Float, highlightPosition: Int, progress: Float, itemCount: Int) {
+    private fun drawHighlights(
+        c: Canvas,
+        indicatorStartX: Float,
+        indicatorPosY: Float,
+        highlightPosition: Int,
+        progress: Float,
+        itemCount: Int
+    ) {
         mPaint.color = colorActive
 
         // width of item indicator including padding
@@ -92,29 +108,54 @@ class LinePagerIndicatorDecoration(colorActive: String, colorInactive: String) :
         if (progress == 0f) {
             // no swipe, draw a normal indicator
             val highlightStart = indicatorStartX + itemWidth * highlightPosition
-            c.drawLine(highlightStart, indicatorPosY, highlightStart + mIndicatorItemLength, indicatorPosY, mPaint)
+            c.drawLine(
+                highlightStart,
+                indicatorPosY,
+                highlightStart + mIndicatorItemLength,
+                indicatorPosY,
+                mPaint
+            )
         } else {
             var highlightStart = indicatorStartX + itemWidth * highlightPosition
             // calculate partial highlight
             val partialLength = mIndicatorItemLength * progress
 
             // draw the cut off highlight
-            c.drawLine(highlightStart + partialLength, indicatorPosY, highlightStart + mIndicatorItemLength, indicatorPosY, mPaint)
+            c.drawLine(
+                highlightStart + partialLength,
+                indicatorPosY,
+                highlightStart + mIndicatorItemLength,
+                indicatorPosY,
+                mPaint
+            )
 
             // draw the highlight overlapping to the next item as well
             if (highlightPosition < itemCount - 1) {
                 highlightStart += itemWidth
-                c.drawLine(highlightStart, indicatorPosY, highlightStart + partialLength, indicatorPosY, mPaint)
+                c.drawLine(
+                    highlightStart,
+                    indicatorPosY,
+                    highlightStart + partialLength,
+                    indicatorPosY,
+                    mPaint
+                )
             }
         }
     }
 
-    override fun getItemOffsets(outRect: Rect, view: View, parent: RecyclerView, state: RecyclerView.State) {
+    override fun getItemOffsets(
+        outRect: Rect,
+        view: View,
+        parent: RecyclerView,
+        state: RecyclerView.State
+    ) {
         super.getItemOffsets(outRect, view, parent, state)
         outRect.bottom = mIndicatorHeight
     }
 
-    companion object { private val DP: Float = Resources.getSystem().displayMetrics.density }
+    companion object {
+        private val DP: Float = Resources.getSystem().displayMetrics.density
+    }
 
     init {
         mPaint.strokeCap = Paint.Cap.ROUND

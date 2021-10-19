@@ -49,5 +49,6 @@
     <dimen name="x128dp">128dp</dimen>
     <dimen name="x150dp">150dp</dimen>
     <dimen name="x200dp">200dp</dimen>
+    <dimen name="x400dp">400dp</dimen>
     <!-- Default screen margins, per the Android Design guidelines. -->
 </resources>

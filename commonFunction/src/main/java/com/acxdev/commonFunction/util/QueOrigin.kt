@@ -9,7 +9,9 @@ import java.net.SocketTimeoutException
 import java.net.UnknownHostException
 
 class QueOrigin {
+
     class CallbackBody<T>(private val body: com.acxdev.commonFunction.model.Response<T>.() -> Unit) : Callback<T> {
+
         override fun onResponse(call: Call<T>, response: retrofit2.Response<T>) {
             if (!response.isSuccessful) {
                 body.invoke(com.acxdev.commonFunction.model.Response(null, Response.UNSUCCESSFUL, response.code().toString()))

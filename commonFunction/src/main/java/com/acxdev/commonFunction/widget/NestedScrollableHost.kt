@@ -13,6 +13,7 @@ import kotlin.math.sign
 
 class NestedScrollableHost : FrameLayout {
     constructor(context: Context) : super(context)
+
     constructor(context: Context, attrs: AttributeSet?) : super(context, attrs)
 
     private var touchSlop = 0

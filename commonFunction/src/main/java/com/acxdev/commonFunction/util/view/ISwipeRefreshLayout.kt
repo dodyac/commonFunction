@@ -11,7 +11,7 @@ class ISwipeRefreshLayout {
     }
 
     companion object {
-        fun SwipeRefreshLayout.listener(action: Listener.() -> Unit) {
+        fun SwipeRefreshLayout.set(action: Listener.() -> Unit) {
             val listen = Listener(context)
             action.invoke(listen)
             setOnRefreshListener {

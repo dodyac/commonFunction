@@ -7,10 +7,11 @@ import com.acxdev.commonFunction.common.IConstant.PREFERENCE
 
 class Preference {
     companion object {
+
         fun Context.putPrefs(path: String, data: Any?) {
             val prefs = getSharedPreferences(PREFERENCE, Context.MODE_PRIVATE)
             val editor = prefs.edit()
-            when(data){
+            when (data) {
                 is Boolean -> editor.putBoolean(path, data)
                 is String -> editor.putString(path, data)
                 is Int -> editor.putInt(path, data)
@@ -23,7 +24,7 @@ class Preference {
         fun Context.putPrefsCustom(name: String, path: String, data: Any?) {
             val prefs = getSharedPreferences(name, 0)
             val editor = prefs.edit()
-            when(data){
+            when (data) {
                 is Boolean -> editor.putBoolean(path, data)
                 is String -> editor.putString(path, data)
                 is Int -> editor.putInt(path, data)
@@ -33,9 +34,13 @@ class Preference {
             editor.apply()
         }
 
-        fun Context.getPrefs(): SharedPreferences { return getSharedPreferences(PREFERENCE, Context.MODE_PRIVATE) }
+        fun Context.getPrefs(): SharedPreferences {
+            return getSharedPreferences(PREFERENCE, Context.MODE_PRIVATE)
+        }
 
-        fun Context.getPrefsCustom(name: String): SharedPreferences { return getSharedPreferences(name,0) }
+        fun Context.getPrefsCustom(name: String): SharedPreferences {
+            return getSharedPreferences(name, 0)
+        }
 
         fun Context.logout() {
             val prefs = getSharedPreferences(PREFERENCE, Context.MODE_PRIVATE)
@@ -60,7 +65,7 @@ class Preference {
         }
 
         fun Context.isLogged(): Boolean {
-            return getSharedPreferences(PREFERENCE, Context.MODE_PRIVATE).getString(LOGGED,"") == LOGGED
+            return getSharedPreferences(PREFERENCE, Context.MODE_PRIVATE).getString(LOGGED, "") == LOGGED
         }
     }
 }

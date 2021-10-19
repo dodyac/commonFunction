@@ -3,38 +3,38 @@ package com.acxdev.commonFunction.adapter
 import android.app.Activity
 import android.content.Context
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewbinding.ViewBinding
 import com.acxdev.commonFunction.common.InflateViewGroup
 import com.acxdev.commonFunction.util.Diff
-import com.acxdev.commonFunction.util.IFunction.Companion.getView
-import com.acxdev.commonFunction.util.IFunction.Companion.useCurrentTheme
+import com.acxdev.commonFunction.util.IFunction.useCurrentTheme
 
-abstract class BaseAdapter<VB : ViewBinding, T>(private val inflateViewGroup: InflateViewGroup<VB>, private val list: MutableList<T>) :
+abstract class BaseAdapter<VB : ViewBinding, T>(
+    private val inflateViewGroup: InflateViewGroup<VB>,
+    private val list: MutableList<T>
+) :
     RecyclerView.Adapter<BaseAdapter.ViewHolder<VB>>() {
 
-    val gone: Int = View.GONE
-    val visible: Int = View.VISIBLE
-    val invisible: Int = View.INVISIBLE
     lateinit var context: Context
-    lateinit var rootView: View
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder<VB> {
         context = parent.context
         context.useCurrentTheme()
-        rootView = context.getView()
-        val binding = inflateViewGroup.invoke((parent.context.getSystemService(Activity.LAYOUT_INFLATER_SERVICE) as LayoutInflater), parent, false)
+        val binding = inflateViewGroup.invoke(
+            (parent.context.getSystemService(Activity.LAYOUT_INFLATER_SERVICE) as LayoutInflater),
+            parent,
+            false
+        )
         return ViewHolder(binding)
     }
 
     override fun getItemCount() = list.size
 
-    class ViewHolder<VB: ViewBinding>(val binding: VB) : RecyclerView.ViewHolder(binding.root)
+    class ViewHolder<VB : ViewBinding>(val binding: VB) : RecyclerView.ViewHolder(binding.root)
 
-    fun updateItem(newList: List<T>){
+    fun updateItem(newList: List<T>) {
         val diff = Diff(list, newList)
         val diffResult = DiffUtil.calculateDiff(diff)
 
@@ -43,5 +43,7 @@ abstract class BaseAdapter<VB : ViewBinding, T>(private val inflateViewGroup: In
         diffResult.dispatchUpdatesTo(this)
     }
 
-    interface OnClick<T>{ fun onItemClick(item: T, position: Int) }
+    interface OnClick<T> {
+        fun onItemClick(item: T, position: Int)
+    }
 }
