@@ -12,4 +12,5 @@ object IConstant {
     const val DARK_MODE = "dark"
     const val IS_FIRST_TIME = "isFirstTime"
     const val DATA = "data"
+    const val IS_SHEET_FULL_SCREEN = "isSheetFullScreen"
 }

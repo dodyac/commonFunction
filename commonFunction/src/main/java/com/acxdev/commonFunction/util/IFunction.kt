@@ -126,10 +126,12 @@ object IFunction {
 
     fun Context.showSheetWithExtra(
         bottomSheet: BottomSheetDialogFragment,
-        bundle: String? = null
+        bundle: String? = null,
+        isFullScreen: Boolean = false
     ) {
         val args = Bundle()
         args.putString(IConstant.DATA, bundle)
+        args.putString(IConstant.IS_SHEET_FULL_SCREEN, isFullScreen.toString())
         bottomSheet.arguments = args
         bottomSheet.show(getCompatActivity().supportFragmentManager, bottomSheet.tag)
     }
