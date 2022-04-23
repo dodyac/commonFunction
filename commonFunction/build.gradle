@@ -55,3 +55,7 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
 }
 repositories { mavenCentral() }
+
+task wrapper(type: Wrapper){
+    gradleVersion = '7.2'
+}

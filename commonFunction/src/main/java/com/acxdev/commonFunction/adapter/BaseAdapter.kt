@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.viewbinding.ViewBinding
 import com.acxdev.commonFunction.common.InflateViewGroup
 import com.acxdev.commonFunction.util.Diff
-import com.acxdev.commonFunction.util.IFunction.useCurrentTheme
+import com.acxdev.commonFunction.util.ext.useCurrentTheme
 
 abstract class BaseAdapter<VB : ViewBinding, T>(
     private val inflateViewGroup: InflateViewGroup<VB>,

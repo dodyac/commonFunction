@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/186332968/Useful_Method.iml" filepath="$PROJECT_DIR$/.idea/modules/186332968/Useful_Method.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/250755770/Useful_Method.app.iml" filepath="$PROJECT_DIR$/.idea/modules/250755770/Useful_Method.app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Useful_Method.commonFunction.iml" filepath="$PROJECT_DIR$/.idea/modules/Useful_Method.commonFunction.iml" />
+    </modules>
+  </component>
+</project>

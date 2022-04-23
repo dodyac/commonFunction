@@ -6,7 +6,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.viewbinding.ViewBinding
 import com.acxdev.commonFunction.common.InflateViewGroup
-import com.acxdev.commonFunction.util.IFunction.useCurrentTheme
+import com.acxdev.commonFunction.util.ext.useCurrentTheme
 import com.smarteist.autoimageslider.SliderViewAdapter
 
 abstract class BaseSlider<VB : ViewBinding>(

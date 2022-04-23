@@ -1,0 +1,15 @@
+<component name="libraryTable">
+  <library name="Gradle: com.thefinestartist:finestwebview:1.2.7@aar">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/0a8e6efed0b87dda4ab975ddb2f4b629/jetified-finestwebview-1.2.7/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/0a8e6efed0b87dda4ab975ddb2f4b629/jetified-finestwebview-1.2.7/res" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/0a8e6efed0b87dda4ab975ddb2f4b629/jetified-finestwebview-1.2.7/AndroidManifest.xml" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.thefinestartist/finestwebview/1.2.7/3905d4c708e10209a48297c66ae86408302d5ec9/finestwebview-1.2.7-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.thefinestartist/finestwebview/1.2.7/6bf136d82ad78e9f09a5dee416e73aab46f1834d/finestwebview-1.2.7-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

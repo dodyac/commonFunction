@@ -1,4 +1,4 @@
-package com.acxdev.commonFunction.util
+package com.acxdev.commonFunction.util.ext
 
 import android.content.Context
 import android.content.SharedPreferences
