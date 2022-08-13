@@ -11,18 +11,19 @@ import com.acxdev.commonFunction.common.InflateViewGroup
 import com.acxdev.commonFunction.util.Diff
 import com.acxdev.commonFunction.util.ext.useCurrentTheme
 
-abstract class BaseAdapter<VB : ViewBinding, T>(
+abstract class BaseAdapterLib<VB : ViewBinding, T>(
     private val inflateViewGroup: InflateViewGroup<VB>,
     private val list: MutableList<T>
 ) :
-    RecyclerView.Adapter<BaseAdapter.ViewHolder<VB>>() {
+    RecyclerView.Adapter<BaseAdapterLib.ViewHolder<VB>>() {
 
-    lateinit var context: Context
+    protected lateinit var context: Context
+    protected lateinit var binding: VB
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder<VB> {
         context = parent.context
         context.useCurrentTheme()
-        val binding = inflateViewGroup.invoke(
+        binding = inflateViewGroup.invoke(
             (parent.context.getSystemService(Activity.LAYOUT_INFLATER_SERVICE) as LayoutInflater),
             parent,
             false
@@ -32,7 +33,11 @@ abstract class BaseAdapter<VB : ViewBinding, T>(
 
     override fun getItemCount() = list.size
 
-    class ViewHolder<VB : ViewBinding>(val binding: VB) : RecyclerView.ViewHolder(binding.root)
+    class ViewHolder<VB : ViewBinding>(binding: VB) : RecyclerView.ViewHolder(binding.root)
+
+    open fun scopeLayout(viewBinding: (VB.() -> Unit)) {
+        viewBinding.invoke(binding)
+    }
 
     fun updateItem(newList: List<T>) {
         val diff = Diff(list, newList)

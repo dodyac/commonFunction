@@ -1,12 +1,12 @@
-package com.acxdev.commonFunction.util.ext
+package com.acxdev.commonFunction.util
 
 import android.content.Context
 import android.content.SharedPreferences
-import com.acxdev.commonFunction.common.IConstant.LOGGED
-import com.acxdev.commonFunction.common.IConstant.PREFERENCE
 
 class Preference {
     companion object {
+        private const val PREFERENCE = "prefs"
+        private const val LOGGED = "logged"
 
         fun Context.putPrefs(path: String, data: Any?) {
             val prefs = getSharedPreferences(PREFERENCE, Context.MODE_PRIVATE)
@@ -42,30 +42,30 @@ class Preference {
             return getSharedPreferences(name, 0)
         }
 
-        fun Context.logout() {
-            val prefs = getSharedPreferences(PREFERENCE, Context.MODE_PRIVATE)
-            prefs.edit().remove(LOGGED).apply()
-        }
-
-        fun Context.removePrefs() {
+        fun Context.clearPrefs() {
             val prefs = getSharedPreferences(PREFERENCE, Context.MODE_PRIVATE)
             prefs.edit().clear().apply()
         }
 
-        fun Context.removePrefsCustom(name: String) {
+        fun Context.clearPrefsCustom(name: String) {
             val prefs = getSharedPreferences(name, 0)
             prefs.edit().clear().apply()
         }
 
-        fun Context.logged() {
+        fun Context.signInPrefs() {
             val sharedPref = getSharedPreferences(PREFERENCE, Context.MODE_PRIVATE)
             val editor = sharedPref.edit()
-            editor.putString(LOGGED, LOGGED)
+            editor.putBoolean(LOGGED, true)
             editor.apply()
         }
 
-        fun Context.isLogged(): Boolean {
-            return getSharedPreferences(PREFERENCE, Context.MODE_PRIVATE).getString(LOGGED, "") == LOGGED
+        fun Context.signOutPrefs() {
+            val prefs = getSharedPreferences(PREFERENCE, Context.MODE_PRIVATE)
+            prefs.edit().remove(LOGGED).apply()
+        }
+
+        fun Context.isSignedPrefs(): Boolean {
+            return getSharedPreferences(PREFERENCE, Context.MODE_PRIVATE).getBoolean(LOGGED, false)
         }
     }
 }

@@ -13,19 +13,20 @@ import com.acxdev.commonFunction.common.InflateViewGroup
 import com.acxdev.commonFunction.util.Diff
 import com.acxdev.commonFunction.util.ext.useCurrentTheme
 
-abstract class BaseAdapterFilter<VB : ViewBinding, T>(
+abstract class BaseAdapterFilterLib<VB : ViewBinding, T>(
     private val inflateViewGroup: InflateViewGroup<VB>,
     private val list: List<T>
 ) :
-    RecyclerView.Adapter<BaseAdapterFilter.ViewHolder<VB>>(), Filterable {
+    RecyclerView.Adapter<BaseAdapterFilterLib.ViewHolder<VB>>(), Filterable {
 
     protected val listFilter = list.toMutableList()
     protected lateinit var context: Context
+    protected lateinit var binding: VB
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder<VB> {
         context = parent.context
         context.useCurrentTheme()
-        val binding = inflateViewGroup.invoke(
+        binding = inflateViewGroup.invoke(
             (parent.context.getSystemService(Activity.LAYOUT_INFLATER_SERVICE) as LayoutInflater),
             parent,
             false
@@ -35,7 +36,7 @@ abstract class BaseAdapterFilter<VB : ViewBinding, T>(
 
     override fun getItemCount() = listFilter.size
 
-    class ViewHolder<VB : ViewBinding>(val binding: VB) : RecyclerView.ViewHolder(binding.root)
+    class ViewHolder<VB : ViewBinding>(binding: VB) : RecyclerView.ViewHolder(binding.root)
 
     protected abstract val filterable: Filter
 

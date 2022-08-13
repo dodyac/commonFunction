@@ -1,0 +1,70 @@
+package com.acxdev.commonFunction.util.ext
+
+import android.annotation.SuppressLint
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.os.Build
+import android.util.Base64
+import androidx.annotation.RequiresApi
+import androidx.annotation.WorkerThread
+import java.io.IOException
+import java.net.HttpURLConnection
+import java.net.URL
+import java.text.SimpleDateFormat
+import java.util.*
+
+@SuppressLint("SimpleDateFormat")
+fun String.formatDate(before: String, after: String, locale: Locale? = null): String {
+    val dateFormat =  SimpleDateFormat(before, locale)
+    val date = dateFormat.parse(this)
+    val output = SimpleDateFormat(after, locale)
+    return date?.let { output.format(it) }.toString()
+}
+
+@RequiresApi(Build.VERSION_CODES.N)
+@WorkerThread
+fun String.urlFileLength(): Long {
+    var conn: HttpURLConnection? = null
+    return try {
+        conn = URL(this).openConnection() as HttpURLConnection?
+        conn!!.requestMethod = "HEAD"
+        conn.contentLengthLong
+    } catch (e: IOException) {
+        return 0L
+    } finally {
+        conn?.disconnect()
+    }
+}
+
+fun String.isNumber(): Boolean {
+    var numeric = true
+    try {
+        val num = Integer.parseInt(this)
+    } catch (e: Exception) {
+        numeric = false
+    }
+
+    return numeric
+}
+
+fun String.withBearer(): String {
+    return "Bearer $this"
+}
+
+fun String.add62(): String {
+    return "+62${substring(1)}"
+}
+
+fun String.add0(): String {
+    return if (length < 2) "0$this" else this
+}
+
+fun String.base64ToBitmap(): Bitmap? {
+    return try {
+        val imageBytes = Base64.decode(this, 0)
+        BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.size)
+    } catch (e: Exception) {
+        e.printStackTrace()
+        null
+    }
+}

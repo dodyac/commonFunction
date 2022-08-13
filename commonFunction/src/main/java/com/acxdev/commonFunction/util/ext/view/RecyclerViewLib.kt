@@ -1,4 +1,4 @@
-package com.acxdev.commonFunction.util.view
+package com.acxdev.commonFunction.util.ext.view
 
 import android.content.Context
 import androidx.recyclerview.widget.*

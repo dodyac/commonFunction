@@ -3,4 +3,5 @@
     <string name="emptyPassword">Kata sandi tidak boleh kosong!</string>
     <string name="shortPassword">Kata sandi terlalu pendek!</string>
     <string name="notMail">Silahkan masukkan e-mail dengan benar!</string>
+    <string name="cannotEmpty">tidak boleh kosong!</string>
 </resources>

@@ -5,33 +5,36 @@ import android.app.Application
 import android.content.Context
 import android.content.ContextWrapper
 import android.content.Intent
-import android.content.res.Configuration
+import android.content.pm.PackageManager
+import android.graphics.Color
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
-import android.os.StrictMode
 import android.provider.Settings
 import android.util.DisplayMetrics
-import android.util.Log
 import android.view.View
 import android.view.WindowManager
+import androidx.annotation.AttrRes
+import androidx.annotation.ColorInt
 import androidx.annotation.ColorRes
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
-import androidx.fragment.app.Fragment
-import com.acxdev.commonFunction.common.IConstant
-import com.acxdev.commonFunction.common.Response
+import androidx.core.graphics.alpha
+import androidx.core.graphics.blue
+import androidx.core.graphics.green
+import androidx.core.graphics.red
+import com.acxdev.commonFunction.common.ConstantLib
 import com.acxdev.commonFunction.common.Toast
-import com.acxdev.commonFunction.util.ext.Preference.Companion.getPrefs
+import com.acxdev.commonFunction.util.Preference.Companion.getPrefs
+import com.acxdev.commonFunction.util.toasty
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.play.core.review.ReviewManagerFactory
 import com.thefinestartist.finestwebview.FinestWebView
 import com.yalantis.ucrop.UCrop
-import java.io.File
-import java.util.*
+import kotlin.math.roundToInt
 
 fun Context.isNetworkAvailable(): Boolean {
     var result = false
@@ -81,20 +84,23 @@ fun Context.openPDFDocument(filename: String) {
 
 fun Context.cropError(data: Intent?) {
     val cropError = data?.let { UCrop.getError(it) }
-    if (cropError != null) toasty(Toast.ERROR, cropError.message!!)
+    cropError?.let {
+        it.message?.let { it1 -> toasty(Toast.ERROR, it1) }
+    }
 }
 
-fun Activity.startCrop(uri: Uri?) {
-    val destination = StringBuilder(UUID.randomUUID().toString()).append(".jpg").toString()
-    UCrop.of(uri!!, Uri.fromFile(File(cacheDir, destination))).withAspectRatio(1f, 1f)
-        .withMaxResultSize(512, 512).start(this)
-}
+@ColorInt
+fun Context.getResourceColor(@AttrRes resource: Int, alphaFactor: Float = 1f): Int {
+    val typedArray = obtainStyledAttributes(intArrayOf(resource))
+    val color = typedArray.getColor(0, 0)
+    typedArray.recycle()
 
-fun Fragment.startCrop(uri: Uri?) {
-    val destination = StringBuilder(UUID.randomUUID().toString()).append(".jpg").toString()
-    UCrop.of(uri!!, Uri.fromFile(File(context?.cacheDir, destination)))
-        .withAspectRatio(1f, 1f)
-        .withMaxResultSize(512, 512).start(context!!, this)
+    if (alphaFactor < 1f) {
+        val alpha = (color.alpha * alphaFactor).roundToInt()
+        return Color.argb(alpha, color.red, color.green, color.blue)
+    }
+
+    return color
 }
 
 fun Context.getCompatActivity(): AppCompatActivity {
@@ -106,39 +112,7 @@ fun Context.getCompatActivity(): AppCompatActivity {
     }
 }
 
-fun Fragment.putExtra(
-    bundle: String,
-    secondData: String? = null,
-    secondBundle: String? = null,
-    thirdData: String? = null,
-    thirdBundle: String? = null
-): Fragment {
-    val args = Bundle()
-    args.putString(IConstant.DATA, bundle)
-    args.putString(secondData, secondBundle)
-    args.putString(thirdData, thirdBundle)
-    arguments = args
-    return this
-}
-
-fun Context.showSheetWithExtra(
-    bottomSheet: BottomSheetDialogFragment,
-    bundle: String? = null,
-    isFullScreen: Boolean = false
-) {
-    val args = Bundle()
-    args.putString(IConstant.DATA, bundle)
-    args.putString(IConstant.IS_SHEET_FULL_SCREEN, isFullScreen.toString())
-    bottomSheet.arguments = args
-    bottomSheet.show(getCompatActivity().supportFragmentManager, bottomSheet.tag)
-}
-
-fun setThreadPolicy() {
-    val policy = StrictMode.ThreadPolicy.Builder().permitAll().build()
-    StrictMode.setThreadPolicy(policy)
-}
-
-fun Context.showRate() {
+fun Context.showPlayStoreRate() {
     val manager = ReviewManagerFactory.create(this)
     val request = manager.requestReviewFlow()
     request.addOnCompleteListener {
@@ -158,15 +132,25 @@ fun Context.showRate() {
     }
 }
 
-fun AppCompatActivity.lockSize(configuration: Configuration?, smallestWidth: Int) {
-    if (configuration != null) {
-        Log.d("TAG", "adjustDisplayScale: " + configuration.densityDpi)
-        configuration.densityDpi = smallestWidth
-        val metrics = resources.displayMetrics
-        val wm = getSystemService(Context.WINDOW_SERVICE) as WindowManager
-        wm.defaultDisplay.getMetrics(metrics)
-        metrics.scaledDensity = configuration.densityDpi * metrics.density
-        resources.updateConfiguration(configuration, metrics)
+fun Context.showSheetWithExtra(
+    bottomSheet: BottomSheetDialogFragment,
+    data: String? = null,
+    isFullScreen: Boolean = false
+) {
+    val args = Bundle()
+    args.putString(ConstantLib.DATA, data)
+    args.putString(ConstantLib.IS_SHEET_FULL_SCREEN, isFullScreen.toString())
+    bottomSheet.arguments = args
+    bottomSheet.show(getCompatActivity().supportFragmentManager, bottomSheet.tag)
+}
+
+fun Context.getVersionName(): String {
+    return try {
+        getCompatActivity().packageManager.getPackageInfo(
+            getCompatActivity().packageName, 0
+        ).versionName
+    } catch (e: PackageManager.NameNotFoundException) {
+        emptyString()
     }
 }
 
@@ -180,10 +164,11 @@ fun Context.openSettings(applicationID: String) {
 }
 
 fun Context.useCurrentTheme() {
-    AppCompatDelegate.setDefaultNightMode(
-        if (getPrefs().getBoolean(IConstant.DARK_MODE, false))
-            AppCompatDelegate.MODE_NIGHT_YES else AppCompatDelegate.MODE_NIGHT_NO
-    )
+    if (getPrefs().getBoolean(ConstantLib.IS_DARK_MODE, false)) {
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+    } else {
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+    }
 }
 
 fun Context.getScreenResolution(): Int {
@@ -197,41 +182,13 @@ fun Context.getScreenResolution(): Int {
     return width
 }
 
-fun AppCompatActivity.scaleScreen(configuration: Configuration, sizeHD: Int, sizeFHD: Int) {
-    Log.d("TAG", "adjustDisplayScaleBefore: ${configuration.densityDpi}")
-    if (getScreenResolution() >= 1080) lockSize(configuration, sizeFHD)
-    else lockSize(configuration, sizeHD)
-}
-
 fun Context.getCacheSize(): Long {
     var size: Long = 0
-    size += getDirSize(cacheDir!!)
+    size += getDirSize(cacheDir)
     size += getDirSize(externalCacheDir!!)
-    return size
-}
-
-fun getDirSize(dir: File): Long {
-    var size: Long = 0
-    for (file in dir.listFiles()) {
-        if (file != null && file.isDirectory) {
-            size += getDirSize(file)
-        } else if (file != null && file.isFile) {
-            size += file.length()
-        }
-    }
     return size
 }
 
 fun Context.getView(): View {
     return getCompatActivity().window.decorView.rootView
-}
-
-fun Response.isSuccess(): Boolean = this == Response.SUCCESS
-
-fun AppCompatActivity.forceSetLocal(langCode: String) {
-    val locale = Locale(langCode)
-    Locale.setDefault(locale)
-    val config = resources.configuration
-    config.setLocale(locale)
-    createConfigurationContext(config)
 }

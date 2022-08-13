@@ -1,4 +1,4 @@
-package com.acxdev.commonFunction.util.view
+package com.acxdev.commonFunction.util.ext.view
 
 import android.content.res.ColorStateList
 import androidx.annotation.ColorRes
@@ -19,6 +19,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.widget.ImageViewCompat
 import androidx.swiperefreshlayout.widget.CircularProgressDrawable
 import com.acxdev.commonFunction.util.TileDrawable
+import com.acxdev.commonFunction.util.ext.emptyString
 import com.acxdev.commonFunction.util.ext.getCompatActivity
 
 fun ImageView.setImage64(base64: String?) {
@@ -73,7 +74,8 @@ fun ImageView.toBase64(): String {
         val byteArray = byteArrayOutputStream.toByteArray()
         encodeToString(byteArray, DEFAULT)
     } catch (e: Exception) {
-        ""
+        e.printStackTrace()
+        emptyString()
     }
 }
 
@@ -85,12 +87,6 @@ fun ImageView.tint(@ColorRes colorRes: Int) {
 }
 
 fun ImageView.setPattern(@DrawableRes drawableRes: Int) {
-    setImageDrawable(
-        TileDrawable(
-            ContextCompat.getDrawable(
-                context.getCompatActivity(),
-                drawableRes
-            )!!, Shader.TileMode.REPEAT
-        )
-    )
+    setImageDrawable(ContextCompat.getDrawable(context.getCompatActivity(), drawableRes)
+        ?.let { TileDrawable(it, Shader.TileMode.REPEAT) })
 }

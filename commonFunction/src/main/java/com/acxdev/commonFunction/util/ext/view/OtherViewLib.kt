@@ -1,8 +1,7 @@
-package com.acxdev.commonFunction.util.view
+package com.acxdev.commonFunction.util.ext.view
 
 import android.content.ActivityNotFoundException
 import android.content.Intent
-import android.content.pm.PackageManager
 import android.content.res.ColorStateList
 import android.net.Uri
 import android.os.Build
@@ -11,6 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.annotation.ColorRes
+import androidx.annotation.DrawableRes
 import androidx.annotation.RequiresApi
 import androidx.core.app.ShareCompat
 import androidx.core.content.ContextCompat
@@ -21,13 +21,12 @@ import androidx.core.view.setMargins
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import com.acxdev.commonFunction.common.SocialMedia
+import com.acxdev.commonFunction.util.ext.emptyString
 import com.acxdev.commonFunction.util.ext.getCompatActivity
+import com.google.gson.Gson
 
 fun View.layoutTint(@ColorRes colorRes: Int) {
-    ViewCompat.setBackgroundTintList(
-        this,
-        ColorStateList.valueOf(ContextCompat.getColor(context, colorRes))
-    )
+    ViewCompat.setBackgroundTintList(this, ColorStateList.valueOf(ContextCompat.getColor(context, colorRes)))
 }
 
 fun View.setMargin(margin: Int) {
@@ -44,10 +43,7 @@ fun View.backgroundTint(@ColorRes colorRes: Int) {
 }
 
 fun TextView.setHtml(string: String) {
-    text = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) Html.fromHtml(
-        string,
-        Html.FROM_HTML_MODE_COMPACT
-    )
+    text = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) Html.fromHtml(string, Html.FROM_HTML_MODE_COMPACT)
     else HtmlCompat.fromHtml(string, HtmlCompat.FROM_HTML_MODE_LEGACY)
 }
 
@@ -77,7 +73,7 @@ fun View.socialMediaOnclick(data: String, socialMedia: SocialMedia) {
                     "http://instagram.com/_u/${
                         data.replace(
                             "www.instagram.com/",
-                            ""
+                            emptyString()
                         )
                     }"
                 )
@@ -157,4 +153,12 @@ fun View.visibleIf(state: Boolean, isInvisible: Boolean = false) {
         if(isInvisible) invisible()
         else gone()
     }
+}
+
+fun TextView.leftDrawable(@DrawableRes id: Int = 0) {
+    this.setCompoundDrawablesWithIntrinsicBounds(id, 0, 0, 0)
+}
+
+fun Any.toJson(): String {
+    return Gson().toJson(this)
 }

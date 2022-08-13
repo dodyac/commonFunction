@@ -27,7 +27,9 @@ class ViewPager2Adapter(fragmentActivity: FragmentActivity) :
     }
 
     fun sets(vararg fragments: Fragment) {
-        for (i in listOf(*fragments).indices) this.listFragment.add(listOf(*fragments)[i])
+        fragments.forEach {
+            this.listFragment.add(it)
+        }
     }
 
     fun setWithTab(

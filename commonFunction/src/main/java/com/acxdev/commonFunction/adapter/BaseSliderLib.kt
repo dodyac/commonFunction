@@ -9,18 +9,19 @@ import com.acxdev.commonFunction.common.InflateViewGroup
 import com.acxdev.commonFunction.util.ext.useCurrentTheme
 import com.smarteist.autoimageslider.SliderViewAdapter
 
-abstract class BaseSlider<VB : ViewBinding>(
+abstract class BaseSliderLib<VB : ViewBinding>(
     private val inflateViewGroup: InflateViewGroup<VB>,
     private val list: List<Any>
 ) :
-    SliderViewAdapter<BaseSlider.ViewHolder<VB>>() {
+    SliderViewAdapter<BaseSliderLib.ViewHolder<VB>>() {
 
     lateinit var context: Context
+    protected lateinit var binding: VB
 
     override fun onCreateViewHolder(parent: ViewGroup): ViewHolder<VB>? {
         parent.context.useCurrentTheme()
         context = parent.context
-        val binding = inflateViewGroup.invoke(
+        binding = inflateViewGroup.invoke(
             (parent.context.getSystemService(Activity.LAYOUT_INFLATER_SERVICE) as LayoutInflater),
             parent,
             false
@@ -30,7 +31,11 @@ abstract class BaseSlider<VB : ViewBinding>(
 
     override fun getCount() = list.size
 
-    class ViewHolder<VB : ViewBinding>(val binding: VB) : SliderViewAdapter.ViewHolder(binding.root)
+    class ViewHolder<VB : ViewBinding>(binding: VB) : SliderViewAdapter.ViewHolder(binding.root)
+
+    open fun scopeLayout(viewBinding: (VB.() -> Unit)) {
+        viewBinding.invoke(binding)
+    }
 
     interface OnClick<T> {
         fun onItemClick(item: T, position: Int)

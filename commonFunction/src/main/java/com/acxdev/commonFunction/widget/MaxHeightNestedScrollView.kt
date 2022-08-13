@@ -17,8 +17,8 @@ class MaxHeightNestedScrollView : NestedScrollView {
     fun setMaxHeightDensity(dps: Int) { maxHeight = context.resources.getDimensionPixelSize(dps) }
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
-        var heightMeasureSpec = heightMeasureSpec
-        if (maxHeight > 0) heightMeasureSpec = MeasureSpec.makeMeasureSpec(maxHeight, MeasureSpec.AT_MOST)
-        super.onMeasure(widthMeasureSpec, heightMeasureSpec)
+        var heightMeasuredSpec = heightMeasureSpec
+        if (maxHeight > 0) heightMeasuredSpec = MeasureSpec.makeMeasureSpec(maxHeight, MeasureSpec.AT_MOST)
+        super.onMeasure(widthMeasureSpec, heightMeasuredSpec)
     }
 }
