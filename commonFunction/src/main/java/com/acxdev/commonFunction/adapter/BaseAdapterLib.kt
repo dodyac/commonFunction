@@ -30,9 +30,17 @@ abstract class BaseAdapterLib<VB : ViewBinding, T>(
         return ViewHolder(binding)
     }
 
+    override fun onBindViewHolder(holder: ViewHolder<VB>, position: Int) {
+        val item = list[position]
+
+        holder.bind(item)
+    }
+
     override fun getItemCount() = list.size
 
     class ViewHolder<VB : ViewBinding>(val binding: VB) : RecyclerView.ViewHolder(binding.root)
+
+    abstract fun ViewHolder<VB>.bind(item: T)
 
     open fun ViewHolder<VB>.scopeLayout(viewBinding: (VB.() -> Unit)) {
         viewBinding.invoke(binding)

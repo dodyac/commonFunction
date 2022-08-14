@@ -28,9 +28,17 @@ abstract class BaseSliderLib<VB : ViewBinding, T>(
         return ViewHolder(binding)
     }
 
+    override fun onBindViewHolder(viewHolder: ViewHolder<VB>, position: Int) {
+        val item = list[position]
+
+        viewHolder.bind(item)
+    }
+
     override fun getCount() = list.size
 
     class ViewHolder<VB : ViewBinding>(val binding: VB) : SliderViewAdapter.ViewHolder(binding.root)
+
+    abstract fun ViewHolder<VB>.bind(item: T)
 
     open fun ViewHolder<VB>.scopeLayout(viewBinding: (VB.() -> Unit)) {
         viewBinding.invoke(binding)
