@@ -42,7 +42,7 @@ abstract class BaseAdapterFilterLib<VB : ViewBinding, T>(
     override fun onBindViewHolder(holder: ViewHolder<VB>, position: Int) {
         val item = listFilter[position]
 
-        configureViews(item, position)
+        configureViews(item, holder.adapterPosition)
     }
 
     override fun getItemCount() = listFilter.size
