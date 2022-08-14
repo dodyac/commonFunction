@@ -77,10 +77,4 @@ abstract class BaseBottomSheetLib<out VB : ViewBinding>(
         val str = path ?: ConstantLib.DATA
         return str.toClass(cls)
     }
-
-    //not ready yet
-//    override fun onDestroyView() {
-//        super.onDestroyView()
-//        _binding = null
-//    }
 }

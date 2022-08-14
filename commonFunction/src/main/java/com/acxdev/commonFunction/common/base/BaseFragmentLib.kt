@@ -5,26 +5,19 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
+import androidx.fragment.app.Fragment
 import androidx.viewbinding.ViewBinding
 import com.acxdev.commonFunction.common.ConstantLib
 import com.acxdev.commonFunction.common.InflateViewGroup
 import com.acxdev.commonFunction.util.ext.toClass
-import com.google.android.material.bottomsheet.BottomSheetDialogFragment
-import com.google.gson.Gson
 
-abstract class BaseFragmentLib<out VB : ViewBinding>(private val inflateViewGroup: InflateViewGroup<VB>) : BottomSheetDialogFragment() {
+abstract class BaseFragmentLib<out VB : ViewBinding>(private val inflateViewGroup: InflateViewGroup<VB>) : Fragment() {
 
     private var _binding: ViewBinding? = null
 
     @Suppress("UNCHECKED_CAST")
     protected val binding: VB
         get() = _binding as VB
-
-    fun setupFullHeight(bottomSheet: View) {
-        val layoutParams = bottomSheet.layoutParams
-        layoutParams.height = WindowManager.LayoutParams.MATCH_PARENT
-        bottomSheet.layoutParams = layoutParams
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -53,10 +46,4 @@ abstract class BaseFragmentLib<out VB : ViewBinding>(private val inflateViewGrou
         val str = path ?: ConstantLib.DATA
         return str.toClass(cls)
     }
-
-    //not ready yet
-//    override fun onDestroyView() {
-//        super.onDestroyView()
-//        _binding = null
-//    }
 }

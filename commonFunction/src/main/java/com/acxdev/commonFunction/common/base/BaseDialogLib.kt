@@ -1,19 +1,16 @@
 package com.acxdev.commonFunction.common.base
 
-import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
+import androidx.appcompat.app.AppCompatDialogFragment
 import androidx.viewbinding.ViewBinding
 import com.acxdev.commonFunction.common.ConstantLib
 import com.acxdev.commonFunction.common.InflateViewGroup
 import com.acxdev.commonFunction.util.ext.toClass
-import com.google.gson.Gson
 
-abstract class BaseDialogLib<out VB : ViewBinding>(private val inflateViewGroup: InflateViewGroup<VB>) : Fragment() {
+abstract class BaseDialogLib<out VB : ViewBinding>(private val inflateViewGroup: InflateViewGroup<VB>) : AppCompatDialogFragment() {
 
     private var _binding: ViewBinding? = null
 
@@ -48,10 +45,4 @@ abstract class BaseDialogLib<out VB : ViewBinding>(private val inflateViewGroup:
         val str = path ?: ConstantLib.DATA
         return str.toClass(cls)
     }
-
-    //not ready yet
-//    override fun onDestroyView() {
-//        super.onDestroyView()
-//        _binding = null
-//    }
 }
