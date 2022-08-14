@@ -1,6 +1,5 @@
 package com.acxdev.commonFunction.util.ext
 
-import android.Manifest
 import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Bitmap
@@ -12,15 +11,6 @@ import android.util.Base64
 import android.util.Patterns
 import com.acxdev.commonFunction.common.ConstantLib
 import com.acxdev.commonFunction.common.Response
-import com.acxdev.commonFunction.util.toast
-import com.karumi.dexter.Dexter
-import com.karumi.dexter.MultiplePermissionsReport
-import com.karumi.dexter.PermissionToken
-import com.karumi.dexter.listener.PermissionDeniedResponse
-import com.karumi.dexter.listener.PermissionGrantedResponse
-import com.karumi.dexter.listener.PermissionRequest
-import com.karumi.dexter.listener.multi.MultiplePermissionsListener
-import com.karumi.dexter.listener.single.PermissionListener
 import java.io.ByteArrayOutputStream
 import java.io.File
 import java.text.DecimalFormat
@@ -99,42 +89,3 @@ fun Bitmap.rotateImage(angle: Int): Bitmap {
 }
 
 fun Response.isSuccess(): Boolean = this == Response.SUCCESS
-
-fun Context.getAccessPermission(permissions: String, permissionGranted: (() -> Unit)) {
-    Dexter.withContext(this)
-        .withPermission(permissions)
-        .withListener(object : PermissionListener {
-            override fun onPermissionGranted(p0: PermissionGrantedResponse?) {
-                permissionGranted.invoke()
-            }
-
-            override fun onPermissionDenied(p0: PermissionDeniedResponse?) {
-                toast("Permission Denied")
-            }
-
-            override fun onPermissionRationaleShouldBeShown(
-                p0: PermissionRequest?,
-                p1: PermissionToken?
-            ) {
-                p1?.continuePermissionRequest()
-            }
-
-        }).check()
-}
-
-fun Context.getAccessPermissions(vararg permissions: String, permissionGranted: (() -> Unit)) {
-    Dexter.withContext(this)
-        .withPermissions(permissions.toMutableList())
-        .withListener(object : MultiplePermissionsListener {
-            override fun onPermissionsChecked(p0: MultiplePermissionsReport?) {
-                permissionGranted.invoke()
-            }
-
-            override fun onPermissionRationaleShouldBeShown(
-                p0: MutableList<PermissionRequest>?,
-                p1: PermissionToken?
-            ) {
-                p1?.continuePermissionRequest()
-            }
-        }).check()
-}

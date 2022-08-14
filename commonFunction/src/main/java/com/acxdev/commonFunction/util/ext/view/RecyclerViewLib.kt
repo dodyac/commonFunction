@@ -11,10 +11,10 @@ import com.smarteist.autoimageslider.SliderAnimations
 import com.smarteist.autoimageslider.SliderView
 import com.smarteist.autoimageslider.SliderViewAdapter
 
-fun RecyclerView.set(
+fun RecyclerView.setHStack(
     adapter: RecyclerView.Adapter<*>?,
-    isSnap: Boolean? = null,
-    hasFixed: Boolean? = null
+    isSnap: Boolean = false,
+    hasFixed: Boolean = false
 ) {
     layoutManager = LinearLayoutManager(
         context.getCompatActivity(),
@@ -22,40 +22,40 @@ fun RecyclerView.set(
         false
     )
     this.adapter = adapter
-    if (isSnap == true) {
+    setHasFixedSize(hasFixed)
+    if (isSnap) {
         val snapHelper = LinearSnapHelper()
         if (onFlingListener == null) snapHelper.attachToRecyclerView(this)
     }
-    if (hasFixed == true) setHasFixedSize(true)
 }
 
-fun RecyclerView.set(
+fun RecyclerView.setVStack(
     adapter: RecyclerView.Adapter<*>?,
-    spanCount: Int,
-    hasFixed: Boolean? = null
+    hasFixed: Boolean = false,
+    spanCount: Int = 1
 ) {
     this.layoutManager = GridLayoutManager(context.getCompatActivity(), spanCount)
     this.adapter = adapter
-    if (hasFixed == true) setHasFixedSize(true)
+    setHasFixedSize(hasFixed)
 }
 
 fun RecyclerView.setGrid(
     adapter: RecyclerView.Adapter<*>?,
     numOfColumns: Float,
-    hasFixed: Boolean? = null
+    hasFixed: Boolean = false
 ) {
     this.layoutManager = GridLayoutManager(
         context.getCompatActivity(),
         context.getCompatActivity().numOfColumns(numOfColumns)
     )
     this.adapter = adapter
-    if (hasFixed == true) setHasFixedSize(true)
+    setHasFixedSize(hasFixed)
 }
 
-fun RecyclerView.setStag(
+fun RecyclerView.setStaggered(
     adapter: RecyclerView.Adapter<*>?,
     numOfColumns: Float,
-    hasFixed: Boolean? = null
+    hasFixed: Boolean = false
 ) {
     val layoutManager = StaggeredGridLayoutManager(
         context.getCompatActivity().numOfColumns(numOfColumns),
@@ -66,16 +66,16 @@ fun RecyclerView.setStag(
 
     this.layoutManager = layoutManager
     this.adapter = adapter
-    if (hasFixed == true) setHasFixedSize(true)
+    setHasFixedSize(hasFixed)
 }
 
-fun RecyclerView.setFlex(adapter: RecyclerView.Adapter<*>, hasFixed: Boolean? = null) {
+fun RecyclerView.setFlex(adapter: RecyclerView.Adapter<*>, hasFixed: Boolean = false) {
     val layoutManager = FlexboxLayoutManager(context.getCompatActivity())
     layoutManager.flexWrap = FlexWrap.WRAP
     layoutManager.flexDirection = FlexDirection.ROW
     this.layoutManager = layoutManager
     this.adapter = adapter
-    if (hasFixed == true) setHasFixedSize(true)
+    setHasFixedSize(hasFixed)
 }
 
 fun SliderView.set(sliderViewAdapter: SliderViewAdapter<*>) {

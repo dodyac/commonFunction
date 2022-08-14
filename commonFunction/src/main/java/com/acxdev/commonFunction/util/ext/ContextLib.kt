@@ -29,9 +29,18 @@ import androidx.core.graphics.red
 import com.acxdev.commonFunction.common.ConstantLib
 import com.acxdev.commonFunction.common.Toast
 import com.acxdev.commonFunction.util.Preference.Companion.getPrefs
+import com.acxdev.commonFunction.util.toast
 import com.acxdev.commonFunction.util.toasty
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.play.core.review.ReviewManagerFactory
+import com.karumi.dexter.Dexter
+import com.karumi.dexter.MultiplePermissionsReport
+import com.karumi.dexter.PermissionToken
+import com.karumi.dexter.listener.PermissionDeniedResponse
+import com.karumi.dexter.listener.PermissionGrantedResponse
+import com.karumi.dexter.listener.PermissionRequest
+import com.karumi.dexter.listener.multi.MultiplePermissionsListener
+import com.karumi.dexter.listener.single.PermissionListener
 import com.thefinestartist.finestwebview.FinestWebView
 import com.yalantis.ucrop.UCrop
 import kotlin.math.roundToInt
@@ -191,4 +200,43 @@ fun Context.getCacheSize(): Long {
 
 fun Context.getView(): View {
     return getCompatActivity().window.decorView.rootView
+}
+
+fun Context.whenPermissionGranted(permissions: String, permissionGranted: (() -> Unit)) {
+    Dexter.withContext(this)
+        .withPermission(permissions)
+        .withListener(object : PermissionListener {
+            override fun onPermissionGranted(p0: PermissionGrantedResponse?) {
+                permissionGranted.invoke()
+            }
+
+            override fun onPermissionDenied(p0: PermissionDeniedResponse?) {
+                toast("Permission Denied")
+            }
+
+            override fun onPermissionRationaleShouldBeShown(
+                p0: PermissionRequest?,
+                p1: PermissionToken?
+            ) {
+                p1?.continuePermissionRequest()
+            }
+
+        }).check()
+}
+
+fun Context.whenPermissionsGranted(vararg permissions: String, permissionGranted: (() -> Unit)) {
+    Dexter.withContext(this)
+        .withPermissions(permissions.toMutableList())
+        .withListener(object : MultiplePermissionsListener {
+            override fun onPermissionsChecked(p0: MultiplePermissionsReport?) {
+                permissionGranted.invoke()
+            }
+
+            override fun onPermissionRationaleShouldBeShown(
+                p0: MutableList<PermissionRequest>?,
+                p1: PermissionToken?
+            ) {
+                p1?.continuePermissionRequest()
+            }
+        }).check()
 }

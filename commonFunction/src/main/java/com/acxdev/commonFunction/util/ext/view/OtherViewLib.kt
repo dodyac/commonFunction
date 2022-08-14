@@ -19,6 +19,7 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.get
 import androidx.core.view.setMargins
 import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import androidx.viewpager2.widget.ViewPager2
 import com.acxdev.commonFunction.common.SocialMedia
 import com.acxdev.commonFunction.util.ext.emptyString
@@ -161,4 +162,14 @@ fun TextView.leftDrawable(@DrawableRes id: Int = 0) {
 
 fun Any.toJson(): String {
     return Gson().toJson(this)
+}
+
+fun SwipeRefreshLayout.whenRefreshed(action: () -> Unit) {
+    action.invoke()
+    setOnRefreshListener {
+        postDelayed({
+            isRefreshing = false
+            action.invoke()
+        }, 2)
+    }
 }
