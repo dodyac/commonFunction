@@ -10,10 +10,10 @@ import androidx.annotation.StyleRes
 import androidx.viewbinding.ViewBinding
 import com.acxdev.commonFunction.common.ConstantLib
 import com.acxdev.commonFunction.common.InflateViewGroup
+import com.acxdev.commonFunction.util.ext.toClass
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
-import com.google.gson.Gson
 
 abstract class BaseBottomSheetLib<out VB : ViewBinding>(
     @StyleRes private val bottomSheetStyle: Int,
@@ -73,8 +73,10 @@ abstract class BaseBottomSheetLib<out VB : ViewBinding>(
 
     fun getStringExtra(path: String? = null): String? = arguments?.getString(path ?: ConstantLib.DATA)
 
-    fun <T> getExtraAs(cls: Class<T>, path: String? = null): T =
-        Gson().fromJson(requireArguments().getString(path ?: ConstantLib.DATA), cls)
+    fun <T> getExtraAs(cls: Class<T>, path: String? = null): T {
+        val str = path ?: ConstantLib.DATA
+        return str.toClass(cls)
+    }
 
     //not ready yet
 //    override fun onDestroyView() {

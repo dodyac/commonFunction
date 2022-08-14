@@ -7,6 +7,8 @@ import android.os.Build
 import android.util.Base64
 import androidx.annotation.RequiresApi
 import androidx.annotation.WorkerThread
+import com.acxdev.commonFunction.common.ConstantLib
+import com.google.gson.Gson
 import java.io.IOException
 import java.net.HttpURLConnection
 import java.net.URL
@@ -67,4 +69,8 @@ fun String.base64ToBitmap(): Bitmap? {
         e.printStackTrace()
         null
     }
+}
+
+fun <T>String.toClass(cls: Class<T>): T {
+    return Gson().fromJson(this, cls)
 }

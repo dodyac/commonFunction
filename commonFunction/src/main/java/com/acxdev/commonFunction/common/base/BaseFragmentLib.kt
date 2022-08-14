@@ -8,6 +8,7 @@ import android.view.WindowManager
 import androidx.viewbinding.ViewBinding
 import com.acxdev.commonFunction.common.ConstantLib
 import com.acxdev.commonFunction.common.InflateViewGroup
+import com.acxdev.commonFunction.util.ext.toClass
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.gson.Gson
 
@@ -48,8 +49,10 @@ abstract class BaseFragmentLib<out VB : ViewBinding>(private val inflateViewGrou
 
     fun getStringExtra(path: String? = null): String? = arguments?.getString(path ?: ConstantLib.DATA)
 
-    fun <T> getExtraAs(cls: Class<T>, path: String? = null): T =
-        Gson().fromJson(requireArguments().getString(path ?: ConstantLib.DATA), cls)
+    fun <T> getExtraAs(cls: Class<T>, path: String? = null): T {
+        val str = path ?: ConstantLib.DATA
+        return str.toClass(cls)
+    }
 
     //not ready yet
 //    override fun onDestroyView() {
