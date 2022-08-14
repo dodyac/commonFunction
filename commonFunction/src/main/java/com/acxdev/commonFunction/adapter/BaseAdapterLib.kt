@@ -17,18 +17,29 @@ abstract class BaseAdapterLib<VB : ViewBinding, T>(
 ) :
     RecyclerView.Adapter<BaseAdapterLib.ViewHolder<VB>>() {
 
+    private var _binding: ViewBinding? = null
+
+    @Suppress("UNCHECKED_CAST")
+    protected val binding: VB
+        get() = _binding as VB
+
     protected lateinit var context: Context
-    protected lateinit var binding: VB
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder<VB> {
         context = parent.context
         context.useCurrentTheme()
-        binding = inflateViewGroup.invoke(
+        _binding = inflateViewGroup.invoke(
             (parent.context.getSystemService(Activity.LAYOUT_INFLATER_SERVICE) as LayoutInflater),
             parent,
             false
         )
         return ViewHolder(binding)
+    }
+
+    override fun onBindViewHolder(holder: ViewHolder<VB>, position: Int) {
+        val item = list[position]
+
+        configureViews(item, position)
     }
 
     override fun getItemCount() = list.size
@@ -38,6 +49,8 @@ abstract class BaseAdapterLib<VB : ViewBinding, T>(
     open fun scopeLayout(viewBinding: (VB.() -> Unit)) {
         viewBinding.invoke(binding)
     }
+
+    abstract fun configureViews(item: T, position: Int)
 
     fun updateItem(newList: List<T>) {
         val diff = Diff(list, newList)
