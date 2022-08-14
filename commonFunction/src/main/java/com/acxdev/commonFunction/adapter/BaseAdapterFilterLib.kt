@@ -39,12 +39,6 @@ abstract class BaseAdapterFilterLib<VB : ViewBinding, T>(
         return ViewHolder(binding)
     }
 
-    override fun onBindViewHolder(holder: ViewHolder<VB>, position: Int) {
-        val item = listFilter[position]
-
-        configureViews(item, holder.adapterPosition)
-    }
-
     override fun getItemCount() = listFilter.size
 
     class ViewHolder<VB : ViewBinding>(binding: VB) : RecyclerView.ViewHolder(binding.root)
@@ -52,8 +46,6 @@ abstract class BaseAdapterFilterLib<VB : ViewBinding, T>(
     open fun scopeLayout(viewBinding: (VB.() -> Unit)) {
         viewBinding.invoke(binding)
     }
-
-    abstract fun configureViews(item: T, position: Int)
 
     protected abstract val filterable: Filter
 

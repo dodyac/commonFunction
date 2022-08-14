@@ -36,12 +36,6 @@ abstract class BaseAdapterLib<VB : ViewBinding, T>(
         return ViewHolder(binding)
     }
 
-    override fun onBindViewHolder(holder: ViewHolder<VB>, position: Int) {
-        val item = list[position]
-
-        configureViews(item, holder.adapterPosition)
-    }
-
     override fun getItemCount() = list.size
 
     class ViewHolder<VB : ViewBinding>(binding: VB) : RecyclerView.ViewHolder(binding.root)
@@ -49,8 +43,6 @@ abstract class BaseAdapterLib<VB : ViewBinding, T>(
     open fun scopeLayout(viewBinding: (VB.() -> Unit)) {
         viewBinding.invoke(binding)
     }
-
-    abstract fun configureViews(item: T, position: Int)
 
     fun updateItem(newList: List<T>) {
         val diff = Diff(list, newList)
