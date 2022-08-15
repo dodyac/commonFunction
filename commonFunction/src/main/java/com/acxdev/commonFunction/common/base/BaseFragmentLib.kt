@@ -40,11 +40,9 @@ abstract class BaseFragmentLib<VB : ViewBinding>(private val inflateViewGroup: I
 
     protected abstract fun VB.configureViews()
     protected abstract fun VB.setOnClickListener()
-
+    
     fun getStringExtra(path: String? = null): String? = arguments?.getString(path ?: ConstantLib.DATA)
 
-    fun <T> getExtraAs(cls: Class<T>, path: String? = null): T {
-        val str = path ?: ConstantLib.DATA
-        return str.toClass(cls)
-    }
+    fun <T> getExtraAs(cls: Class<T>, data: String? = null): T =
+        arguments?.getString(data ?: ConstantLib.DATA).toClass(cls)
 }

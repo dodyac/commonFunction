@@ -71,6 +71,6 @@ fun String.base64ToBitmap(): Bitmap? {
     }
 }
 
-fun <T>String.toClass(cls: Class<T>): T {
+fun <T>String?.toClass(cls: Class<T>): T {
     return Gson().fromJson(this, cls)
 }
