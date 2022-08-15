@@ -11,7 +11,7 @@ import com.acxdev.commonFunction.common.ConstantLib
 import com.acxdev.commonFunction.common.InflateViewGroup
 import com.acxdev.commonFunction.util.ext.toClass
 
-abstract class BaseFragmentLib<out VB : ViewBinding>(private val inflateViewGroup: InflateViewGroup<VB>) : Fragment() {
+abstract class BaseFragmentLib<VB : ViewBinding>(private val inflateViewGroup: InflateViewGroup<VB>) : Fragment() {
 
     private var _binding: ViewBinding? = null
 
@@ -30,15 +30,16 @@ abstract class BaseFragmentLib<out VB : ViewBinding>(private val inflateViewGrou
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        configureViews()
-        setOnClickListener()
+        binding.configureViews()
+        binding.setOnClickListener()
     }
 
-    open fun scopeLayout(viewBinding: (VB.() -> Unit)) {
+    protected fun scopeLayout(viewBinding: (VB.() -> Unit)) {
         viewBinding.invoke(binding)
     }
-    open fun configureViews() {}
-    open fun setOnClickListener() {}
+
+    protected abstract fun VB.configureViews()
+    protected abstract fun VB.setOnClickListener()
 
     fun getStringExtra(path: String? = null): String? = arguments?.getString(path ?: ConstantLib.DATA)
 

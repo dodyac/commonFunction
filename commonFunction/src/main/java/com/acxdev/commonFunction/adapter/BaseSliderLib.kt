@@ -38,7 +38,7 @@ abstract class BaseSliderLib<VB : ViewBinding, T>(
 
     class ViewHolder<VB : ViewBinding>(val binding: VB) : SliderViewAdapter.ViewHolder(binding.root)
 
-    abstract fun ViewHolder<VB>.bind(item: T)
+    protected abstract fun ViewHolder<VB>.bind(item: T)
 
     open fun ViewHolder<VB>.scopeLayout(viewBinding: (VB.() -> Unit)) {
         viewBinding.invoke(binding)

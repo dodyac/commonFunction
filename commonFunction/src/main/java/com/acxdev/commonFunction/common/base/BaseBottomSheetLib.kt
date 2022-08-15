@@ -15,7 +15,7 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
-abstract class BaseBottomSheetLib<out VB : ViewBinding>(
+abstract class BaseBottomSheetLib<VB : ViewBinding>(
     @StyleRes private val bottomSheetStyle: Int,
     private val inflateViewGroup: InflateViewGroup<VB>
     ) : BottomSheetDialogFragment() {
@@ -61,15 +61,16 @@ abstract class BaseBottomSheetLib<out VB : ViewBinding>(
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        configureViews()
-        setOnClickListener()
+        binding.configureViews()
+        binding.setOnClickListener()
     }
 
-    open fun scopeLayout(viewBinding: (VB.() -> Unit)) {
+    protected fun scopeLayout(viewBinding: (VB.() -> Unit)) {
         viewBinding.invoke(binding)
     }
-    open fun configureViews() {}
-    open fun setOnClickListener() {}
+
+    protected abstract fun VB.configureViews()
+    protected abstract fun VB.setOnClickListener()
 
     fun getStringExtra(path: String? = null): String? = arguments?.getString(path ?: ConstantLib.DATA)
 

@@ -10,7 +10,7 @@ import com.acxdev.commonFunction.common.ConstantLib
 import com.acxdev.commonFunction.common.InflateViewGroup
 import com.acxdev.commonFunction.util.ext.toClass
 
-abstract class BaseDialogLib<out VB : ViewBinding>(private val inflateViewGroup: InflateViewGroup<VB>) : AppCompatDialogFragment() {
+abstract class BaseDialogLib<VB : ViewBinding>(private val inflateViewGroup: InflateViewGroup<VB>) : AppCompatDialogFragment() {
 
     private var _binding: ViewBinding? = null
 
@@ -29,15 +29,16 @@ abstract class BaseDialogLib<out VB : ViewBinding>(private val inflateViewGroup:
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        configureViews()
-        setOnClickListener()
+        binding.configureViews()
+        binding.setOnClickListener()
     }
 
-    open fun scopeLayout(viewBinding: (VB.() -> Unit)) {
+    protected fun scopeLayout(viewBinding: (VB.() -> Unit)) {
         viewBinding.invoke(binding)
     }
-    open fun configureViews() {}
-    open fun setOnClickListener() {}
+
+    protected abstract fun VB.configureViews()
+    protected abstract fun VB.setOnClickListener()
 
     fun getStringExtra(path: String? = null): String? = arguments?.getString(path ?: ConstantLib.DATA)
 

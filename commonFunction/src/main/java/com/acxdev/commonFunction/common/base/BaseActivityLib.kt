@@ -19,13 +19,14 @@ abstract class BaseActivityLib<VB : ViewBinding>(private val inflate: Inflate<VB
         _binding = inflate.invoke(layoutInflater)
         setContentView(binding.root)
 
-        configureViews()
-        setOnClickListener()
+        binding.configureViews()
+        binding.setOnClickListener()
     }
 
-    open fun scopeLayout(viewBinding: (VB.() -> Unit)) {
+    protected fun scopeLayout(viewBinding: (VB.() -> Unit)) {
         viewBinding.invoke(binding)
     }
-    open fun configureViews() {}
-    open fun setOnClickListener() {}
+
+    protected abstract fun VB.configureViews()
+    protected abstract fun VB.setOnClickListener()
 }
