@@ -15,7 +15,7 @@ class BaseNetworking {
             if(response.isSuccessful) {
                 body.invoke(ResponseLib(response.body(), Response.SUCCESS, emptyString()))
             } else {
-                body.invoke(ResponseLib(null, Response.UNSUCCESSFUL, response.errorBody().toString()))
+                body.invoke(ResponseLib(null, Response.UNSUCCESSFUL, response.code().toString()))
                 println(response.raw().toString())
             }
         }
