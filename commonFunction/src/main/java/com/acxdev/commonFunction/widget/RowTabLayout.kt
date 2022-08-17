@@ -9,14 +9,14 @@ import com.acxdev.commonFunction.util.ext.view.setHStack
 class RowTabLayout<VB : ViewBinding, T>(
     list: MutableList<T>,
     inflateViewGroup: InflateViewGroup<VB>,
-    private val onBehavior: OnBehavior<VB, T>) :
+    private val onLayout: OnLayout<VB, T>) :
     BaseAdapterLib<VB, T>(inflateViewGroup, list) {
 
     private var selected = 0
 
     override fun ViewHolder<VB>.bind(item: T) {
         scopeLayout {
-            onBehavior.onLayout(this, item,selected == adapterPosition)
+            onLayout.onLoaded(this, item,selected == adapterPosition)
 
             root.setOnClickListener {
                 if (selected >= 0) {
@@ -24,14 +24,12 @@ class RowTabLayout<VB : ViewBinding, T>(
                 }
                 selected = adapterPosition
                 notifyItemChanged(selected)
-                onBehavior.onItemClick(item)
             }
         }
     }
 
-    interface OnBehavior<VB, T> {
-        fun onItemClick(item: T)
-        fun onLayout(binding: VB, item: T, isSelected: Boolean)
+    interface OnLayout<VB, T> {
+        fun onLoaded(binding: VB, item: T, isSelected: Boolean)
     }
 }
 
@@ -40,11 +38,8 @@ fun <VB : ViewBinding, T>RecyclerView.asTabLayoutWith(
     inflateViewGroup: InflateViewGroup<VB>,
     onLayout: ((VB, T, Boolean) -> Unit)
 ) {
-    setHStack(RowTabLayout(menuList, inflateViewGroup, object : RowTabLayout.OnBehavior<VB, T> {
-        override fun onItemClick(item: T) {
-        }
-
-        override fun onLayout(binding: VB, item: T, isSelected: Boolean) {
+    setHStack(RowTabLayout(menuList, inflateViewGroup, object : RowTabLayout.OnLayout<VB, T> {
+        override fun onLoaded(binding: VB, item: T, isSelected: Boolean) {
             onLayout.invoke(binding, item, isSelected)
         }
 
