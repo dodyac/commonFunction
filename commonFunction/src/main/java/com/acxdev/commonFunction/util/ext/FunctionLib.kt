@@ -1,6 +1,5 @@
 package com.acxdev.commonFunction.util.ext
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
@@ -17,8 +16,7 @@ import java.text.DecimalFormat
 import java.text.SimpleDateFormat
 import java.util.*
 
-@SuppressLint("SimpleDateFormat")
-fun getToday(pattern: String, locale: Locale? = null): String {
+fun getToday(pattern: String, locale: Locale = Locale.getDefault()): String {
     val date = System.currentTimeMillis()
     val sdf = SimpleDateFormat(pattern, locale)
     return sdf.format(date)

@@ -20,7 +20,7 @@ abstract class BaseActivityLib<VB : ViewBinding>(private val inflate: Inflate<VB
         setContentView(binding.root)
 
         binding.configureViews()
-        binding.setOnClickListener()
+        binding.onClickListener()
     }
 
     protected fun scopeLayout(viewBinding: (VB.() -> Unit)) {
@@ -28,5 +28,5 @@ abstract class BaseActivityLib<VB : ViewBinding>(private val inflate: Inflate<VB
     }
 
     protected abstract fun VB.configureViews()
-    protected abstract fun VB.setOnClickListener()
+    protected abstract fun VB.onClickListener()
 }

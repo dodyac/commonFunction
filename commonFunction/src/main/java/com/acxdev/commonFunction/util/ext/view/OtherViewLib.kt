@@ -23,7 +23,6 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import androidx.viewpager2.widget.ViewPager2
 import com.acxdev.commonFunction.common.SocialMedia
 import com.acxdev.commonFunction.util.ext.emptyString
-import com.acxdev.commonFunction.util.ext.getCompatActivity
 import com.google.gson.Gson
 
 fun View.layoutTint(@ColorRes colorRes: Int) {
@@ -53,10 +52,9 @@ fun View.shareVia(
     contentText: String,
 ) {
     setOnClickListener {
-        ShareCompat.IntentBuilder.from(context.getCompatActivity()).setType("text/plain")
+        ShareCompat.IntentBuilder(context).setType("text/plain")
             .setChooserTitle(chooserTitle).setText(
-                contentText +
-                        "https://play.google.com/store/apps/details?id=${context.packageName}"
+                contentText + "https://play.google.com/store/apps/details?id=${context.packageName}"
             ).startChooser()
     }
 }

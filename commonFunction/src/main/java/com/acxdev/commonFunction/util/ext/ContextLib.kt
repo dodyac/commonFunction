@@ -51,8 +51,7 @@ fun Context.isNetworkAvailable(): Boolean {
         getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
         val networkCapabilities = connectivityManager.activeNetwork ?: return false
-        val actNw =
-            connectivityManager.getNetworkCapabilities(networkCapabilities) ?: return false
+        val actNw = connectivityManager.getNetworkCapabilities(networkCapabilities) ?: return false
         result = when {
             actNw.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) -> true
             actNw.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) -> true
@@ -155,9 +154,7 @@ fun Context.showSheetWithExtra(
 
 fun Context.getVersionName(): String {
     return try {
-        getCompatActivity().packageManager.getPackageInfo(
-            getCompatActivity().packageName, 0
-        ).versionName
+        packageManager.getPackageInfo(packageName, 0).versionName
     } catch (e: PackageManager.NameNotFoundException) {
         emptyString()
     }
@@ -229,7 +226,13 @@ fun Context.whenPermissionsGranted(vararg permissions: String, permissionGranted
         .withPermissions(permissions.toMutableList())
         .withListener(object : MultiplePermissionsListener {
             override fun onPermissionsChecked(p0: MultiplePermissionsReport?) {
-                permissionGranted.invoke()
+                p0?.let {
+                    if(it.areAllPermissionsGranted()) {
+                        permissionGranted.invoke()
+                    } else {
+                        toast("Permissions Denied")
+                    }
+                }
             }
 
             override fun onPermissionRationaleShouldBeShown(

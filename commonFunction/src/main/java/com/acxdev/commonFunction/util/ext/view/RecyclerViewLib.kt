@@ -2,7 +2,6 @@ package com.acxdev.commonFunction.util.ext.view
 
 import android.content.Context
 import androidx.recyclerview.widget.*
-import com.acxdev.commonFunction.util.ext.getCompatActivity
 import com.google.android.flexbox.FlexDirection
 import com.google.android.flexbox.FlexWrap
 import com.google.android.flexbox.FlexboxLayoutManager
@@ -16,11 +15,7 @@ fun RecyclerView.setHStack(
     isSnap: Boolean = false,
     hasFixed: Boolean = false
 ) {
-    layoutManager = LinearLayoutManager(
-        context.getCompatActivity(),
-        LinearLayoutManager.HORIZONTAL,
-        false
-    )
+    layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
     this.adapter = adapter
     setHasFixedSize(hasFixed)
     if (isSnap) {
@@ -34,7 +29,7 @@ fun RecyclerView.setVStack(
     hasFixed: Boolean = false,
     spanCount: Int = 1
 ) {
-    this.layoutManager = GridLayoutManager(context.getCompatActivity(), spanCount)
+    layoutManager = GridLayoutManager(context, spanCount)
     this.adapter = adapter
     setHasFixedSize(hasFixed)
 }
@@ -44,10 +39,7 @@ fun RecyclerView.setGrid(
     numOfColumns: Float,
     hasFixed: Boolean = false
 ) {
-    this.layoutManager = GridLayoutManager(
-        context.getCompatActivity(),
-        context.getCompatActivity().numOfColumns(numOfColumns)
-    )
+    layoutManager = GridLayoutManager(context, context.numOfColumns(numOfColumns))
     this.adapter = adapter
     setHasFixedSize(hasFixed)
 }
@@ -58,11 +50,10 @@ fun RecyclerView.setStaggered(
     hasFixed: Boolean = false
 ) {
     val layoutManager = StaggeredGridLayoutManager(
-        context.getCompatActivity().numOfColumns(numOfColumns),
+        context.numOfColumns(numOfColumns),
         LinearLayoutManager.VERTICAL
     )
-    layoutManager.gapStrategy =
-        StaggeredGridLayoutManager.GAP_HANDLING_MOVE_ITEMS_BETWEEN_SPANS
+    layoutManager.gapStrategy = StaggeredGridLayoutManager.GAP_HANDLING_MOVE_ITEMS_BETWEEN_SPANS
 
     this.layoutManager = layoutManager
     this.adapter = adapter
@@ -70,7 +61,7 @@ fun RecyclerView.setStaggered(
 }
 
 fun RecyclerView.setFlex(adapter: RecyclerView.Adapter<*>, hasFixed: Boolean = false) {
-    val layoutManager = FlexboxLayoutManager(context.getCompatActivity())
+    val layoutManager = FlexboxLayoutManager(context)
     layoutManager.flexWrap = FlexWrap.WRAP
     layoutManager.flexDirection = FlexDirection.ROW
     this.layoutManager = layoutManager

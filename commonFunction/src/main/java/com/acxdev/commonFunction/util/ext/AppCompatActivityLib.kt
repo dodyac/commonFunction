@@ -18,17 +18,18 @@ fun AppCompatActivity.startCrop(uri: Uri?) {
 
 fun AppCompatActivity.lockSize(configuration: Configuration?, smallestWidth: Int) {
     if (configuration != null) {
-        Log.d("TAG", "adjustDisplayScale: " + configuration.densityDpi)
+        Log.d("SCALE SIZE", "adjustDisplayScale: " + configuration.densityDpi)
         configuration.densityDpi = smallestWidth
         val metrics = resources.displayMetrics
         val wm = getSystemService(Context.WINDOW_SERVICE) as WindowManager
         wm.defaultDisplay.getMetrics(metrics)
+
         metrics.scaledDensity = configuration.densityDpi * metrics.density
         resources.updateConfiguration(configuration, metrics)
     }
 }
 fun AppCompatActivity.scaleScreen(configuration: Configuration, sizeHD: Int, sizeFHD: Int) {
-    Log.d("TAG", "adjustDisplayScaleBefore: ${configuration.densityDpi}")
+    Log.d("SCALE SIZE", "adjustDisplayScaleBefore: ${configuration.densityDpi}")
     if (getScreenResolution() >= 1080) lockSize(configuration, sizeFHD)
     else lockSize(configuration, sizeHD)
 }

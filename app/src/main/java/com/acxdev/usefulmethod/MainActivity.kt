@@ -1,0 +1,71 @@
+package com.acxdev.usefulmethod
+
+import androidx.appcompat.app.AppCompatActivity
+import android.os.Bundle
+import androidx.recyclerview.widget.RecyclerView
+import com.acxdev.commonFunction.util.ext.view.setImageUrl
+import com.acxdev.commonFunction.util.toast
+import com.acxdev.commonFunction.widget.RowTabLayout
+import com.acxdev.commonFunction.widget.asTabLayoutWith
+import com.acxdev.usefulmethod.databinding.RowTabLayoutBinding
+
+class MainActivity : AppCompatActivity() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+
+        val recycler = findViewById<RecyclerView>(R.id.recycler)
+
+        val menuList = listOf(
+            TabLayout("All", randomImage()),
+            TabLayout("News", randomImage()),
+            TabLayout("Daily Quiz", randomImage()),
+            TabLayout("Stereo", randomImage()),
+            TabLayout("Radio", randomImage()),
+            TabLayout("Bullish", randomImage()),
+            TabLayout("Bearish", randomImage()),
+            TabLayout("Rugpull", randomImage()),
+            TabLayout("Eyes", randomImage()),
+            TabLayout("Tight", randomImage()),
+            TabLayout("Before", randomImage()),
+            TabLayout("Game", randomImage()),
+        ).toMutableList()
+
+        supportActionBar?.hide()
+
+        recycler.asTabLayoutWith(menuList, RowTabLayoutBinding::inflate) { vb, t, b ->
+            vb.apply {
+                image.setImageUrl(t.image)
+                name.apply {
+                    text = t.str
+                    if (b) {
+                        toast(t.str)
+                        name.apply {
+                            setTextColor(context.getColor(R.color.white))
+                            setBackgroundResource(R.drawable.bg_fade_blue)
+                        }
+                    } else {
+                        name.apply {
+                            setTextColor(context.getColor(R.color.tabLayoutInactive))
+                            setBackgroundResource(android.R.color.transparent)
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    private fun randomImage(): String {
+        return listOf(
+            "https://ravenpool.ninja/assets/images/logo-icon.png",
+            "https://pool.space/favicon.ico",
+            "https://www.leafpool.com/favicon.ico",
+            "https://i.ibb.co/7JL6FLB/default.png",
+            "https://www.digipools.org/img/fav/favicon-96x96.png",
+            "https://i.ibb.co/7JL6FLB/default.png",
+            "https://ezil.me/static/favicon.ico"
+        ).random()
+    }
+}
+
+data class TabLayout(val str: String, val image: String)

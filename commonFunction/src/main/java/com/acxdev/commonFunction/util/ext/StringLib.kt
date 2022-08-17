@@ -1,13 +1,11 @@
 package com.acxdev.commonFunction.util.ext
 
-import android.annotation.SuppressLint
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.os.Build
 import android.util.Base64
 import androidx.annotation.RequiresApi
 import androidx.annotation.WorkerThread
-import com.acxdev.commonFunction.common.ConstantLib
 import com.google.gson.Gson
 import java.io.IOException
 import java.net.HttpURLConnection
@@ -15,8 +13,7 @@ import java.net.URL
 import java.text.SimpleDateFormat
 import java.util.*
 
-@SuppressLint("SimpleDateFormat")
-fun String.formatDate(before: String, after: String, locale: Locale? = null): String {
+fun String.formatDate(before: String, after: String, locale: Locale = Locale.getDefault()): String {
     val dateFormat =  SimpleDateFormat(before, locale)
     val date = dateFormat.parse(this)
     val output = SimpleDateFormat(after, locale)
@@ -39,14 +36,12 @@ fun String.urlFileLength(): Long {
 }
 
 fun String.isNumber(): Boolean {
-    var numeric = true
-    try {
-        val num = Integer.parseInt(this)
+    return try {
+        Integer.parseInt(this)
+        true
     } catch (e: Exception) {
-        numeric = false
+        false
     }
-
-    return numeric
 }
 
 fun String.withBearer(): String {
@@ -73,4 +68,8 @@ fun String.base64ToBitmap(): Bitmap? {
 
 fun <T>String?.toClass(cls: Class<T>): T {
     return Gson().fromJson(this, cls)
+}
+
+fun String.capitalized(): String {
+    return replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.getDefault()) else it.toString() }
 }

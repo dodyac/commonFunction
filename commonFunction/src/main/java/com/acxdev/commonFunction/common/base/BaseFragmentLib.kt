@@ -31,7 +31,7 @@ abstract class BaseFragmentLib<VB : ViewBinding>(private val inflateViewGroup: I
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.configureViews()
-        binding.setOnClickListener()
+        binding.onClickListener()
     }
 
     protected fun scopeLayout(viewBinding: (VB.() -> Unit)) {
@@ -39,7 +39,7 @@ abstract class BaseFragmentLib<VB : ViewBinding>(private val inflateViewGroup: I
     }
 
     protected abstract fun VB.configureViews()
-    protected abstract fun VB.setOnClickListener()
+    protected abstract fun VB.onClickListener()
 
     fun getStringExtra(path: String? = null): String? = arguments?.getString(path ?: ConstantLib.DATA)
 

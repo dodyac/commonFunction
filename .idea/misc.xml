@@ -3,6 +3,9 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/Dody/Documents/GitHub/commonFunction/app/src/main/res/drawable/bg_fade_blue.xml" value="0.1285" />
+        <entry key="..\:/Users/Dody/Documents/GitHub/commonFunction/app/src/main/res/layout/activity_main.xml" value="0.22" />
+        <entry key="..\:/Users/Dody/Documents/GitHub/commonFunction/app/src/main/res/layout/row_tab_layout.xml" value="0.75" />
         <entry key="..\:/Users/Dody/Documents/GitHub/commonFunction/commonFunction/src/main/res/layout/add.xml" value="0.34479166666666666" />
       </map>
     </option>

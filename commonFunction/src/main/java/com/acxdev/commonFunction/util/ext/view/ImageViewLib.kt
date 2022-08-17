@@ -1,13 +1,6 @@
 package com.acxdev.commonFunction.util.ext.view
 
 import android.content.res.ColorStateList
-import androidx.annotation.ColorRes
-import androidx.annotation.DrawableRes
-import com.amulyakhare.textdrawable.TextDrawable
-import com.amulyakhare.textdrawable.util.ColorGenerator
-import com.bumptech.glide.Glide
-import com.bumptech.glide.load.resource.bitmap.RoundedCorners
-import java.io.ByteArrayOutputStream
 import android.graphics.Bitmap
 import android.graphics.Color
 import android.graphics.Shader
@@ -15,24 +8,34 @@ import android.graphics.Typeface
 import android.graphics.drawable.BitmapDrawable
 import android.util.Base64.*
 import android.widget.ImageView
+import androidx.annotation.ColorRes
+import androidx.annotation.DrawableRes
 import androidx.core.content.ContextCompat
 import androidx.core.widget.ImageViewCompat
 import androidx.swiperefreshlayout.widget.CircularProgressDrawable
 import com.acxdev.commonFunction.util.TileDrawable
 import com.acxdev.commonFunction.util.ext.emptyString
-import com.acxdev.commonFunction.util.ext.getCompatActivity
+import com.amulyakhare.textdrawable.TextDrawable
+import com.amulyakhare.textdrawable.util.ColorGenerator
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners
+import java.io.ByteArrayOutputStream
 
 fun ImageView.setImage64(base64: String?) {
-    Glide.with(context.getCompatActivity()).load(decode(base64, DEFAULT))
+    Glide.with(context).load(decode(base64, DEFAULT))
         .transform(RoundedCorners(8)).into(this)
 }
 
-fun ImageView.setImageUrl(url: String) {
+fun ImageView.setImageUrl(
+    url: String
+) {
     val circularProgressDrawable = CircularProgressDrawable(context)
     circularProgressDrawable.strokeWidth = 2f
     circularProgressDrawable.centerRadius = 30f
     circularProgressDrawable.start()
-    Glide.with(context.getCompatActivity()).load(url).placeholder(circularProgressDrawable)
+    Glide.with(context)
+        .load(url)
+        .placeholder(circularProgressDrawable)
         .into(this)
 }
 
@@ -87,6 +90,6 @@ fun ImageView.tint(@ColorRes colorRes: Int) {
 }
 
 fun ImageView.setPattern(@DrawableRes drawableRes: Int) {
-    setImageDrawable(ContextCompat.getDrawable(context.getCompatActivity(), drawableRes)
+    setImageDrawable(ContextCompat.getDrawable(context, drawableRes)
         ?.let { TileDrawable(it, Shader.TileMode.REPEAT) })
 }

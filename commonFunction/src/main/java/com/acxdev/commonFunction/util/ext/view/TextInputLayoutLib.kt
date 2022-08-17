@@ -54,13 +54,13 @@ fun TextInputLayout.alertMail(): Boolean {
     when {
         toEditString().isEmpty() -> {
             isErrorEnabled = true
-            error = context.getCompatActivity().getString(R.string.emptyMail)
+            error = context.getString(R.string.emptyMail)
             requestFocus()
             return false
         }
         !toEditString().isEmailValid() -> {
             isErrorEnabled = true
-            error = context.getCompatActivity().getString(R.string.notMail)
+            error = context.getString(R.string.notMail)
             clearFocus()
             requestFocus()
             return false
@@ -76,13 +76,13 @@ fun TextInputLayout.alertPassword(): Boolean {
     when {
         toEditString().isEmpty() -> {
             isErrorEnabled = true
-            error = context.getCompatActivity().getString(R.string.emptyPassword)
+            error = context.getString(R.string.emptyPassword)
             requestFocus()
             return false
         }
         toEditString().length < 8 -> {
             isErrorEnabled = true
-            error = context.getCompatActivity().getString(R.string.shortPassword)
+            error = context.getString(R.string.shortPassword)
             clearFocus()
             requestFocus()
             return false
@@ -118,11 +118,7 @@ fun TextInputLayout.setText(string: String?) {
 //MaterialAutoCompleteTextView
 
 fun MaterialAutoCompleteTextView.set(@ArrayRes array: Int) {
-    val dataAdapter = ArrayAdapter(
-        context.getCompatActivity(),
-        android.R.layout.simple_spinner_dropdown_item,
-        context.resources.getStringArray(array)
-    )
+    val dataAdapter = ArrayAdapter(context, android.R.layout.simple_spinner_dropdown_item, context.resources.getStringArray(array))
     dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
     setAdapter(dataAdapter)
 }
