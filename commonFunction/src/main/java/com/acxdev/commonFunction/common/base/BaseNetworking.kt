@@ -15,7 +15,10 @@ class BaseNetworking {
             if(response.isSuccessful) {
                 body.invoke(ResponseLib(response.body(), Response.SUCCESS, emptyString()))
             } else {
-                body.invoke(ResponseLib(null, Response.UNSUCCESSFUL, response.code().toString()))
+                val errorCode = response.code().toString()
+                val errorBody = response.errorBody()?.string()
+                val joinError = "$errorCode###$errorBody"
+                body.invoke(ResponseLib(null, Response.UNSUCCESSFUL, joinError))
                 println(response.raw().toString())
             }
         }
@@ -34,6 +37,13 @@ class BaseNetworking {
     companion object {
         fun <T> Call<T>.whenLoaded(body: ResponseLib<T>.() -> Unit) {
             enqueue(CallbackBody(body))
+        }
+
+        fun String.splitResponseUnsuccessful(response : (Int, String) -> Unit) {
+            val split = split("###")
+            val errorCode = split[0]
+            val errorBody = split[1]
+            response.invoke(errorCode.toInt(), errorBody)
         }
     }
 }
