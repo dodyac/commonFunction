@@ -24,7 +24,7 @@ abstract class BaseBottomSheetLib<VB : ViewBinding>(
 
     @Suppress("UNCHECKED_CAST")
     protected val binding: VB
-        get() = _binding as VB
+        get() = _binding!!as VB
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val dialog = BottomSheetDialog(requireContext(), bottomSheetStyle)
@@ -63,6 +63,11 @@ abstract class BaseBottomSheetLib<VB : ViewBinding>(
         super.onViewCreated(view, savedInstanceState)
         binding.configureViews()
         binding.onClickListener()
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
     protected fun scopeLayout(viewBinding: (VB.() -> Unit)) {

@@ -41,20 +41,20 @@ fun Fragment.putExtra(
     return this
 }
 
-fun Fragment.toasty(toast: Toast, string: String) {
-    requireContext().toasty(toast, string)
+fun Fragment.toasty(toast: Toast, string: String, isLengthLong: Boolean = true) {
+    requireContext().toasty(toast, string, isLengthLong)
 }
 
-fun Fragment.toasty(toast: Toast, @StringRes string: Int) {
-    requireContext().toasty(toast, string)
+fun Fragment.toasty(toast: Toast, @StringRes string: Int, isLengthLong: Boolean = true) {
+    requireContext().toasty(toast, string, isLengthLong)
 }
 
-fun Fragment.toast(@StringRes string: Int) {
-    requireContext().toast(string)
+fun Fragment.toast(@StringRes string: Int, isLengthLong: Boolean = true) {
+    requireContext().toast(string, isLengthLong)
 }
 
-fun Fragment.toast(string: String) {
-    requireContext().toast(string)
+fun Fragment.toast(string: String, isLengthLong: Boolean = true) {
+    requireContext().toast(string, isLengthLong)
 }
 
 fun Fragment.whenPermissionGranted(permission: String, permissionGranted: (() -> Unit)) {

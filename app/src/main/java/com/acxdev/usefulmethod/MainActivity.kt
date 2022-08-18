@@ -1,21 +1,15 @@
 package com.acxdev.usefulmethod
 
-import androidx.appcompat.app.AppCompatActivity
-import android.os.Bundle
-import androidx.recyclerview.widget.RecyclerView
+import com.acxdev.commonFunction.common.base.BaseActivityLib
 import com.acxdev.commonFunction.util.ext.view.setImageUrl
 import com.acxdev.commonFunction.util.toast
-import com.acxdev.commonFunction.widget.RowTabLayout
 import com.acxdev.commonFunction.widget.asTabLayoutWith
+import com.acxdev.usefulmethod.databinding.ActivityMainBinding
 import com.acxdev.usefulmethod.databinding.RowTabLayoutBinding
 
-class MainActivity : AppCompatActivity() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+class MainActivity : BaseActivityLib<ActivityMainBinding>(ActivityMainBinding::inflate) {
 
-        val recycler = findViewById<RecyclerView>(R.id.recycler)
-
+    override fun ActivityMainBinding.configureViews() {
         val menuList = listOf(
             TabLayout("All", randomImage()),
             TabLayout("News", randomImage()),
@@ -54,6 +48,8 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
+
+    override fun ActivityMainBinding.onClickListener() {}
 
     private fun randomImage(): String {
         return listOf(

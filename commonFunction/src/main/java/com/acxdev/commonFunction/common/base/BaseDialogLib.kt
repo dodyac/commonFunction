@@ -16,7 +16,7 @@ abstract class BaseDialogLib<VB : ViewBinding>(private val inflateViewGroup: Inf
 
     @Suppress("UNCHECKED_CAST")
     protected val binding: VB
-        get() = _binding as VB
+        get() = _binding!!as VB
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -31,6 +31,11 @@ abstract class BaseDialogLib<VB : ViewBinding>(private val inflateViewGroup: Inf
         super.onViewCreated(view, savedInstanceState)
         binding.configureViews()
         binding.onClickListener()
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
     protected fun scopeLayout(viewBinding: (VB.() -> Unit)) {
