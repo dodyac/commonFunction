@@ -41,7 +41,11 @@ abstract class BaseSliderLib<VB : ViewBinding, T>(
     protected abstract fun ViewHolder<VB>.bind(item: T)
 
     open fun ViewHolder<VB>.scopeLayout(viewBinding: (VB.() -> Unit)) {
-        viewBinding.invoke(binding)
+        try {
+            viewBinding.invoke(binding)
+        } catch (e: Exception) {
+            println("binding ${javaClass.simpleName} null")
+        }
     }
 
     interface OnClick<T> {

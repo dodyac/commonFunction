@@ -40,7 +40,11 @@ abstract class BaseFragmentLib<VB : ViewBinding>(private val inflateViewGroup: I
     }
 
     protected fun scopeLayout(viewBinding: (VB.() -> Unit)) {
-        viewBinding.invoke(binding)
+        try {
+            viewBinding.invoke(binding)
+        } catch (e: Exception) {
+            println("binding ${javaClass.simpleName} null")
+        }
     }
 
     protected abstract fun VB.configureViews()

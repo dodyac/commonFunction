@@ -43,7 +43,11 @@ abstract class BaseAdapterLib<VB : ViewBinding, T>(
     protected abstract fun ViewHolder<VB>.bind(item: T)
 
     open fun ViewHolder<VB>.scopeLayout(viewBinding: (VB.() -> Unit)) {
-        viewBinding.invoke(binding)
+        try {
+            viewBinding.invoke(binding)
+        } catch (e: Exception) {
+            println("binding ${javaClass.simpleName} null")
+        }
     }
 
     fun updateItem(newList: List<T>) {
