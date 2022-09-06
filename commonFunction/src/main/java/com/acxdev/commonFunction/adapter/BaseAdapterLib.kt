@@ -59,8 +59,4 @@ abstract class BaseAdapterLib<VB : ViewBinding, T>(
         list.addAll(newList)
         diffResult.dispatchUpdatesTo(this)
     }
-
-    interface OnClick<T> {
-        fun onItemClick(item: T, position: Int)
-    }
 }

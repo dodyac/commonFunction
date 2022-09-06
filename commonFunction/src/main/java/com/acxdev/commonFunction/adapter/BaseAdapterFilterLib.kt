@@ -88,13 +88,5 @@ abstract class BaseAdapterFilterLib<VB : ViewBinding, T>(
         diffResult.dispatchUpdatesTo(this)
     }
 
-    protected abstract fun <T>filterBy(item: T, query: String): Boolean
-
-    interface OnFilter<T> {
-        fun onFilteredResult(list: List<T>)
-    }
-    
-    interface OnClick<T> {
-        fun onItemClick(item: T, position: Int)
-    }
+    protected abstract fun filterBy(item: T, query: String): Boolean
 }

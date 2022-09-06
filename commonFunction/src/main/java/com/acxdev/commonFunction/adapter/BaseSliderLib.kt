@@ -48,8 +48,4 @@ abstract class BaseSliderLib<VB : ViewBinding, T>(
             e.printStackTrace()
         }
     }
-
-    interface OnClick<T> {
-        fun onItemClick(item: T, position: Int)
-    }
 }
