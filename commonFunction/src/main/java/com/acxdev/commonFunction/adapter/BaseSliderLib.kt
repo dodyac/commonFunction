@@ -44,7 +44,8 @@ abstract class BaseSliderLib<VB : ViewBinding, T>(
         try {
             viewBinding.invoke(binding)
         } catch (e: Exception) {
-            println("binding ${javaClass.simpleName} null")
+            println("${javaClass.simpleName} was destroyed")
+            e.printStackTrace()
         }
     }
 

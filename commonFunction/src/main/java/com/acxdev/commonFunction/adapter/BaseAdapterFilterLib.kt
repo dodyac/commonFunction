@@ -15,7 +15,8 @@ import com.acxdev.commonFunction.util.ext.useCurrentTheme
 
 abstract class BaseAdapterFilterLib<VB : ViewBinding, T>(
     private val inflateViewGroup: InflateViewGroup<VB>,
-    private val list: List<T>
+    private val list: List<T>,
+    private val onFilter: OnFilter<T>?
 ) :
     RecyclerView.Adapter<BaseAdapterFilterLib.ViewHolder<VB>>(), Filterable {
 
@@ -49,13 +50,34 @@ abstract class BaseAdapterFilterLib<VB : ViewBinding, T>(
         try {
             viewBinding.invoke(binding)
         } catch (e: Exception) {
-            println("binding ${javaClass.simpleName} null")
+            println("${javaClass.simpleName} was destroyed")
+            e.printStackTrace()
         }
     }
 
-    protected abstract val filterable: Filter
+    override fun getFilter() = object : Filter() {
+        override fun performFiltering(constraint: CharSequence?): FilterResults {
+            val iList = mutableListOf<T>()
+            val query = constraint.toString().lowercase()
+            if (query.isEmpty()) iList.addAll(list)
+            else list.forEach {
+                if (filterBy(it, query)) {
+                    iList.add(it)
+                }
+            }
+            val filterResults = FilterResults()
+            filterResults.values = iList
+            return filterResults
+        }
 
-    override fun getFilter() = filterable
+        override fun publishResults(constraint: CharSequence?, results: FilterResults) {
+            @Suppress("UNCHECKED_CAST")
+            val result = results.values as List<T>
+            val finalList = result.distinct()
+            updateItem(finalList)
+            onFilter?.onFilteredResult(finalList)
+        }
+    }
 
     fun updateItem(newList: List<T>) {
         val diff = Diff(listFilter, newList)
@@ -66,34 +88,13 @@ abstract class BaseAdapterFilterLib<VB : ViewBinding, T>(
         diffResult.dispatchUpdatesTo(this)
     }
 
-    protected fun myFilter(onFilter: OnFilter<T>): Filter {
-        return object : Filter() {
-            override fun performFiltering(constraint: CharSequence?): FilterResults {
-                val iList = mutableListOf<T>()
-                val query = constraint.toString().lowercase()
-                if (query.isEmpty()) iList.addAll(list)
-                else for (item in list) {
-                    onFilter.onPerformFiltering(item, iList, query)
-                }
-                val filterResults = FilterResults()
-                filterResults.values = iList
-                return filterResults
-            }
-
-            override fun publishResults(constraint: CharSequence?, results: FilterResults) {
-                @Suppress("UNCHECKED_CAST")
-                onFilter.onPublishResults(results.values as List<T>)
-            }
-        }
-    }
+    protected abstract fun <T>filterBy(item: T, query: String): Boolean
 
     interface OnFilter<T> {
-        fun onPerformFiltering(item: T, list: MutableList<T>, query: String)
-        fun onPublishResults(list: List<T>)
+        fun onFilteredResult(list: List<T>)
     }
-
-    interface OnBehavior<T> {
+    
+    interface OnClick<T> {
         fun onItemClick(item: T, position: Int)
-        fun onFilter(results: List<T>)
     }
 }
