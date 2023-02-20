@@ -3,6 +3,7 @@ package com.acxdev.commonFunction.common.base
 import com.acxdev.commonFunction.common.Response
 import com.acxdev.commonFunction.model.ResponseLib
 import com.acxdev.commonFunction.util.ext.emptyString
+import com.acxdev.commonFunction.util.ext.isSuccess
 import retrofit2.Call
 import retrofit2.Callback
 import java.net.SocketTimeoutException
@@ -37,6 +38,16 @@ class BaseNetworking {
     companion object {
         fun <T> Call<T>.whenLoaded(body: ResponseLib<T>.() -> Unit) {
             enqueue(CallbackBody(body))
+        }
+
+        fun <T> Call<T>.whenLoadedSuccess(body: T.() -> Unit) {
+            enqueue(CallbackBody<T> {
+                if (this.response.isSuccess()) {
+                    data?.let {
+                        body.invoke(it)
+                    }
+                }
+            })
         }
 
         fun String.splitResponseUnsuccessful(response : (Int, String) -> Unit) {

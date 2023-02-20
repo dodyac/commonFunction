@@ -142,12 +142,10 @@ fun Context.showPlayStoreRate() {
 
 fun Context.showSheetWithExtra(
     bottomSheet: BottomSheetDialogFragment,
-    data: String? = null,
-    isFullScreen: Boolean = false
+    data: String? = null
 ) {
     val args = Bundle()
     args.putString(ConstantLib.DATA, data)
-    args.putString(ConstantLib.IS_SHEET_FULL_SCREEN, isFullScreen.toString())
     bottomSheet.arguments = args
     bottomSheet.show(getCompatActivity().supportFragmentManager, bottomSheet.tag)
 }
@@ -242,4 +240,17 @@ fun Context.whenPermissionsGranted(vararg permissions: String, permissionGranted
                 p1?.continuePermissionRequest()
             }
         }).check()
+}
+
+fun <T>Context.startActivityExtra(cls: Class<T>, data: String = emptyString(), intent: (Intent.() -> Unit)? = null) {
+    val intents = Intent(this, cls)
+    intents.putExtra(ConstantLib.DATA, data)
+
+    if(intent != null) {
+        intent.invoke(intents)
+    } else {
+        intents.also {
+            startActivity(it)
+        }
+    }
 }

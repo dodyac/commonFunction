@@ -1,5 +1,6 @@
 package com.acxdev.usefulmethod
 
+import android.graphics.Color
 import com.acxdev.commonFunction.common.base.BaseActivityLib
 import com.acxdev.commonFunction.util.ext.view.setImageUrl
 import com.acxdev.commonFunction.util.toast
@@ -11,7 +12,7 @@ class MainActivity : BaseActivityLib<ActivityMainBinding>(ActivityMainBinding::i
 
     override fun ActivityMainBinding.configureViews() {
         val menuList = listOf(
-            TabLayout("All", randomImage()),
+            TabLayout("All", "https://img-s-msn-com.akamaized.net/tenant/amp/entityid/AA16C5N.img?w=720&h=781&m=6"),
             TabLayout("News", randomImage()),
             TabLayout("Daily Quiz", randomImage()),
             TabLayout("Stereo", randomImage()),
@@ -29,11 +30,10 @@ class MainActivity : BaseActivityLib<ActivityMainBinding>(ActivityMainBinding::i
 
         recycler.asTabLayoutWith(menuList, RowTabLayoutBinding::inflate) { vb, t, b ->
             vb.apply {
-                image.setImageUrl(t.image)
+                image.setImageUrl(t.image, Color.RED)
                 name.apply {
                     text = t.str
                     if (b) {
-                        toast(t.str)
                         name.apply {
                             setTextColor(context.getColor(R.color.white))
                             setBackgroundResource(R.drawable.bg_fade_blue)

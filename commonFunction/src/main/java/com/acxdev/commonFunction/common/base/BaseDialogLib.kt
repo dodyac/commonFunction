@@ -15,7 +15,7 @@ abstract class BaseDialogLib<VB : ViewBinding>(private val inflateViewGroup: Inf
     private var _binding: ViewBinding? = null
 
     @Suppress("UNCHECKED_CAST")
-    protected val binding: VB
+    private val binding: VB
         get() = _binding!!as VB
 
     override fun onCreateView(

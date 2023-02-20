@@ -1,6 +1,7 @@
 package com.acxdev.commonFunction.common.base
 
 import android.app.Dialog
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -17,18 +18,20 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
 abstract class BaseBottomSheetLib<VB : ViewBinding>(
     @StyleRes private val bottomSheetStyle: Int,
-    private val inflateViewGroup: InflateViewGroup<VB>
+    private val inflateViewGroup: InflateViewGroup<VB>,
+    private val canCancel: Boolean = true,
+    private val isFullScreen: Boolean = false
     ) : BottomSheetDialogFragment() {
 
     private var _binding: ViewBinding? = null
 
     @Suppress("UNCHECKED_CAST")
-    protected val binding: VB
+    private val binding: VB
         get() = _binding!!as VB
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val dialog = BottomSheetDialog(requireContext(), bottomSheetStyle)
-        if(getStringExtra(ConstantLib.IS_SHEET_FULL_SCREEN).toBoolean()) {
+        if(isFullScreen) {
             dialog.setOnShowListener {
                 val bottomSheetDialog = it as BottomSheetDialog
                 val parentLayout = bottomSheetDialog.findViewById<View>(com.google.android.material.R.id.design_bottom_sheet)
@@ -39,7 +42,7 @@ abstract class BaseBottomSheetLib<VB : ViewBinding>(
                 }
             }
         }
-        dialog.setCanceledOnTouchOutside(true)
+        dialog.setCanceledOnTouchOutside(canCancel)
 
         return dialog
     }
@@ -63,6 +66,7 @@ abstract class BaseBottomSheetLib<VB : ViewBinding>(
         super.onViewCreated(view, savedInstanceState)
         binding.configureViews()
         binding.onClickListener()
+        isCancelable
     }
 
     override fun onDestroyView() {

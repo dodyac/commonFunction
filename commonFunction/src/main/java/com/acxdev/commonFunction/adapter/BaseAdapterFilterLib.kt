@@ -16,7 +16,7 @@ import com.acxdev.commonFunction.util.ext.useCurrentTheme
 abstract class BaseAdapterFilterLib<VB : ViewBinding, T>(
     private val inflateViewGroup: InflateViewGroup<VB>,
     private val list: List<T>,
-    private val onFilter: OnFilter<T>?
+    private val onFilter: OnFilter<T>
 ) :
     RecyclerView.Adapter<BaseAdapterFilterLib.ViewHolder<VB>>(), Filterable {
 
@@ -46,7 +46,7 @@ abstract class BaseAdapterFilterLib<VB : ViewBinding, T>(
 
     protected abstract fun ViewHolder<VB>.bind(item: T)
 
-    open fun ViewHolder<VB>.scopeLayout(viewBinding: (VB.() -> Unit)) {
+    protected fun ViewHolder<VB>.scopeLayout(viewBinding: (VB.() -> Unit)) {
         try {
             viewBinding.invoke(binding)
         } catch (e: Exception) {
@@ -75,7 +75,7 @@ abstract class BaseAdapterFilterLib<VB : ViewBinding, T>(
             val result = results.values as List<T>
             val finalList = result.distinct()
             updateItem(finalList)
-            onFilter?.onFilteredResult(finalList)
+            onFilter.onFilteredResult(finalList)
         }
     }
 

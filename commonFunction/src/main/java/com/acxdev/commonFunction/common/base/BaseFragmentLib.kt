@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.WindowManager
 import androidx.fragment.app.Fragment
 import androidx.viewbinding.ViewBinding
 import com.acxdev.commonFunction.common.ConstantLib
@@ -16,7 +15,7 @@ abstract class BaseFragmentLib<VB : ViewBinding>(private val inflateViewGroup: I
     private var _binding: ViewBinding? = null
 
     @Suppress("UNCHECKED_CAST")
-    protected val binding: VB
+    private val binding: VB
         get() = _binding!!as VB
 
     override fun onCreateView(

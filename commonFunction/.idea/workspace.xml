@@ -10,25 +10,21 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="41098250-d957-45b0-b98b-49f071285036" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/../app/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/../app/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../app/src/main/java/com/acxdev/usefulmethod/MainActivity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../app/src/main/java/com/acxdev/usefulmethod/MainActivity.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../app/src/main/res/layout/row_tab_layout.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../app/src/main/res/layout/row_tab_layout.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/gradle.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/acxdev/commonFunction/adapter/BaseAdapter.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/acxdev/commonFunction/adapter/BaseAdapter.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/acxdev/commonFunction/adapter/BaseAdapterFilter.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/acxdev/commonFunction/adapter/BaseAdapterFilter.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/acxdev/commonFunction/adapter/BaseSlider.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/acxdev/commonFunction/adapter/BaseSlider.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/acxdev/commonFunction/util/IDataType.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/acxdev/commonFunction/util/ext/IDataType.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/acxdev/commonFunction/util/IFunction.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/acxdev/commonFunction/util/ext/IFunction.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/acxdev/commonFunction/util/Preference.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/acxdev/commonFunction/util/ext/Preference.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/acxdev/commonFunction/util/Toast.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/acxdev/commonFunction/util/ext/Toast.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/acxdev/commonFunction/util/view/IImageView.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/acxdev/commonFunction/util/view/IImageView.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/acxdev/commonFunction/util/view/IOtherView.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/acxdev/commonFunction/util/view/IOtherView.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/acxdev/commonFunction/util/view/IRecyclerView.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/acxdev/commonFunction/util/view/IRecyclerView.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/acxdev/commonFunction/util/view/ITextInputLayout.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/acxdev/commonFunction/util/view/ITextInputLayout.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/acxdev/commonFunction/adapter/BaseAdapterFilterLib.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/acxdev/commonFunction/adapter/BaseAdapterFilterLib.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/acxdev/commonFunction/util/ext/view/ImageViewLib.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/acxdev/commonFunction/util/ext/view/ImageViewLib.kt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[C:\Users\Dody\.android\avd\Pixel_4a_API_Tiramisu.avd]" />
+  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[]" />
   <component name="ExternalProjectsData">
     <projectState path="$PROJECT_DIR$">
       <ProjectState />
@@ -43,21 +39,13 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">
-    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
-    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
-    <property name="RunOnceActivity.cidr.known.project.marker" value="true" />
-    <property name="android-custom-viewC:/Users/Dody/Documents/GitHub/commonFunction/commonFunction/src/main/java/com/acxdev/commonFunction/widget/MaxHeightNestedScrollView.kt_MaxHeightNestedScrollView_DIMENSIONS" value="1080&#10;1920" />
-    <property name="android-custom-viewC:/Users/Dody/Documents/GitHub/commonFunction/commonFunction/src/main/java/com/acxdev/commonFunction/widget/MaxHeightNestedScrollView.kt_SELECTED" value="MaxHeightNestedScrollView" />
-    <property name="android-custom-viewC:/Users/Dody/Documents/GitHub/commonFunction/commonFunction/src/main/java/com/acxdev/commonFunction/widget/NestedScrollableHost.kt_NestedScrollableHost_DIMENSIONS" value="1080&#10;1920" />
-    <property name="android-custom-viewC:/Users/Dody/Documents/GitHub/commonFunction/commonFunction/src/main/java/com/acxdev/commonFunction/widget/NestedScrollableHost.kt_SELECTED" value="NestedScrollableHost" />
-    <property name="android-custom-viewC:/Users/Dody/Documents/GitHub/commonFunction/commonFunction/src/main/java/com/acxdev/commonFunction/widget/SquareImageView.kt_SELECTED" value="SquareImageView" />
-    <property name="android-custom-viewC:/Users/Dody/Documents/GitHub/commonFunction/commonFunction/src/main/java/com/acxdev/commonFunction/widget/SquareImageView.kt_SquareImageView_DIMENSIONS" value="1080&#10;1920" />
-    <property name="cidr.known.project.marker" value="true" />
-    <property name="dart.analysis.tool.window.visible" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../BelanjaSedekahDepoKota" />
-    <property name="show.migrate.to.gradle.popup" value="false" />
-  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.cidr.known.project.marker&quot;: &quot;true&quot;,
+    &quot;cidr.known.project.marker&quot;: &quot;true&quot;,
+    &quot;dart.analysis.tool.window.visible&quot;: &quot;false&quot;
+  }
+}</component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\Dody\Documents\GitHub\commonFunction\commonFunction\src\main\java\com\acxdev\commonFunction\util\ext" />
@@ -73,13 +61,12 @@
       <option name="PM_INSTALL_OPTIONS" value="" />
       <option name="ALL_USERS" value="false" />
       <option name="ALWAYS_INSTALL_WITH_PM" value="false" />
+      <option name="CLEAR_APP_STORAGE" value="false" />
       <option name="DYNAMIC_FEATURES_DISABLED_LIST" value="" />
       <option name="ACTIVITY_EXTRA_FLAGS" value="" />
       <option name="MODE" value="default_activity" />
       <option name="CLEAR_LOGCAT" value="false" />
       <option name="SHOW_LOGCAT_AUTOMATICALLY" value="false" />
-      <option name="SKIP_NOOP_APK_INSTALLATIONS" value="true" />
-      <option name="FORCE_STOP_RUNNING_APP" value="true" />
       <option name="INSPECTION_WITHOUT_ACTIVITY_RESTART" value="false" />
       <option name="TARGET_SELECTION_MODE" value="DEVICE_AND_SNAPSHOT_COMBO_BOX" />
       <option name="SELECTED_CLOUD_MATRIX_CONFIGURATION_ID" value="-1" />
@@ -145,6 +132,5 @@
         </entry>
       </map>
     </option>
-    <option name="oldMeFiltersMigrated" value="true" />
   </component>
 </project>

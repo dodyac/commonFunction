@@ -9,9 +9,7 @@ import android.text.Html
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import androidx.annotation.ColorRes
-import androidx.annotation.DrawableRes
-import androidx.annotation.RequiresApi
+import androidx.annotation.*
 import androidx.core.app.ShareCompat
 import androidx.core.content.ContextCompat
 import androidx.core.text.HtmlCompat
@@ -23,6 +21,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import androidx.viewpager2.widget.ViewPager2
 import com.acxdev.commonFunction.common.SocialMedia
 import com.acxdev.commonFunction.util.ext.emptyString
+import com.acxdev.commonFunction.util.ext.getResourceColor
 import com.google.gson.Gson
 
 fun View.layoutTint(@ColorRes colorRes: Int) {
@@ -37,14 +36,12 @@ fun View.setMargin(margin: Int) {
     }
 }
 
-@RequiresApi(Build.VERSION_CODES.LOLLIPOP)
 fun View.backgroundTint(@ColorRes colorRes: Int) {
     backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(context, colorRes))
 }
 
 fun TextView.setHtml(string: String) {
-    text = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) Html.fromHtml(string, Html.FROM_HTML_MODE_COMPACT)
-    else HtmlCompat.fromHtml(string, HtmlCompat.FROM_HTML_MODE_LEGACY)
+    text = Html.fromHtml(string, Html.FROM_HTML_MODE_COMPACT)
 }
 
 fun View.shareVia(
@@ -102,7 +99,7 @@ fun View.socialMediaOnclick(data: String, socialMedia: SocialMedia) {
                             Uri.parse("mailto:$data")
                         )
                     )
-                } catch (e: ActivityNotFoundException) {
+                } catch (_: ActivityNotFoundException) {
                 }
             }
         }
@@ -170,4 +167,8 @@ fun SwipeRefreshLayout.whenRefreshed(action: () -> Unit) {
             action.invoke()
         }, 2)
     }
+}
+
+fun TextView.textColor(@AttrRes resource: Int, alphaFactor: Float = 1f) {
+    setTextColor(context.getResourceColor(resource, alphaFactor))
 }

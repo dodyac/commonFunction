@@ -16,10 +16,9 @@
         <ImageView
             android:id="@+id/image"
             android:layout_gravity="center"
-            android:layout_width="@dimen/image_size"
-            android:layout_height="@dimen/image_size"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
             android:scaleType="fitXY"/>
-
 
         <TextView
             android:id="@+id/name"

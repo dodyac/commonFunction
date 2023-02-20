@@ -6,5 +6,4 @@ object ConstantLib {
     const val EMPTY = ""
     const val IS_DARK_MODE = "is_dark_mode"
     const val DATA = "data"
-    const val IS_SHEET_FULL_SCREEN = "isSheetFullScreen"
 }

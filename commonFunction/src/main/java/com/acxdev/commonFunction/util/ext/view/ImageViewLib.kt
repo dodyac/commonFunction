@@ -7,12 +7,15 @@ import android.graphics.Shader
 import android.graphics.Typeface
 import android.graphics.drawable.BitmapDrawable
 import android.util.Base64.*
+import android.util.Log
 import android.widget.ImageView
 import androidx.annotation.ColorRes
 import androidx.annotation.DrawableRes
+import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.content.ContextCompat
 import androidx.core.widget.ImageViewCompat
 import androidx.swiperefreshlayout.widget.CircularProgressDrawable
+import com.acxdev.commonFunction.R
 import com.acxdev.commonFunction.util.TileDrawable
 import com.acxdev.commonFunction.util.ext.emptyString
 import com.amulyakhare.textdrawable.TextDrawable
@@ -27,15 +30,25 @@ fun ImageView.setImage64(base64: String?) {
 }
 
 fun ImageView.setImageUrl(
-    url: String
+    url: String,
+    color: Int = Color.GRAY,
+    errorDrawable: Int = R.drawable.ic_transparent
 ) {
+    val centerRadiuss = (if(layoutParams.width < layoutParams.height) {
+        layoutParams.width
+    } else {
+        layoutParams.height
+    }).toFloat() / 4
     val circularProgressDrawable = CircularProgressDrawable(context)
-    circularProgressDrawable.strokeWidth = 2f
-    circularProgressDrawable.centerRadius = 30f
-    circularProgressDrawable.start()
-    Glide.with(context)
-        .load(url)
+    circularProgressDrawable.apply {
+        strokeWidth = 2f
+        centerRadius = centerRadiuss
+        start()
+        setColorSchemeColors(color)
+    }
+    Glide.with(context).load(url)
         .placeholder(circularProgressDrawable)
+        .error(AppCompatResources.getDrawable(context, errorDrawable))
         .into(this)
 }
 

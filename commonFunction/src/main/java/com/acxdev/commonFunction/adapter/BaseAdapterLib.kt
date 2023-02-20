@@ -42,7 +42,7 @@ abstract class BaseAdapterLib<VB : ViewBinding, T>(
 
     protected abstract fun ViewHolder<VB>.bind(item: T)
 
-    open fun ViewHolder<VB>.scopeLayout(viewBinding: (VB.() -> Unit)) {
+    protected fun ViewHolder<VB>.scopeLayout(viewBinding: (VB.() -> Unit)) {
         try {
             viewBinding.invoke(binding)
         } catch (e: Exception) {
