@@ -83,6 +83,14 @@ abstract class BaseBottomSheetLib<VB : ViewBinding>(
         }
     }
 
+    protected fun safeContext(result: Context.() -> Unit) {
+        context?.let {
+            result.invoke(it)
+        } ?: run {
+            println("${javaClass.simpleName} no attached Context")
+        }
+    }
+
     protected abstract fun VB.configureViews()
     protected abstract fun VB.onClickListener()
 

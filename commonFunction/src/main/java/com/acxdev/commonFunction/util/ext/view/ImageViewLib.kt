@@ -9,6 +9,7 @@ import android.graphics.drawable.BitmapDrawable
 import android.util.Base64.*
 import android.util.Log
 import android.widget.ImageView
+import androidx.annotation.ColorInt
 import androidx.annotation.ColorRes
 import androidx.annotation.DrawableRes
 import androidx.appcompat.content.res.AppCompatResources
@@ -31,7 +32,7 @@ fun ImageView.setImage64(base64: String?) {
 
 fun ImageView.setImageUrl(
     url: String,
-    color: Int = Color.GRAY,
+    @ColorInt color: Int = Color.GRAY,
     errorDrawable: Int = R.drawable.ic_transparent
 ) {
     val centerRadiuss = (if(layoutParams.width < layoutParams.height) {
@@ -52,7 +53,7 @@ fun ImageView.setImageUrl(
         .into(this)
 }
 
-fun ImageView.default(name: String?, @ColorRes color: Int) {
+fun ImageView.default(name: String?, @ColorInt color: Int) {
     val textDrawable = TextDrawable.builder()
         .beginConfig()
         .width(120)
@@ -95,10 +96,10 @@ fun ImageView.toBase64(): String {
     }
 }
 
-fun ImageView.tint(@ColorRes colorRes: Int) {
+fun ImageView.tint(@ColorInt color: Int) {
     ImageViewCompat.setImageTintList(
         this,
-        ColorStateList.valueOf(ContextCompat.getColor(context, colorRes))
+        ColorStateList.valueOf(color)
     )
 }
 

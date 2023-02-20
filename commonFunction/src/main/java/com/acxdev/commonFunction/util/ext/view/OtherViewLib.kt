@@ -4,15 +4,12 @@ import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.content.res.ColorStateList
 import android.net.Uri
-import android.os.Build
 import android.text.Html
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.annotation.*
 import androidx.core.app.ShareCompat
-import androidx.core.content.ContextCompat
-import androidx.core.text.HtmlCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.get
 import androidx.core.view.setMargins
@@ -21,11 +18,10 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import androidx.viewpager2.widget.ViewPager2
 import com.acxdev.commonFunction.common.SocialMedia
 import com.acxdev.commonFunction.util.ext.emptyString
-import com.acxdev.commonFunction.util.ext.getResourceColor
 import com.google.gson.Gson
 
-fun View.layoutTint(@ColorRes colorRes: Int) {
-    ViewCompat.setBackgroundTintList(this, ColorStateList.valueOf(ContextCompat.getColor(context, colorRes)))
+fun View.layoutTint(@ColorInt color: Int) {
+    ViewCompat.setBackgroundTintList(this, ColorStateList.valueOf(color))
 }
 
 fun View.setMargin(margin: Int) {
@@ -36,8 +32,8 @@ fun View.setMargin(margin: Int) {
     }
 }
 
-fun View.backgroundTint(@ColorRes colorRes: Int) {
-    backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(context, colorRes))
+fun View.backgroundTint(@ColorInt color: Int) {
+    backgroundTintList = ColorStateList.valueOf(color)
 }
 
 fun TextView.setHtml(string: String) {
@@ -167,8 +163,4 @@ fun SwipeRefreshLayout.whenRefreshed(action: () -> Unit) {
             action.invoke()
         }, 2)
     }
-}
-
-fun TextView.textColor(@AttrRes resource: Int, alphaFactor: Float = 1f) {
-    setTextColor(context.getResourceColor(resource, alphaFactor))
 }

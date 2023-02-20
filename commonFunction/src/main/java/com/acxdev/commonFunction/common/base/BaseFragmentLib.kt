@@ -1,5 +1,6 @@
 package com.acxdev.commonFunction.common.base
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -44,6 +45,14 @@ abstract class BaseFragmentLib<VB : ViewBinding>(private val inflateViewGroup: I
         } catch (e: Exception) {
             println("${javaClass.simpleName} was destroyed")
             e.printStackTrace()
+        }
+    }
+
+    protected fun safeContext(result: Context.() -> Unit) {
+        context?.let {
+            result.invoke(it)
+        } ?: run {
+            println("${javaClass.simpleName} no attached Context")
         }
     }
 

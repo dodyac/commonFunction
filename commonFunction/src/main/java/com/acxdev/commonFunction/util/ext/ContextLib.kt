@@ -18,7 +18,6 @@ import android.view.View
 import android.view.WindowManager
 import androidx.annotation.AttrRes
 import androidx.annotation.ColorInt
-import androidx.annotation.ColorRes
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
@@ -73,14 +72,14 @@ fun Context.isNetworkAvailable(): Boolean {
     return result
 }
 
-fun Context.webView(url: String, @ColorRes color: Int) {
-    FinestWebView.Builder(this as Activity).toolbarColorRes(color)
-        .swipeRefreshColorRes(color).show(url)
+fun Context.webView(url: String, @ColorInt color: Int) {
+    FinestWebView.Builder(this as Activity).toolbarColor(color)
+        .swipeRefreshColor(color).show(url)
 }
 
-fun Context.webView(@StringRes url: Int, @ColorRes color: Int) {
-    FinestWebView.Builder(this as Activity).toolbarColorRes(color)
-        .swipeRefreshColorRes(color).show(getString(url))
+fun Context.webView(@StringRes url: Int, @ColorInt color: Int) {
+    FinestWebView.Builder(this as Activity).toolbarColor(color)
+        .swipeRefreshColor(color).show(getString(url))
 }
 
 fun Context.openPDFDocument(filename: String) {
@@ -109,6 +108,11 @@ fun Context.getResourceColor(@AttrRes resource: Int, alphaFactor: Float = 1f): I
     }
 
     return color
+}
+
+@ColorInt
+fun Context.getColorPrimary(): Int  {
+  return getResourceColor(android.R.attr.colorPrimary)
 }
 
 fun Context.getCompatActivity(): AppCompatActivity {
