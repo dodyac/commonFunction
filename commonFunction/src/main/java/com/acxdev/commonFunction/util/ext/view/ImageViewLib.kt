@@ -53,31 +53,20 @@ fun ImageView.setImageUrl(
         .into(this)
 }
 
-fun ImageView.default(name: String?, @ColorInt color: Int) {
-    val textDrawable = TextDrawable.builder()
-        .beginConfig()
-        .width(120)
-        .height(120)
-        .bold()
-        .toUpperCase()
-        .textColor(color)
-        .endConfig()
-        .buildRound(name?.substring(0, 1), Color.WHITE)
-    this.setImageDrawable(textDrawable)
-}
-
-fun ImageView.defaultMaterial(name: String?) {
-    val textDrawable = TextDrawable.builder()
-        .beginConfig()
-        .width(120)
-        .height(120)
-        .bold()
-        .toUpperCase()
-        .textColor(Color.WHITE)
-        .useFont(Typeface.SANS_SERIF)
-        .endConfig()
-        .buildRect(name?.substring(0, 1), ColorGenerator.MATERIAL.randomColor)
-    this.setImageDrawable(textDrawable)
+fun ImageView.default(name: String, @ColorInt textColor: Int, @ColorInt backgroundColor: Int, font: Typeface = Typeface.SANS_SERIF) {
+    if(name.isNotEmpty()) {
+        val textDrawable = TextDrawable.builder()
+            .beginConfig()
+            .width(120)
+            .height(120)
+            .bold()
+            .toUpperCase()
+            .textColor(textColor)
+            .useFont(font)
+            .endConfig()
+            .buildRound(name.substring(0, 1), backgroundColor)
+        setImageDrawable(textDrawable)
+    }
 }
 
 fun ImageView.toBase64(): String {
