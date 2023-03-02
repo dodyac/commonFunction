@@ -40,6 +40,8 @@ fun ImageView.setImageUrl(
     } else {
         layoutParams.height
     }).toFloat() / 4
+
+    println("berapakah aku ${centerRadiuss} ${layoutParams.width} ${layoutParams.height}")
     val circularProgressDrawable = CircularProgressDrawable(context)
     circularProgressDrawable.apply {
         strokeWidth = 2f
@@ -49,7 +51,7 @@ fun ImageView.setImageUrl(
     }
     Glide.with(context).load(url)
         .placeholder(circularProgressDrawable)
-        .error(AppCompatResources.getDrawable(context, errorDrawable))
+//        .error(AppCompatResources.getDrawable(context, errorDrawable))
         .into(this)
 }
 

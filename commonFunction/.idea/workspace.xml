@@ -9,16 +9,7 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="41098250-d957-45b0-b98b-49f071285036" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/../app/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/../app/build.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../app/src/main/java/com/acxdev/usefulmethod/MainActivity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../app/src/main/java/com/acxdev/usefulmethod/MainActivity.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../app/src/main/res/layout/row_tab_layout.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../app/src/main/res/layout/row_tab_layout.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/gradle.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/acxdev/commonFunction/adapter/BaseAdapterFilterLib.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/acxdev/commonFunction/adapter/BaseAdapterFilterLib.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/acxdev/commonFunction/util/ext/view/ImageViewLib.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/acxdev/commonFunction/util/ext/view/ImageViewLib.kt" afterDir="false" />
-    </list>
+    <list default="true" id="41098250-d957-45b0-b98b-49f071285036" name="Default Changelist" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
