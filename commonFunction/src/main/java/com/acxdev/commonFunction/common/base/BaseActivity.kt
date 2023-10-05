@@ -4,23 +4,36 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.viewbinding.ViewBinding
 import com.acxdev.commonFunction.common.ConstantLib
-import com.acxdev.commonFunction.common.Inflate
+import com.acxdev.commonFunction.common.Inflater.inflateBinding
 import com.acxdev.commonFunction.util.ext.toClass
+import com.acxdev.sqlitez.DatabaseNameHolder
+import com.acxdev.sqlitez.SqliteX
 
-abstract class BaseActivityLib<VB : ViewBinding>(private val inflate: Inflate<VB>)  : AppCompatActivity() {
+abstract class BaseActivity<VB : ViewBinding>(
+    private val databaseName: String = DatabaseNameHolder.dbName
+) : AppCompatActivity() {
 
     private var _binding: ViewBinding? = null
+    private var _sqliteX: SqliteX? = null
 
     @Suppress("UNCHECKED_CAST")
     private val binding: VB
-        get() = _binding as VB
+        get() = _binding!! as VB
+
+    protected val sqliteX: SqliteX
+        get() = _sqliteX!!
+
+    val TAG = javaClass.simpleName
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        DatabaseNameHolder.setDatabaseName(databaseName)
+        _sqliteX = SqliteX(this)
 
-        _binding = inflate.invoke(layoutInflater)
+        _binding = inflateBinding(layoutInflater)
         setContentView(binding.root)
 
+        doLoadData()
         binding.configureViews()
         binding.onClickListener()
     }
@@ -34,8 +47,9 @@ abstract class BaseActivityLib<VB : ViewBinding>(private val inflate: Inflate<VB
         }
     }
 
-    protected abstract fun VB.configureViews()
-    protected abstract fun VB.onClickListener()
+    protected open fun doLoadData() {}
+    protected open fun VB.configureViews() {}
+    protected open fun VB.onClickListener() {}
 
     protected fun getStringExtra(path: String? = null): String? = intent.getStringExtra(path ?: ConstantLib.DATA)
 

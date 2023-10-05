@@ -115,11 +115,12 @@ fun Context.getColorPrimary(): Int  {
   return getResourceColor(android.R.attr.colorPrimary)
 }
 
-fun Context.getCompatActivity(): AppCompatActivity {
+fun Context.getActivity(): AppCompatActivity {
     return when (this) {
         is AppCompatActivity -> this
-        is ContextWrapper -> baseContext.getCompatActivity()
-        is Application -> baseContext.getCompatActivity()
+        is ContextWrapper -> baseContext.getActivity()
+        is Application -> baseContext.getActivity()
+        is android.view.ContextThemeWrapper -> baseContext.getActivity()
         else -> (this as AppCompatActivity)
     }
 }
@@ -151,7 +152,7 @@ fun Context.showSheetWithExtra(
     val args = Bundle()
     args.putString(ConstantLib.DATA, data)
     bottomSheet.arguments = args
-    bottomSheet.show(getCompatActivity().supportFragmentManager, bottomSheet.tag)
+    bottomSheet.show(getActivity().supportFragmentManager, bottomSheet.tag)
 }
 
 fun Context.getVersionName(): String {
@@ -198,7 +199,7 @@ fun Context.getCacheSize(): Long {
 }
 
 fun Context.getView(): View {
-    return getCompatActivity().window.decorView.rootView
+    return getActivity().window.decorView.rootView
 }
 
 fun Context.whenPermissionGranted(permissions: String, permissionGranted: (() -> Unit)) {

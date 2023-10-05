@@ -35,12 +35,18 @@ class ViewPager2Adapter(fragmentActivity: FragmentActivity) :
     fun setWithTab(
         listFragment: MutableList<Pair<String, Fragment>>,
         tabLayout: TabLayout,
-        viewPager2: ViewPager2
+        viewPager2: ViewPager2,
+        isUserInputEnabled: Boolean = false
     ) {
         this.listFragmentTabView = listFragment
         isSetupWithTabView = true
         TabLayoutMediator(tabLayout, viewPager2) { tab, pos ->
             tab.text = listFragment[pos].first
         }.attach()
+
+        viewPager2.apply {
+            this.isUserInputEnabled = isUserInputEnabled
+            offscreenPageLimit = listFragment.size
+        }
     }
 }

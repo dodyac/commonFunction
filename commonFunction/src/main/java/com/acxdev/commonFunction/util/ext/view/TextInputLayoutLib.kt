@@ -1,20 +1,15 @@
 package com.acxdev.commonFunction.util.ext.view
 
 import android.content.Context
-import android.text.format.DateFormat
 import android.widget.ArrayAdapter
 import androidx.annotation.ArrayRes
 import com.acxdev.commonFunction.R
 import com.acxdev.commonFunction.util.ext.*
-import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.textfield.MaterialAutoCompleteTextView
 import com.google.android.material.textfield.TextInputLayout
-import com.google.android.material.timepicker.MaterialTimePicker
-import com.google.android.material.timepicker.TimeFormat
 
 //TextInputLayout
-
-fun Context.alertAuth(mail: TextInputLayout, password: TextInputLayout): Boolean {
+fun Context.alertAuth(mail: TextInputLayout, password: TextInputLayout, passwordLength: Int = 8): Boolean {
     when {
         mail.toEditString().isEmpty() -> {
             mail.isErrorEnabled = true
@@ -35,7 +30,7 @@ fun Context.alertAuth(mail: TextInputLayout, password: TextInputLayout): Boolean
             password.requestFocus()
             return false
         }
-        password.toEditString().length < 8 -> {
+        password.toEditString().length < passwordLength -> {
             password.isErrorEnabled = true
             password.error = getString(R.string.shortPassword)
             password.clearFocus()
@@ -72,7 +67,7 @@ fun TextInputLayout.alertMail(): Boolean {
     }
 }
 
-fun TextInputLayout.alertPassword(): Boolean {
+fun TextInputLayout.alertPassword(passwordLength: Int = 8): Boolean {
     when {
         toEditString().isEmpty() -> {
             isErrorEnabled = true
@@ -80,7 +75,7 @@ fun TextInputLayout.alertPassword(): Boolean {
             requestFocus()
             return false
         }
-        toEditString().length < 8 -> {
+        toEditString().length < passwordLength -> {
             isErrorEnabled = true
             error = context.getString(R.string.shortPassword)
             clearFocus()

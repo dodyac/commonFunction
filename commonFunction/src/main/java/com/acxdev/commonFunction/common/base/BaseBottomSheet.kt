@@ -3,6 +3,7 @@ package com.acxdev.commonFunction.common.base
 import android.app.Dialog
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,24 +11,32 @@ import android.view.WindowManager
 import androidx.annotation.StyleRes
 import androidx.viewbinding.ViewBinding
 import com.acxdev.commonFunction.common.ConstantLib
-import com.acxdev.commonFunction.common.InflateViewGroup
+import com.acxdev.commonFunction.common.Inflater.inflateBinding
 import com.acxdev.commonFunction.util.ext.toClass
+import com.acxdev.sqlitez.DatabaseNameHolder
+import com.acxdev.sqlitez.SqliteX
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
-abstract class BaseBottomSheetLib<VB : ViewBinding>(
+abstract class BaseBottomSheet<VB : ViewBinding>(
     @StyleRes private val bottomSheetStyle: Int,
-    private val inflateViewGroup: InflateViewGroup<VB>,
     private val canCancel: Boolean = true,
-    private val isFullScreen: Boolean = false
-    ) : BottomSheetDialogFragment() {
+    private val isFullScreen: Boolean = false,
+    private val databaseName: String = DatabaseNameHolder.dbName
+) : BottomSheetDialogFragment() {
 
     private var _binding: ViewBinding? = null
+    private var _sqliteX: SqliteX? = null
 
     @Suppress("UNCHECKED_CAST")
     private val binding: VB
-        get() = _binding!!as VB
+        get() = _binding!! as VB
+
+    protected val sqliteX: SqliteX
+        get() = _sqliteX!!
+
+    val TAG = javaClass.simpleName
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val dialog = BottomSheetDialog(requireContext(), bottomSheetStyle)
@@ -58,15 +67,19 @@ abstract class BaseBottomSheetLib<VB : ViewBinding>(
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _binding = inflateViewGroup.invoke(inflater, container, false)
+        _binding = inflateBinding(inflater, container)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        DatabaseNameHolder.setDatabaseName(databaseName)
+        safeContext {
+            _sqliteX = SqliteX(this)
+        }
+        doLoadData()
         binding.configureViews()
         binding.onClickListener()
-        isCancelable
     }
 
     override fun onDestroyView() {
@@ -78,7 +91,7 @@ abstract class BaseBottomSheetLib<VB : ViewBinding>(
         try {
             viewBinding.invoke(binding)
         } catch (e: Exception) {
-            println("${javaClass.simpleName} was destroyed")
+            Log.e(TAG, "binding was destroyed")
             e.printStackTrace()
         }
     }
@@ -87,12 +100,13 @@ abstract class BaseBottomSheetLib<VB : ViewBinding>(
         context?.let {
             result.invoke(it)
         } ?: run {
-            println("${javaClass.simpleName} no attached Context")
+            Log.e(TAG, "no attached Context")
         }
     }
 
-    protected abstract fun VB.configureViews()
-    protected abstract fun VB.onClickListener()
+    protected open fun doLoadData() {}
+    protected open fun VB.configureViews() {}
+    protected open fun VB.onClickListener() {}
 
     fun getStringExtra(path: String? = null): String? = arguments?.getString(path ?: ConstantLib.DATA)
 

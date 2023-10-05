@@ -13,7 +13,7 @@ import com.smarteist.autoimageslider.SliderViewAdapter
 fun RecyclerView.setHStack(
     adapter: RecyclerView.Adapter<*>?,
     isSnap: Boolean = false,
-    hasFixed: Boolean = false
+    hasFixed: Boolean = true
 ) {
     layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
     this.adapter = adapter
@@ -26,7 +26,7 @@ fun RecyclerView.setHStack(
 
 fun RecyclerView.setVStack(
     adapter: RecyclerView.Adapter<*>?,
-    hasFixed: Boolean = false,
+    hasFixed: Boolean = true,
     spanCount: Int = 1
 ) {
     layoutManager = GridLayoutManager(context, spanCount)
@@ -37,7 +37,7 @@ fun RecyclerView.setVStack(
 fun RecyclerView.setGrid(
     adapter: RecyclerView.Adapter<*>?,
     numOfColumns: Float,
-    hasFixed: Boolean = false
+    hasFixed: Boolean = true
 ) {
     layoutManager = GridLayoutManager(context, context.numOfColumns(numOfColumns))
     this.adapter = adapter
@@ -47,7 +47,7 @@ fun RecyclerView.setGrid(
 fun RecyclerView.setStaggered(
     adapter: RecyclerView.Adapter<*>?,
     numOfColumns: Float,
-    hasFixed: Boolean = false
+    hasFixed: Boolean = true
 ) {
     val layoutManager = StaggeredGridLayoutManager(
         context.numOfColumns(numOfColumns),
@@ -60,7 +60,7 @@ fun RecyclerView.setStaggered(
     setHasFixedSize(hasFixed)
 }
 
-fun RecyclerView.setFlex(adapter: RecyclerView.Adapter<*>, hasFixed: Boolean = false) {
+fun RecyclerView.setFlex(adapter: RecyclerView.Adapter<*>, hasFixed: Boolean = true) {
     val layoutManager = FlexboxLayoutManager(context)
     layoutManager.flexWrap = FlexWrap.WRAP
     layoutManager.flexDirection = FlexDirection.ROW
