@@ -12,7 +12,7 @@ import androidx.annotation.StyleRes
 import androidx.viewbinding.ViewBinding
 import com.acxdev.commonFunction.common.ConstantLib
 import com.acxdev.commonFunction.common.Inflater.inflateBinding
-import com.acxdev.commonFunction.util.ext.toClass
+import com.acxdev.commonFunction.utils.ext.toClass
 import com.acxdev.sqlitez.DatabaseNameHolder
 import com.acxdev.sqlitez.SqliteX
 import com.google.android.material.bottomsheet.BottomSheetBehavior

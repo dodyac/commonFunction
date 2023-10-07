@@ -8,4 +8,6 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="tabLayoutInactive">#87a1b9</color>
+    <color name="primaryGold">#ffb501</color>
+    <color name="primaryGold20">#20ffb501</color>
 </resources>

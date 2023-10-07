@@ -1,9 +1,8 @@
 package com.acxdev.commonFunction.common.base
 
 import com.acxdev.commonFunction.common.Response
-import com.acxdev.commonFunction.model.ResponseLib
-import com.acxdev.commonFunction.util.ext.emptyString
-import com.acxdev.commonFunction.util.ext.isSuccess
+import com.acxdev.commonFunction.utils.ext.emptyString
+import com.acxdev.commonFunction.utils.ext.isSuccess
 import retrofit2.Call
 import retrofit2.Callback
 import java.net.SocketTimeoutException
@@ -11,15 +10,15 @@ import java.net.UnknownHostException
 
 class BaseNetworking {
 
-    class CallbackBody<T>(private val body: ResponseLib<T>.() -> Unit) : Callback<T> {
+    class CallbackBody<T>(private val body: com.acxdev.commonFunction.model.ResponseData<T>.() -> Unit) : Callback<T> {
         override fun onResponse(call: Call<T>, response: retrofit2.Response<T>) {
             if(response.isSuccessful) {
-                body.invoke(ResponseLib(response.body(), Response.SUCCESS, emptyString()))
+                body.invoke(com.acxdev.commonFunction.model.ResponseData(response.body(), Response.SUCCESS, emptyString()))
             } else {
                 val errorCode = response.code().toString()
                 val errorBody = response.errorBody()?.string()
                 val joinError = "$errorCode###$errorBody"
-                body.invoke(ResponseLib(null, Response.UNSUCCESSFUL, joinError))
+                body.invoke(com.acxdev.commonFunction.model.ResponseData(null, Response.UNSUCCESSFUL, joinError))
                 println(response.raw().toString())
             }
         }
@@ -30,13 +29,13 @@ class BaseNetworking {
                 is SocketTimeoutException -> "A connection timeout occurred"
                 else -> t.localizedMessage
             }
-            body.invoke(ResponseLib(null, Response.FAILURE, string))
+            body.invoke(com.acxdev.commonFunction.model.ResponseData(null, Response.FAILURE, string))
             println("Retrofit Failure: ${t.message}")
         }
     }
 
     companion object {
-        fun <T> Call<T>.whenLoaded(body: ResponseLib<T>.() -> Unit) {
+        fun <T> Call<T>.whenLoaded(body: com.acxdev.commonFunction.model.ResponseData<T>.() -> Unit) {
             enqueue(CallbackBody(body))
         }
 

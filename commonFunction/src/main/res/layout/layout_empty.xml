@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:padding="@dimen/d20dp">
+
+    <com.airbnb.lottie.LottieAnimationView
+        android:layout_width="@dimen/image_170"
+        android:layout_height="@dimen/image_170"
+        android:id="@+id/lottie"/>
+
+    <ImageView
+        android:id="@+id/image"
+        android:layout_width="@dimen/image_170"
+        android:layout_height="@dimen/image_170"
+        android:scaleType="fitCenter" />
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/d16dp"
+        android:textAlignment="center"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/body"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/d8dp"
+        android:textAlignment="center"
+        android:textSize="@dimen/text_12" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/button"
+        android:visibility="gone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/d20dp" />
+</LinearLayout>
