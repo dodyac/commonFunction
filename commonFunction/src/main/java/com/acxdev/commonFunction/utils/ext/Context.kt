@@ -142,7 +142,7 @@ fun Context.openSettings(applicationID: String) {
 }
 
 fun Context.useCurrentTheme() {
-    if (Preference(this).get().getBoolean(ConstantLib.IS_DARK_MODE, false)) {
+    if (Preference(this).isDarkMode()) {
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
     } else {
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)

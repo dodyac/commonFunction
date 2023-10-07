@@ -105,6 +105,6 @@ abstract class BaseAdapter<VB : ViewBinding, T>(
         fun onEditClick(item: T, position: Int) {}
         fun onDeleteClick(item: T, position: Int) {}
         fun onFilteredResult(list: List<T>) {}
-        fun onItemCount(isEmpty: Boolean)
+        fun onItemCount(isEmpty: Boolean) {}
     }
 }

@@ -2,11 +2,16 @@ package com.acxdev.commonFunction.utils
 
 import android.content.Context
 import android.content.SharedPreferences
-import com.acxdev.commonFunction.common.ConstantLib
 
 class Preference(private val context: Context) {
 
-    fun put(path: String, data: Any?, prefsName: String = ConstantLib.PREFERENCE) {
+    companion object {
+        private const val PREFERENCE = "prefs"
+        private const val LOGGED = "logged"
+        private const val IS_DARK_MODE = "is_dark_mode"
+    }
+
+    fun put(path: String, data: Any?, prefsName: String = PREFERENCE) {
         val prefs = context.getSharedPreferences(prefsName, Context.MODE_PRIVATE)
         val editor = prefs.edit()
         when (data) {
@@ -19,11 +24,11 @@ class Preference(private val context: Context) {
         editor.apply()
     }
 
-    fun get(prefsName: String = ConstantLib.PREFERENCE): SharedPreferences {
+    fun get(prefsName: String = PREFERENCE): SharedPreferences {
         return context.getSharedPreferences(prefsName, Context.MODE_PRIVATE)
     }
 
-    fun clear(prefsName: String = ConstantLib.PREFERENCE) {
+    fun clear(prefsName: String = PREFERENCE) {
         context.getSharedPreferences(prefsName, Context.MODE_PRIVATE)
             .edit()
             .clear()
@@ -31,21 +36,29 @@ class Preference(private val context: Context) {
     }
 
     fun signIn() {
-        context.getSharedPreferences(ConstantLib.PREFERENCE, Context.MODE_PRIVATE)
+        context.getSharedPreferences(PREFERENCE, Context.MODE_PRIVATE)
             .edit()
-            .putBoolean(ConstantLib.LOGGED, true)
+            .putBoolean(LOGGED, true)
             .apply()
     }
 
     fun signOut() {
-        context.getSharedPreferences(ConstantLib.PREFERENCE, Context.MODE_PRIVATE)
+        context.getSharedPreferences(PREFERENCE, Context.MODE_PRIVATE)
             .edit()
-            .remove(ConstantLib.LOGGED)
+            .remove(LOGGED)
             .apply()
     }
 
     fun isSigned(): Boolean {
-        return context.getSharedPreferences(ConstantLib.PREFERENCE, Context.MODE_PRIVATE)
-            .getBoolean(ConstantLib.LOGGED, false)
+        return context.getSharedPreferences(PREFERENCE, Context.MODE_PRIVATE)
+            .getBoolean(LOGGED, false)
+    }
+
+    fun isDarkMode(): Boolean {
+        return get().getBoolean(IS_DARK_MODE, false)
+    }
+
+    fun setTheme(isDark: Boolean) {
+        put(IS_DARK_MODE, isDark)
     }
 }
