@@ -1,6 +1,6 @@
 package com.acxdev.commonFunction.common.base
 
-import com.acxdev.commonFunction.common.Response
+import com.acxdev.commonFunction.model.Response
 import com.acxdev.commonFunction.utils.ext.emptyString
 import com.acxdev.commonFunction.utils.ext.isSuccess
 import retrofit2.Call
@@ -13,12 +13,12 @@ class BaseNetworking {
     class CallbackBody<T>(private val body: com.acxdev.commonFunction.model.ResponseData<T>.() -> Unit) : Callback<T> {
         override fun onResponse(call: Call<T>, response: retrofit2.Response<T>) {
             if(response.isSuccessful) {
-                body.invoke(com.acxdev.commonFunction.model.ResponseData(response.body(), Response.SUCCESS, emptyString()))
+                body.invoke(com.acxdev.commonFunction.model.ResponseData(response.body(), Response.Success, emptyString()))
             } else {
                 val errorCode = response.code().toString()
                 val errorBody = response.errorBody()?.string()
                 val joinError = "$errorCode###$errorBody"
-                body.invoke(com.acxdev.commonFunction.model.ResponseData(null, Response.UNSUCCESSFUL, joinError))
+                body.invoke(com.acxdev.commonFunction.model.ResponseData(null, Response.Unsuccessful, joinError))
                 println(response.raw().toString())
             }
         }
@@ -29,7 +29,7 @@ class BaseNetworking {
                 is SocketTimeoutException -> "A connection timeout occurred"
                 else -> t.localizedMessage
             }
-            body.invoke(com.acxdev.commonFunction.model.ResponseData(null, Response.FAILURE, string))
+            body.invoke(com.acxdev.commonFunction.model.ResponseData(null, Response.Failure, string))
             println("Retrofit Failure: ${t.message}")
         }
     }

@@ -2,13 +2,15 @@ package com.acxdev.commonFunction.widget
 
 import android.view.ViewGroup
 import androidx.viewbinding.ViewBinding
-import com.acxdev.commonFunction.common.base.BaseAdapter
+import com.acxdev.commonFunction.common.InflateViewGroup
+import com.acxdev.commonFunction.common.base.BaseAdapterOld
 import com.acxdev.commonFunction.model.MultiChoice
 
-class AdapterSelectable<VB : ViewBinding> (
+class AdapterSelectable<VB: ViewBinding>(
+    inflateViewGroup: InflateViewGroup<VB>,
     list: List<MultiChoice>,
     private val onLayout: VB.(Boolean, Any) -> Unit
-) : BaseAdapter<VB, MultiChoice>(list) {
+) : BaseAdapterOld<VB, MultiChoice>(inflateViewGroup, list) {
 
     override fun VB.configureViews(item: MultiChoice, position: Int) {
         onLayout.invoke(this, item.isChecked, item.data)

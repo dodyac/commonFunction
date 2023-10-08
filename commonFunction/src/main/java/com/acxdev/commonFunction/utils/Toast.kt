@@ -2,17 +2,17 @@ package com.acxdev.commonFunction.utils
 
 import android.content.Context
 import androidx.annotation.StringRes
-import com.acxdev.commonFunction.common.Toast
+import com.acxdev.commonFunction.model.Toast
 import es.dmoral.toasty.Toasty
 
 fun Context.toasty(toast: Toast, string: String, isLengthLong: Boolean = true) {
     val length = if(isLengthLong) android.widget.Toast.LENGTH_LONG
     else android.widget.Toast.LENGTH_SHORT
     when (toast) {
-        Toast.INFO -> Toasty.info(this, string, length, true).show()
-        Toast.SUCCESS -> Toasty.success(this, string, length, true).show()
-        Toast.WARNING -> Toasty.warning(this, string, length, true).show()
-        Toast.ERROR -> Toasty.error(this, string, length, true).show()
+        Toast.Info -> Toasty.info(this, string, length, true).show()
+        Toast.Success -> Toasty.success(this, string, length, true).show()
+        Toast.Warning -> Toasty.warning(this, string, length, true).show()
+        Toast.Error -> Toasty.error(this, string, length, true).show()
     }
 }
 
@@ -20,10 +20,10 @@ fun Context.toasty(toast: Toast, @StringRes string: Int, isLengthLong: Boolean =
     val length = if(isLengthLong) android.widget.Toast.LENGTH_LONG
     else android.widget.Toast.LENGTH_SHORT
     when (toast) {
-        Toast.INFO -> Toasty.info(this, getString(string), length, true).show()
-        Toast.SUCCESS -> Toasty.success(this, getString(string), length, true).show()
-        Toast.WARNING -> Toasty.warning(this, getString(string), length, true).show()
-        Toast.ERROR -> Toasty.error(this, getString(string), length, true).show()
+        Toast.Info -> Toasty.info(this, getString(string), length, true).show()
+        Toast.Success -> Toasty.success(this, getString(string), length, true).show()
+        Toast.Warning -> Toasty.warning(this, getString(string), length, true).show()
+        Toast.Error -> Toasty.error(this, getString(string), length, true).show()
     }
 }
 

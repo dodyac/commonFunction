@@ -17,7 +17,7 @@ import androidx.core.view.setMargins
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import androidx.viewpager2.widget.ViewPager2
-import com.acxdev.commonFunction.common.SocialMedia
+import com.acxdev.commonFunction.model.SocialMedia
 import com.acxdev.commonFunction.utils.ext.emptyString
 import com.google.android.material.behavior.HideBottomViewOnScrollBehavior
 import com.google.gson.Gson
@@ -57,12 +57,12 @@ fun View.shareVia(
 fun View.socialMediaOnclick(data: String, socialMedia: SocialMedia) {
     setOnClickListener {
         when (socialMedia) {
-            SocialMedia.FACEBOOK -> {
+            SocialMedia.Facebook -> {
                 val i = Intent(Intent.ACTION_VIEW)
                 i.data = Uri.parse("https://$data")
                 context.startActivity(i)
             }
-            SocialMedia.INSTAGRAM -> {
+            SocialMedia.Instagram -> {
                 val uri = Uri.parse(
                     "http://instagram.com/_u/${
                         data.replace(
@@ -84,12 +84,12 @@ fun View.socialMediaOnclick(data: String, socialMedia: SocialMedia) {
                     )
                 }
             }
-            SocialMedia.WHATSAPP -> {
+            SocialMedia.Whatsapp -> {
                 val i = Intent(Intent.ACTION_VIEW)
                 i.data = Uri.parse("https://api.whatsapp.com/send?phone=${data}")
                 context.startActivity(i)
             }
-            SocialMedia.GMAIL -> {
+            SocialMedia.Gmail -> {
                 try {
                     context.startActivity(
                         Intent(

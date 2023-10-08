@@ -9,10 +9,11 @@ import android.widget.Filterable
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewbinding.ViewBinding
-import com.acxdev.commonFunction.common.Inflater.inflateBinding
+import com.acxdev.commonFunction.common.InflateViewGroup
 import com.acxdev.commonFunction.model.ViewHolder
 
-abstract class BaseAdapter<VB : ViewBinding, T>(
+abstract class BaseAdapterOld<VB : ViewBinding, T>(
+    private val inflateViewGroup: InflateViewGroup<VB>,
     list: List<T> = emptyList(),
     private val listener: Listener<T>? = null
 ) : RecyclerView.Adapter<ViewHolder<VB>>(), Filterable {
@@ -26,7 +27,7 @@ abstract class BaseAdapter<VB : ViewBinding, T>(
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder<VB> {
         context = parent.context
         val inflater = context.getSystemService(Activity.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-        val binding = inflateBinding(inflater, parent)
+        val binding = inflateViewGroup.invoke(inflater, parent, false)
         return ViewHolder(binding)
     }
 

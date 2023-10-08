@@ -3,7 +3,12 @@ package com.acxdev.commonFunction.utils.ext.view
 import android.content.Context
 import androidx.recyclerview.widget.*
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import androidx.viewbinding.ViewBinding
+import com.acxdev.commonFunction.common.InflateViewGroup
+import com.acxdev.commonFunction.model.ChoiceType
+import com.acxdev.commonFunction.model.MultiChoice
 import com.acxdev.commonFunction.utils.RecyclerViewScrollListener
+import com.acxdev.commonFunction.widget.AdapterSelectable
 import com.google.android.flexbox.FlexDirection
 import com.google.android.flexbox.FlexWrap
 import com.google.android.flexbox.FlexboxLayoutManager
@@ -76,6 +81,22 @@ fun RecyclerView.sync(swipeRefreshLayout: SwipeRefreshLayout) {
 
     swipeRefreshLayout.setOnChildScrollUpCallback { _, _ ->
         canScrollVertically(-1)
+    }
+}
+
+fun <VB: ViewBinding> RecyclerView.asMultiChoice(
+    type: ChoiceType,
+    list: List<MultiChoice>,
+    inflateViewGroup: InflateViewGroup<VB>,
+    onLayout: VB.(Boolean, Any) -> Unit
+) {
+    val adapter = AdapterSelectable(inflateViewGroup, list) { b, data ->
+        onLayout.invoke(this, b, data)
+    }
+
+    when(type) {
+        ChoiceType.Horizontal -> setHStack(adapter)
+        ChoiceType.Flex -> setFlex(adapter)
     }
 }
 

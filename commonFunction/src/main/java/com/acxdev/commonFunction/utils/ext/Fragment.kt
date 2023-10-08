@@ -11,7 +11,7 @@ import androidx.annotation.StringRes
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.acxdev.commonFunction.common.ConstantLib
-import com.acxdev.commonFunction.common.Toast
+import com.acxdev.commonFunction.model.Toast
 import com.acxdev.commonFunction.utils.toast
 import com.acxdev.commonFunction.utils.toasty
 

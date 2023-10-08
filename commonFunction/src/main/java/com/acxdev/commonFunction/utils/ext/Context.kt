@@ -10,9 +10,7 @@ import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
 import android.provider.Settings
-import android.util.DisplayMetrics
 import android.view.View
-import android.view.WindowManager
 import androidx.annotation.AttrRes
 import androidx.annotation.ColorInt
 import androidx.annotation.StringRes
@@ -23,7 +21,7 @@ import androidx.core.graphics.blue
 import androidx.core.graphics.green
 import androidx.core.graphics.red
 import com.acxdev.commonFunction.common.ConstantLib
-import com.acxdev.commonFunction.common.Toast
+import com.acxdev.commonFunction.model.Toast
 import com.acxdev.commonFunction.utils.Preference
 import com.acxdev.commonFunction.utils.toast
 import com.acxdev.commonFunction.utils.toasty
@@ -61,7 +59,7 @@ fun Context.openPDFDocument(filename: String) {
 fun Context.cropError(data: Intent?) {
     val cropError = data?.let { UCrop.getError(it) }
     cropError?.let {
-        it.message?.let { it1 -> toasty(Toast.ERROR, it1) }
+        it.message?.let { it1 -> toasty(Toast.Error, it1) }
     }
 }
 
