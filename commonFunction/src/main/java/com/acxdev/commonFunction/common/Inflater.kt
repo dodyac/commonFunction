@@ -9,8 +9,6 @@ import androidx.viewbinding.ViewBinding
 import com.acxdev.commonFunction.model.ViewHolder
 import java.lang.reflect.ParameterizedType
 
-typealias InflateViewGroup<T> = (LayoutInflater, ViewGroup?, Boolean) -> T
-
 object Inflater {
 
     private fun <VB> Class<*>.getClass(): Class<VB> {

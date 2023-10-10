@@ -9,7 +9,6 @@ import android.os.StrictMode
 import android.util.Base64
 import android.util.Patterns
 import com.acxdev.commonFunction.common.ConstantLib
-import com.acxdev.commonFunction.model.Response
 import java.io.ByteArrayOutputStream
 import java.io.File
 import java.text.DecimalFormat
@@ -85,5 +84,3 @@ fun Bitmap.rotateImage(angle: Int): Bitmap {
     matrix.postRotate(angle.toFloat())
     return Bitmap.createBitmap(this, 0, 0, width, height, matrix, true)
 }
-
-fun Response.isSuccess(): Boolean = this == Response.Success

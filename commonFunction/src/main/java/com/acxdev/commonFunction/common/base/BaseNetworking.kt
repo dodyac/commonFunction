@@ -1,59 +1,64 @@
 package com.acxdev.commonFunction.common.base
 
-import com.acxdev.commonFunction.model.Response
-import com.acxdev.commonFunction.utils.ext.emptyString
-import com.acxdev.commonFunction.utils.ext.isSuccess
+import android.util.Log
+import com.acxdev.commonFunction.model.ApiResponse
+import com.google.gson.JsonSyntaxException
 import retrofit2.Call
 import retrofit2.Callback
+import retrofit2.Response
 import java.net.SocketTimeoutException
 import java.net.UnknownHostException
 
-class BaseNetworking {
+object BaseNetworking {
 
-    class CallbackBody<T>(private val body: com.acxdev.commonFunction.model.ResponseData<T>.() -> Unit) : Callback<T> {
-        override fun onResponse(call: Call<T>, response: retrofit2.Response<T>) {
+    private val TAG = javaClass.simpleName
+
+    fun <T> Call<T>.whenLoaded(body: ApiResponse<T>.() -> Unit) {
+        enqueue(CallbackBody(body))
+    }
+
+    fun <T> Call<T>.whenLoadedSuccess(responseBody: T.() -> Unit) {
+        enqueue(CallbackBody<T> {
+            if (this is ApiResponse.Success) {
+                responseBody.invoke(body)
+            }
+        })
+    }
+
+    internal class CallbackBody<T> (private val body: ApiResponse<T>.() -> Unit) : Callback<T> {
+        override fun onResponse(call: Call<T>, response: Response<T>) {
             if(response.isSuccessful) {
-                body.invoke(com.acxdev.commonFunction.model.ResponseData(response.body(), Response.Success, emptyString()))
+                try {
+                    val res = response.body()!!
+                    body.invoke(ApiResponse.Success(res))
+
+                    Log.i(TAG, "Response Success")
+                } catch (e: Exception) {
+                    val error = e.localizedMessage
+                    body.invoke(ApiResponse.Error(error))
+
+                    Log.e(TAG, "Response Body Error")
+                    e.printStackTrace()
+                }
             } else {
-                val errorCode = response.code().toString()
-                val errorBody = response.errorBody()?.string()
-                val joinError = "$errorCode###$errorBody"
-                body.invoke(com.acxdev.commonFunction.model.ResponseData(null, Response.Unsuccessful, joinError))
-                println(response.raw().toString())
+                body.invoke(ApiResponse.Unsuccessful(response.errorBody(), response.code()))
+
+                Log.w(TAG, "Response Unsuccessful")
+                Log.w(TAG, response.raw().toString())
             }
         }
 
         override fun onFailure(call: Call<T>, t: Throwable) {
-            val string = when(t) {
+            val error = when(t) {
                 is UnknownHostException -> "Could not connect to server!"
                 is SocketTimeoutException -> "A connection timeout occurred"
+                is JsonSyntaxException -> "Parsing Error: ${t.localizedMessage}"
                 else -> t.localizedMessage
             }
-            body.invoke(com.acxdev.commonFunction.model.ResponseData(null, Response.Failure, string))
-            println("Retrofit Failure: ${t.message}")
-        }
-    }
+            body.invoke(ApiResponse.Error(error))
 
-    companion object {
-        fun <T> Call<T>.whenLoaded(body: com.acxdev.commonFunction.model.ResponseData<T>.() -> Unit) {
-            enqueue(CallbackBody(body))
-        }
-
-        fun <T> Call<T>.whenLoadedSuccess(body: T.() -> Unit) {
-            enqueue(CallbackBody<T> {
-                if (this.response.isSuccess()) {
-                    data?.let {
-                        body.invoke(it)
-                    }
-                }
-            })
-        }
-
-        fun String.splitResponseUnsuccessful(response : (Int, String) -> Unit) {
-            val split = split("###")
-            val errorCode = split[0]
-            val errorBody = split[1]
-            response.invoke(errorCode.toInt(), errorBody)
+            Log.e(TAG, "Response Failure")
+            t.printStackTrace()
         }
     }
 }
