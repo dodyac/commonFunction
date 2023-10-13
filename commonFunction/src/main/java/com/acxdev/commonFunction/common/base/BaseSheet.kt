@@ -1,19 +1,17 @@
 package com.acxdev.commonFunction.common.base
 
+import android.app.Dialog
 import android.content.Context
 import android.content.DialogInterface
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.util.Log
-import android.view.Gravity
 import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.annotation.GravityInt
-import androidx.annotation.StyleRes
-import androidx.appcompat.app.AppCompatDialogFragment
+import android.view.WindowManager
 import androidx.viewbinding.ViewBinding
 import com.acxdev.commonFunction.common.ConstantLib
 import com.acxdev.commonFunction.common.Inflater.inflateBinding
@@ -21,8 +19,11 @@ import com.acxdev.commonFunction.model.BlurBackground
 import com.acxdev.commonFunction.utils.ext.setBackgroundBlurRadius
 import com.acxdev.commonFunction.utils.ext.toClass
 import com.acxdev.sqlitez.SqliteZ
+import com.google.android.material.bottomsheet.BottomSheetBehavior
+import com.google.android.material.bottomsheet.BottomSheetDialog
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
-abstract class BaseDialog<VB : ViewBinding> : AppCompatDialogFragment() {
+abstract class BaseSheet<VB : ViewBinding> : BottomSheetDialogFragment() {
 
     private var _binding: ViewBinding? = null
     private var _sqliteZ: SqliteZ? = null
@@ -39,19 +40,6 @@ abstract class BaseDialog<VB : ViewBinding> : AppCompatDialogFragment() {
     override fun onStart() {
         super.onStart()
         dialog?.apply {
-            window?.apply {
-                if (animationStyle != 0) {
-                    attributes?.windowAnimations = animationStyle
-                }
-                setBackgroundDrawable(backgroundDrawable)
-                setLayout(layout.width, layout.height)
-
-                val windowAttributes = attributes
-                windowAttributes?.gravity = layout.gravity
-
-                attributes = windowAttributes
-            }
-
             setCancelable(canDismiss)
             setCanceledOnTouchOutside(canDismiss)
             if (!canDismiss) {
@@ -61,6 +49,28 @@ abstract class BaseDialog<VB : ViewBinding> : AppCompatDialogFragment() {
             }
 
             setBackgroundBlurRadius(blurBackground)
+        }
+    }
+
+    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
+        return super.onCreateDialog(savedInstanceState).apply {
+            setOnShowListener {
+                (it as BottomSheetDialog)
+                    .findViewById<View>(com.google.android.material.R.id.design_bottom_sheet)
+                    ?.apply {
+                        background = ColorDrawable(Color.TRANSPARENT)
+
+                        if (!isFullScreen) return@setOnShowListener
+
+                        val params = layoutParams
+                        params.height = WindowManager.LayoutParams.MATCH_PARENT
+
+                        layoutParams = params
+
+                        val behaviour = BottomSheetBehavior.from(this)
+                        behaviour.state = BottomSheetBehavior.STATE_EXPANDED
+                    }
+            }
         }
     }
 
@@ -112,14 +122,7 @@ abstract class BaseDialog<VB : ViewBinding> : AppCompatDialogFragment() {
 
     protected open val canDismiss: Boolean = true
     protected open val blurBackground: BlurBackground = BlurBackground.None
-    protected open val backgroundDrawable = ColorDrawable(Color.TRANSPARENT)
-    protected open val layout: Layout = Layout(
-        width = ViewGroup.LayoutParams.WRAP_CONTENT,
-        height = ViewGroup.LayoutParams.WRAP_CONTENT,
-        gravity = Gravity.CENTER
-    )
-    @StyleRes
-    protected open val animationStyle: Int = 0
+    protected open val isFullScreen: Boolean = false
 
     protected open fun doFetch() {}
     protected open fun VB.setViews() {}
@@ -129,11 +132,4 @@ abstract class BaseDialog<VB : ViewBinding> : AppCompatDialogFragment() {
 
     fun <T> getExtraAs(cls: Class<T>, data: String? = null): T =
         arguments?.getString(data ?: ConstantLib.DATA).toClass(cls)
-
-    data class Layout(
-        val width: Int,
-        val height: Int,
-        @GravityInt
-        val gravity: Int
-    )
 }

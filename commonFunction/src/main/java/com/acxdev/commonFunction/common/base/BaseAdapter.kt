@@ -33,7 +33,7 @@ abstract class BaseAdapter<VB : ViewBinding, T>(
     override fun onBindViewHolder(holder: ViewHolder<VB>, position: Int) {
         val item = listFilter[position]
 
-        holder.binding.configureViews(item, holder.adapterPosition)
+        holder.binding.setViews(item, holder.adapterPosition)
     }
 
     override fun getItemCount(): Int {
@@ -66,7 +66,7 @@ abstract class BaseAdapter<VB : ViewBinding, T>(
         }
     }
 
-    protected abstract fun VB.configureViews(item: T, position: Int)
+    protected abstract fun VB.setViews(item: T, position: Int)
 
     protected open fun filterBy(item: T, query: String): Boolean {
         return true

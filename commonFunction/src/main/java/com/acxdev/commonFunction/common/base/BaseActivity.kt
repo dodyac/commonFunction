@@ -7,35 +7,33 @@ import com.acxdev.commonFunction.common.ConstantLib
 import com.acxdev.commonFunction.common.Inflater.inflateBinding
 import com.acxdev.commonFunction.utils.ext.toClass
 import com.acxdev.sqlitez.DatabaseNameHolder
-import com.acxdev.sqlitez.SqliteX
+import com.acxdev.sqlitez.SqliteZ
 
-abstract class BaseActivity<VB : ViewBinding>(
-    private val databaseName: String = DatabaseNameHolder.dbName
-) : AppCompatActivity() {
+abstract class BaseActivity<VB : ViewBinding> : AppCompatActivity() {
 
     private var _binding: ViewBinding? = null
-    private var _sqliteX: SqliteX? = null
+    private var _sqliteZ: SqliteZ? = null
 
     @Suppress("UNCHECKED_CAST")
     private val binding: VB
         get() = _binding!! as VB
 
-    protected val sqliteX: SqliteX
-        get() = _sqliteX!!
+    protected val sqliteZ: SqliteZ
+        get() = _sqliteZ!!
 
     val TAG = javaClass.simpleName
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         DatabaseNameHolder.setDatabaseName(databaseName)
-        _sqliteX = SqliteX(this)
+        _sqliteZ = SqliteZ(this)
 
         _binding = inflateBinding(layoutInflater)
         setContentView(binding.root)
 
-        doLoadData()
-        binding.configureViews()
-        binding.onClickListener()
+        doFetch()
+        binding.setViews()
+        binding.doAction()
     }
 
     protected fun scopeLayout(viewBinding: (VB.() -> Unit)) {
@@ -47,9 +45,11 @@ abstract class BaseActivity<VB : ViewBinding>(
         }
     }
 
-    protected open fun doLoadData() {}
-    protected open fun VB.configureViews() {}
-    protected open fun VB.onClickListener() {}
+    protected open val databaseName: String = DatabaseNameHolder.dbName
+
+    protected open fun doFetch() {}
+    protected open fun VB.setViews() {}
+    protected open fun VB.doAction() {}
 
     protected fun getStringExtra(path: String? = null): String? = intent.getStringExtra(path ?: ConstantLib.DATA)
 

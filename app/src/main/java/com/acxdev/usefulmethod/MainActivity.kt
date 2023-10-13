@@ -18,7 +18,7 @@ import com.google.gson.annotations.SerializedName
 
 class MainActivity : BaseActivity<ActivityMainBinding>() {
 
-    override fun doLoadData() {
+    override fun doFetch() {
         fetch<Endpoint>().getUsers().whenLoaded {
             when(this) {
                 is ApiResponse.Success -> {

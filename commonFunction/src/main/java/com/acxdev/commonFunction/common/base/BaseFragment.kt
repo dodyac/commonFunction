@@ -11,22 +11,19 @@ import androidx.viewbinding.ViewBinding
 import com.acxdev.commonFunction.common.ConstantLib
 import com.acxdev.commonFunction.common.Inflater.inflateBinding
 import com.acxdev.commonFunction.utils.ext.toClass
-import com.acxdev.sqlitez.DatabaseNameHolder
-import com.acxdev.sqlitez.SqliteX
+import com.acxdev.sqlitez.SqliteZ
 
-abstract class BaseFragment<VB : ViewBinding>(
-    private val databaseName: String = DatabaseNameHolder.dbName
-) : Fragment() {
+abstract class BaseFragment<VB : ViewBinding> : Fragment() {
 
     private var _binding: ViewBinding? = null
-    private var _sqliteX: SqliteX? = null
+    private var _sqliteZ: SqliteZ? = null
 
     @Suppress("UNCHECKED_CAST")
     private val binding: VB
         get() = _binding!! as VB
 
-    protected val sqliteX: SqliteX
-        get() = _sqliteX!!
+    protected val sqliteZ: SqliteZ
+        get() = _sqliteZ!!
 
     val TAG = javaClass.simpleName
 
@@ -41,13 +38,12 @@ abstract class BaseFragment<VB : ViewBinding>(
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        DatabaseNameHolder.setDatabaseName(databaseName)
         safeContext {
-            _sqliteX = SqliteX(this)
+            _sqliteZ = SqliteZ(this)
         }
-        doLoadData()
-        binding.configureViews()
-        binding.onClickListener()
+        doFetch()
+        binding.setViews()
+        binding.doAction()
     }
 
     override fun onDestroyView() {
@@ -72,9 +68,9 @@ abstract class BaseFragment<VB : ViewBinding>(
         }
     }
 
-    protected open fun doLoadData() {}
-    protected open fun VB.configureViews() {}
-    protected open fun VB.onClickListener() {}
+    protected open fun doFetch() {}
+    protected open fun VB.setViews() {}
+    protected open fun VB.doAction() {}
 
     fun getStringExtra(path: String? = null): String? = arguments?.getString(path ?: ConstantLib.DATA)
 
