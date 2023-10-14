@@ -15,16 +15,11 @@ commonFunction is an Android Library that can helps you with some common functio
 
 ## Credits
 
-* https://github.com/mike14u - ShimmerRecyclerView support for AndroidX
-* https://github.com/sharish - ShimmerRecyclerView for Android
-* https://github.com/veghtomi - Shimmer Layout / Original Reference
-* http://supercharge.io/ - Shimmer Layout / Original Reference
 * https://github.com/GrenderG/Toasty - Toasty
 * https://github.com/amulyakhare/TextDrawable - Text Drawable
 * https://github.com/TheFinestArtist/FinestWebView-Android - FinestWebView
-* https://github.com/elye/loaderviewlibrary - Loader View for Android
 
 ## License
 
 ```
-Copyright 2020 Dody AC
+Copyright 2023 Dody AC
