@@ -24,15 +24,13 @@ import com.acxdev.sqlitez.SqliteZ
 
 abstract class BaseDialog<VB : ViewBinding> : AppCompatDialogFragment() {
 
-    private var _binding: ViewBinding? = null
-    private var _sqliteZ: SqliteZ? = null
-
-    @Suppress("UNCHECKED_CAST")
-    private val binding: VB
-        get() = _binding!! as VB
-
-    protected val sqliteZ: SqliteZ
-        get() = _sqliteZ!!
+    private var _binding: VB? = null
+    protected val binding: VB by lazy {
+        _binding!!
+    }
+    protected val sqliteZ by lazy {
+        SqliteZ(context)
+    }
 
     val TAG = javaClass.simpleName
 
@@ -75,9 +73,6 @@ abstract class BaseDialog<VB : ViewBinding> : AppCompatDialogFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        safeContext {
-            _sqliteZ = SqliteZ(this)
-        }
         doFetch()
         binding.setViews()
         binding.doAction()
@@ -91,15 +86,6 @@ abstract class BaseDialog<VB : ViewBinding> : AppCompatDialogFragment() {
     override fun onDismiss(dialog: DialogInterface) {
         setBackgroundBlurRadius(blurBackground,true)
         super.onDismiss(dialog)
-    }
-
-    protected fun scopeLayout(viewBinding: (VB.() -> Unit)) {
-        try {
-            viewBinding.invoke(binding)
-        } catch (e: Exception) {
-            Log.e(TAG, "binding was destroyed")
-            e.printStackTrace()
-        }
     }
 
     protected fun safeContext(result: Context.() -> Unit) {

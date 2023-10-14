@@ -2,9 +2,7 @@ package com.acxdev.commonFunction.utils.ext
 
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
-import android.os.Build
 import android.util.Base64
-import androidx.annotation.RequiresApi
 import androidx.annotation.WorkerThread
 import com.google.gson.Gson
 import java.io.IOException
@@ -20,7 +18,6 @@ fun String.formatDate(before: String, after: String, locale: Locale = Locale.get
     return date?.let { output.format(it) }.toString()
 }
 
-@RequiresApi(Build.VERSION_CODES.N)
 @WorkerThread
 fun String.urlFileLength(): Long {
     var conn: HttpURLConnection? = null

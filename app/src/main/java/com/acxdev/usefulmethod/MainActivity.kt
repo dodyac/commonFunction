@@ -1,113 +1,130 @@
 package com.acxdev.usefulmethod
 
+import androidx.activity.viewModels
+import androidx.lifecycle.lifecycleScope
 import com.acxdev.commonFunction.common.base.BaseActivity
+import com.acxdev.commonFunction.common.base.BaseAdapter
+import com.acxdev.commonFunction.common.base.BaseDialog
 import com.acxdev.commonFunction.common.base.BaseNetworking.whenLoaded
 import com.acxdev.commonFunction.common.base.BaseNetworking.whenLoadedSuccess
 import com.acxdev.commonFunction.model.ApiResponse
+import com.acxdev.commonFunction.model.BaseResponse
+import com.acxdev.commonFunction.utils.ext.useCurrentTheme
+import com.acxdev.commonFunction.utils.ext.view.setVStack
 import com.acxdev.commonFunction.utils.toast
 import com.acxdev.usefulmethod.databinding.ActivityMainBinding
-import okhttp3.OkHttpClient
-import okhttp3.logging.HttpLoggingInterceptor
-import retrofit2.Call
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
-import retrofit2.http.GET
-import java.util.concurrent.TimeUnit
-import com.google.gson.annotations.SerializedName
-
+import com.acxdev.usefulmethod.databinding.DialogLoadingBinding
+import com.acxdev.usefulmethod.databinding.RowTBinding
+import kotlinx.coroutines.flow.collectLatest
 
 class MainActivity : BaseActivity<ActivityMainBinding>() {
 
+    private val testViewModel: TestViewModel by viewModels()
+    private lateinit var adapterName: AdapterName
+    private val loading by lazy {
+        Loading()
+    }
+
     override fun doFetch() {
-        fetch<Endpoint>().getUsers().whenLoaded {
-            when(this) {
-                is ApiResponse.Success -> {
-                    toast(this.body.first().name)
-                }
-                is ApiResponse.Unsuccessful -> {
-                    toast(this.code.toString())
-                }
-                is ApiResponse.Error -> {
-                    toast(this.msg)
+        useCoroutine()
+//        useLoad()
+    }
+
+    override fun ActivityMainBinding.setViews() {
+        useCurrentTheme()
+
+        adapterName = AdapterName()
+        recycler.setVStack(adapterName)
+    }
+
+    private fun useCoroutine() {
+        lifecycleScope.launchWhenStarted {
+            testViewModel.stateFlow.collectLatest {
+                it.whenSuccess {
+                    adapterName.setAdapterList(this)
                 }
             }
         }
+        testViewModel.getUsers()
+    }
 
-        fetch<Endpoint>().getUsers().whenLoadedSuccess {
-            toast(first().name)
+    private fun useLoadSuccess() {
+        Api.fetch().getUsersMain().whenLoadedSuccess {
+            adapterName.setAdapterList(this)
         }
     }
 
-    private inline fun <reified T: Any> fetch(
-        baseUrl: String = "https://jsonplaceholder.typicode.com/",
-        level: HttpLoggingInterceptor.Level = HttpLoggingInterceptor.Level.BASIC,
-        timeout: Long = 30
-    ): T {
-        val httpClient = OkHttpClient.Builder()
-            .addInterceptor(HttpLoggingInterceptor().setLevel(level))
-            .connectTimeout(timeout, TimeUnit.SECONDS)
-            .writeTimeout(timeout, TimeUnit.SECONDS)
-            .readTimeout(timeout, TimeUnit.SECONDS)
-            .build()
-
-        return Retrofit.Builder()
-            .baseUrl(baseUrl)
-            .addConverterFactory(GsonConverterFactory.create())
-            .client(httpClient)
-            .build()
-            .create(T::class.java)
+    private fun useLoad() {
+        showLoading(true)
+        Api.fetch().getUsersMain().whenLoaded {
+            showLoading(false)
+            whenSuccess {
+                adapterName.setAdapterList(this)
+            }
+        }
     }
 
-    interface Endpoint {
-        @GET("users")
-        fun getUsers(): Call<List<User>>
-    }
-
-    data class User(
-        @SerializedName("address")
-        val address: Address,
-        @SerializedName("company")
-        val company: Company,
-        @SerializedName("email")
-        val email: String,
-        @SerializedName("id")
-        val id: Int,
-        @SerializedName("name")
-        val name: String,
-        @SerializedName("phone")
-        val phone: String,
-        @SerializedName("username")
-        val username: String,
-        @SerializedName("website")
-        val website: String
+    private fun <T> BaseResponse<T>.whenSuccess(
+        success: T.() -> Unit
     ) {
-        data class Address(
-            @SerializedName("city")
-            val city: String,
-            @SerializedName("geo")
-            val geo: Geo,
-            @SerializedName("street")
-            val street: String,
-            @SerializedName("suite")
-            val suite: String,
-            @SerializedName("zipcode")
-            val zipcode: String
-        ) {
-            data class Geo(
-                @SerializedName("lat")
-                val lat: String,
-                @SerializedName("lng")
-                val lng: String
-            )
+        when(this) {
+            BaseResponse.Load -> {
+                showLoading(true)
+            }
+            is BaseResponse.Success -> {
+                showLoading(false)
+                success.invoke(body)
+            }
+            is BaseResponse.Unsuccessful -> {
+                showLoading(false)
+                toast("Error Code $code")
+            }
+            is BaseResponse.Error -> {
+                showLoading(false)
+                toast(msg)
+            }
         }
+    }
 
-        data class Company(
-            @SerializedName("bs")
-            val bs: String,
-            @SerializedName("catchPhrase")
-            val catchPhrase: String,
-            @SerializedName("name")
-            val name: String
-        )
+    private fun <T> ApiResponse<T>.whenSuccess(
+        success: T.() -> Unit
+    ) {
+        when(this) {
+            is ApiResponse.Success -> {
+                success.invoke(body)
+            }
+            is ApiResponse.Unsuccessful -> {
+                toast("Error Code $code")
+            }
+            is ApiResponse.Error -> {
+                toast(msg)
+            }
+        }
+    }
+
+    private fun showLoading(isShow: Boolean) {
+        if (isShow) {
+            loading.show(supportFragmentManager, loading.TAG)
+        } else {
+            supportFragmentManager.fragments.forEach {
+                if (it.tag == loading.tag && it is Loading) {
+                    it.dismiss()
+                }
+            }
+        }
+    }
+
+    internal class Loading :BaseDialog<DialogLoadingBinding> () {
+        override val canDismiss: Boolean
+            get() = false
+    }
+
+    internal class AdapterName(
+
+    ) : BaseAdapter<RowTBinding, User>() {
+
+        override fun RowTBinding.setViews(item: User, position: Int) {
+            root.text = item.name
+        }
     }
 }

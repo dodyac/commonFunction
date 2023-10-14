@@ -7,8 +7,8 @@ import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 
-class ViewPager2Adapter(fragmentActivity: FragmentActivity) :
-    FragmentStateAdapter(fragmentActivity) {
+class ViewPager2Adapter(fragmentActivity: FragmentActivity)
+    : FragmentStateAdapter(fragmentActivity) {
 
     private val listFragmentTabView = mutableListOf<Pair<String, Fragment>>()
     private val listFragment = mutableListOf<Fragment>()
