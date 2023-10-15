@@ -13,13 +13,14 @@ import com.acxdev.commonFunction.common.Inflater.inflateBinding
 import com.acxdev.commonFunction.model.ViewHolder
 
 abstract class BaseAdapter<VB : ViewBinding, T>(
-    list: List<T> = emptyList(),
     private val listener: Listener<T>? = null
 ) : RecyclerView.Adapter<ViewHolder<VB>>(), Filterable {
 
-    var mList = list
-    private val listFilter = mList.toMutableList()
+    var currentList = emptyList<T>()
+    private val listFilter = currentList.toMutableList()
     val TAG = javaClass.simpleName
+
+    private var adapterListener: AdapterListener? = null
 
     protected lateinit var context: Context
 
@@ -44,10 +45,12 @@ abstract class BaseAdapter<VB : ViewBinding, T>(
 
     override fun getFilter() = object : Filter() {
         override fun performFiltering(constraint: CharSequence?): FilterResults {
-            val iList = mutableListOf<T>()
             val query = constraint.toString().lowercase()
-            if (query.isEmpty()) iList.addAll(mList)
-            else mList.forEach {
+            val iList = mutableListOf<T>()
+            if (query.isEmpty()) {
+                iList.addAll(currentList)
+                currentList
+            } else currentList.forEach {
                 if (filterBy(it, query)) {
                     iList.add(it)
                 }
@@ -58,7 +61,6 @@ abstract class BaseAdapter<VB : ViewBinding, T>(
         }
 
         override fun publishResults(constraint: CharSequence?, results: FilterResults) {
-            @Suppress("UNCHECKED_CAST")
             val result = results.values as List<T>
             val finalList = result.distinct()
             setFilteredItems(finalList)
@@ -73,8 +75,13 @@ abstract class BaseAdapter<VB : ViewBinding, T>(
     }
 
     fun setAdapterList(newList: List<T>) {
-        mList = newList
-        setFilteredItems(mList)
+        currentList = newList
+        setFilteredItems(currentList)
+        adapterListener?.onAdapterListSet()
+    }
+
+    fun setAdapterListener(adapterListener: AdapterListener) {
+        this.adapterListener = adapterListener
     }
 
     private fun setFilteredItems(newList: List<T>) {
@@ -97,6 +104,10 @@ abstract class BaseAdapter<VB : ViewBinding, T>(
 
         override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean =
             oldList[oldItemPosition] == newList[newItemPosition]
+    }
+
+    interface AdapterListener {
+        fun onAdapterListSet()
     }
 
     interface Listener<T> {

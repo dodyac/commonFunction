@@ -45,7 +45,6 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
                 }
             }
         }
-        testViewModel.getUsers()
     }
 
     private fun useLoadSuccess() {
@@ -119,9 +118,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
             get() = false
     }
 
-    internal class AdapterName(
-
-    ) : BaseAdapter<RowTBinding, User>() {
+    internal class AdapterName: BaseAdapter<RowTBinding, User>() {
 
         override fun RowTBinding.setViews(item: User, position: Int) {
             root.text = item.name

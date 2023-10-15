@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="white">#FFFFFF</color>
+    <color name="darker_color">#B4B4B4</color>
+    <color name="default_color">#D7D7D7</color>
+
     <style name="Web" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="android:textColorPrimary">@color/white</item>
         <item name="android:textColorSecondary">@color/white</item>
@@ -15,5 +18,29 @@
         <!--        <attr name="isButtonVisible" format="boolean" />-->
         <!--        <attr name="buttonText" format="string" />-->
         <!--        <attr name="buttonStyle" format="reference"/>-->
+    </declare-styleable>
+
+    <declare-styleable name="ShimmerRecyclerView">
+        <attr name="layout" format="reference" />
+        <attr name="count" format="integer|reference" />
+        <attr name="gridCount" format="integer|reference" />
+        <attr name="autoRun" format="boolean"/>
+        <attr name="layoutType" format="enum">
+            <enum name="vertical" value="0" />
+            <enum name="horizontal" value="1" />
+            <enum name="grid" value="2" />
+         </attr>
+    </declare-styleable>
+    <declare-styleable name="ShimmerImage">
+        <attr name="shimmerImageGradientColor" format="boolean|reference"/>
+        <attr name="shimmerImageCornerRadius" format="integer|reference"/>
+        <attr name="shimmerImageColor" format="color|reference"/>
+    </declare-styleable>
+    <declare-styleable name="ShimmerText">
+        <attr name="shimmerTextWidth" format="float|reference"/>
+        <attr name="shimmerTextHeight" format="float|reference"/>
+        <attr name="shimmerTextGradientColor" format="boolean|reference"/>
+        <attr name="shimmerTextCornerRadius" format="integer|reference"/>
+        <attr name="shimmerTextColor" format="color|reference"/>
     </declare-styleable>
 </resources>
