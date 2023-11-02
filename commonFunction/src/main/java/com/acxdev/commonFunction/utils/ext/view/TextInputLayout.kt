@@ -169,6 +169,19 @@ fun TextInputLayout.isNotEmpty(): Boolean {
     }
 }
 
+fun TextInputLayout.isEmpty(): Boolean {
+    return if(toEditString().isEmpty()) {
+        isErrorEnabled = true
+        error = "$hint ${context.getString(R.string.cannotEmpty)}"
+        requestFocus()
+        true
+    } else {
+        isErrorEnabled = false
+        clearFocus()
+        false
+    }
+}
+
 fun TextInputLayout.toEditString(): String = editText?.text.toString()
 
 fun MaterialAutoCompleteTextView.toEditString(): String = text.toString()
@@ -201,5 +214,18 @@ fun MaterialAutoCompleteTextView.isNotEmpty(textInputLayout: TextInputLayout): B
         textInputLayout.isErrorEnabled = false
         textInputLayout.clearFocus()
         true
+    }
+}
+
+fun MaterialAutoCompleteTextView.isEmpty(textInputLayout: TextInputLayout): Boolean {
+    return if(text.isNullOrEmpty()) {
+        textInputLayout.isErrorEnabled = true
+        textInputLayout.error = "$hint ${context.getString(R.string.cannotEmpty)}"
+        textInputLayout.requestFocus()
+        true
+    } else {
+        textInputLayout.isErrorEnabled = false
+        textInputLayout.clearFocus()
+        false
     }
 }
