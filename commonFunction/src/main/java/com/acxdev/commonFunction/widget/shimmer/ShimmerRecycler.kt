@@ -70,7 +70,7 @@ class ShimmerRecyclerView: RecyclerView {
     }
 
     private fun setAdapterListener() {
-        actualAdapter?.setAdapterListener(object : BaseAdapter.AdapterListener {
+        actualAdapter?.setShimmerLoadedListener(object : BaseAdapter.ShimmerLoadedListener {
             override fun onAdapterListSet() {
                 hideShimmer()
             }

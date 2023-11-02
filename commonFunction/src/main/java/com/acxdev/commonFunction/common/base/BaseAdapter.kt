@@ -13,14 +13,13 @@ import com.acxdev.commonFunction.common.Inflater.inflateBinding
 import com.acxdev.commonFunction.model.ViewHolder
 
 abstract class BaseAdapter<VB : ViewBinding, T>(
-    private val listener: Listener<T>? = null
+    private val adapterListener: AdapterListener<T>? = null
 ) : RecyclerView.Adapter<ViewHolder<VB>>(), Filterable {
 
     var currentList = emptyList<T>()
     private val listFilter = currentList.toMutableList()
-    val TAG = javaClass.simpleName
 
-    private var adapterListener: AdapterListener? = null
+    private var shimmerLoadedListener: ShimmerLoadedListener? = null
 
     protected lateinit var context: Context
 
@@ -39,7 +38,7 @@ abstract class BaseAdapter<VB : ViewBinding, T>(
 
     override fun getItemCount(): Int {
         val count = listFilter.size
-        listener?.onItemCount(count < 1)
+        adapterListener?.onItemCount(count < 1)
         return count
     }
 
@@ -64,7 +63,7 @@ abstract class BaseAdapter<VB : ViewBinding, T>(
             val result = results.values as List<T>
             val finalList = result.distinct()
             setFilteredItems(finalList)
-            listener?.onFilteredResult(finalList)
+            adapterListener?.onFilteredResult(finalList)
         }
     }
 
@@ -77,11 +76,11 @@ abstract class BaseAdapter<VB : ViewBinding, T>(
     fun setAdapterList(newList: List<T>) {
         currentList = newList
         setFilteredItems(currentList)
-        adapterListener?.onAdapterListSet()
+        shimmerLoadedListener?.onAdapterListSet()
     }
 
-    fun setAdapterListener(adapterListener: AdapterListener) {
-        this.adapterListener = adapterListener
+    fun setShimmerLoadedListener(shimmerLoadedListener: ShimmerLoadedListener) {
+        this.shimmerLoadedListener = shimmerLoadedListener
     }
 
     private fun setFilteredItems(newList: List<T>) {
@@ -106,14 +105,11 @@ abstract class BaseAdapter<VB : ViewBinding, T>(
             oldList[oldItemPosition] == newList[newItemPosition]
     }
 
-    interface AdapterListener {
+    interface ShimmerLoadedListener {
         fun onAdapterListSet()
     }
 
-    interface Listener<T> {
-        fun onItemClick(item: T, position: Int) {}
-        fun onEditClick(item: T, position: Int) {}
-        fun onDeleteClick(item: T, position: Int) {}
+    interface AdapterListener<T> {
         fun onFilteredResult(list: List<T>) {}
         fun onItemCount(isEmpty: Boolean) {}
     }
