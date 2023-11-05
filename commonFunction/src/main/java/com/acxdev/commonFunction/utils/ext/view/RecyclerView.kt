@@ -9,9 +9,9 @@ import com.google.android.flexbox.FlexWrap
 import com.google.android.flexbox.FlexboxLayoutManager
 
 fun RecyclerView.setHStack(
-    adapter: RecyclerView.Adapter<*>?,
+    adapter: RecyclerView.Adapter<*>,
     isSnap: Boolean = false,
-    hasFixed: Boolean = true
+    hasFixed: Boolean = false
 ) {
     layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
     this.adapter = adapter
@@ -23,9 +23,9 @@ fun RecyclerView.setHStack(
 }
 
 fun RecyclerView.setVStack(
-    adapter: RecyclerView.Adapter<*>?,
-    hasFixed: Boolean = true,
-    spanCount: Int = 1
+    adapter: RecyclerView.Adapter<*>,
+    spanCount: Int = 1,
+    hasFixed: Boolean = false,
 ) {
     layoutManager = GridLayoutManager(context, spanCount)
     this.adapter = adapter
@@ -33,9 +33,9 @@ fun RecyclerView.setVStack(
 }
 
 fun RecyclerView.setGrid(
-    adapter: RecyclerView.Adapter<*>?,
+    adapter: RecyclerView.Adapter<*>,
     numOfColumns: Float,
-    hasFixed: Boolean = true
+    hasFixed: Boolean = false
 ) {
     layoutManager = GridLayoutManager(context, context.numOfColumns(numOfColumns))
     this.adapter = adapter
@@ -43,9 +43,9 @@ fun RecyclerView.setGrid(
 }
 
 fun RecyclerView.setStag(
-    adapter: RecyclerView.Adapter<*>?,
+    adapter: RecyclerView.Adapter<*>,
     numOfColumns: Float,
-    hasFixed: Boolean = true
+    hasFixed: Boolean = false
 ) {
     val layoutManager = StaggeredGridLayoutManager(
         context.numOfColumns(numOfColumns),
@@ -58,7 +58,10 @@ fun RecyclerView.setStag(
     setHasFixedSize(hasFixed)
 }
 
-fun RecyclerView.setFlex(adapter: RecyclerView.Adapter<*>, hasFixed: Boolean = true) {
+fun RecyclerView.setFlex(
+    adapter: RecyclerView.Adapter<*>,
+    hasFixed: Boolean = false
+) {
     val layoutManager = FlexboxLayoutManager(context)
     layoutManager.flexWrap = FlexWrap.WRAP
     layoutManager.flexDirection = FlexDirection.ROW
