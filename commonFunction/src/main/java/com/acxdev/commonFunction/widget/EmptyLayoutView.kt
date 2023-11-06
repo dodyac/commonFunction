@@ -39,12 +39,28 @@ class EmptyLayoutView @JvmOverloads constructor(
         titleTextView = findViewById(R.id.title)
         bodyTextView = findViewById(R.id.body)
         materialButton = findViewById(R.id.button)
-        val typedArray = context.obtainStyledAttributes(attrs, R.styleable.EmptyLayout)
+        val typedArray = context.obtainStyledAttributes(attrs, R.styleable.EmptyLayoutView)
 
-        val titleText = typedArray.getString(R.styleable.EmptyLayout_title)
-        val bodyText = typedArray.getString(R.styleable.EmptyLayout_body)
-        val imageResource = typedArray.getResourceId(R.styleable.EmptyLayout_image, 0)
-        val lottieRawRes = typedArray.getResourceId(R.styleable.EmptyLayout_lottie, 0)
+        val titleText = typedArray.getString(R.styleable.EmptyLayoutView_title)
+        val bodyText = typedArray.getString(R.styleable.EmptyLayoutView_body)
+        val imageResource = typedArray.getResourceId(R.styleable.EmptyLayoutView_image, 0)
+        val lottieRawRes = typedArray.getResourceId(R.styleable.EmptyLayoutView_lottie, 0)
+        val imageSize = typedArray.getDimensionPixelSize(R.styleable.EmptyLayoutView_image_size, 0)
+
+        val layoutParams = imageView.layoutParams
+        layoutParams.width = imageSize
+        layoutParams.height = imageSize
+
+        imageView.layoutParams = layoutParams
+        imageView.requestLayout()
+
+        val layoutParamsLottie = lottieAnimationView.layoutParams
+        layoutParamsLottie.width = imageSize
+        layoutParamsLottie.height = imageSize
+
+        lottieAnimationView.layoutParams = layoutParamsLottie
+        lottieAnimationView.requestLayout()
+
 //        val buttonVisible = typedArray.getBoolean(R.styleable.EmptyLayout_isButtonVisible, false)
 //        val buttonText = typedArray.getString(R.styleable.EmptyLayout_buttonText)
 //        val buttonStyle = typedArray.getResourceId(R.styleable.EmptyLayout_buttonStyle, 0)
