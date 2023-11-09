@@ -11,13 +11,16 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.viewbinding.ViewBinding
 import com.acxdev.commonFunction.common.Inflater.inflateBinding
 import com.acxdev.commonFunction.model.ViewHolder
+import com.acxdev.commonFunction.utils.MutableListDelegate
 
 abstract class BaseAdapter<VB : ViewBinding, T>(
     private val adapterListener: AdapterListener<T>? = null
 ) : RecyclerView.Adapter<ViewHolder<VB>>(), Filterable {
 
     var currentList = emptyList<T>()
-    private val listFilter = currentList.toMutableList()
+    private val listFilter = MutableListDelegate(list = currentList.toMutableList()) {
+        adapterListener?.onListChanged(isEmpty())
+    }
 
     private var shimmerLoadedListener: ShimmerLoadedListener? = null
 
@@ -37,9 +40,7 @@ abstract class BaseAdapter<VB : ViewBinding, T>(
     }
 
     override fun getItemCount(): Int {
-        val count = listFilter.size
-        adapterListener?.onItemCount(count < 1)
-        return count
+        return listFilter.size
     }
 
     override fun getFilter() = object : Filter() {
@@ -111,6 +112,6 @@ abstract class BaseAdapter<VB : ViewBinding, T>(
 
     interface AdapterListener<T> {
         fun onFilteredResult(list: List<T>) {}
-        fun onItemCount(isEmpty: Boolean) {}
+        fun onListChanged(isEmpty: Boolean) {}
     }
 }

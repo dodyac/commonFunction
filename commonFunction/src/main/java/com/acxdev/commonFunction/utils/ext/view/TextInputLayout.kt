@@ -184,8 +184,6 @@ fun TextInputLayout.isEmpty(): Boolean {
 
 fun TextInputLayout.toEditString(): String = editText?.text.toString()
 
-fun MaterialAutoCompleteTextView.toEditString(): String = text.toString()
-
 fun TextInputLayout.setText(string: String?) {
     editText?.setText(string)
 }
@@ -204,28 +202,5 @@ fun MaterialAutoCompleteTextView.set(list: List<String>) {
     setAdapter(dataAdapter)
 }
 
-fun MaterialAutoCompleteTextView.isNotEmpty(textInputLayout: TextInputLayout): Boolean {
-    return if(text.isNullOrEmpty()) {
-        textInputLayout.isErrorEnabled = true
-        textInputLayout.error = "$hint ${context.getString(R.string.cannotEmpty)}"
-        textInputLayout.requestFocus()
-        false
-    } else {
-        textInputLayout.isErrorEnabled = false
-        textInputLayout.clearFocus()
-        true
-    }
-}
-
-fun MaterialAutoCompleteTextView.isEmpty(textInputLayout: TextInputLayout): Boolean {
-    return if(text.isNullOrEmpty()) {
-        textInputLayout.isErrorEnabled = true
-        textInputLayout.error = "$hint ${context.getString(R.string.cannotEmpty)}"
-        textInputLayout.requestFocus()
-        true
-    } else {
-        textInputLayout.isErrorEnabled = false
-        textInputLayout.clearFocus()
-        false
-    }
-}
+val TextInputLayout.autoComplete: MaterialAutoCompleteTextView?
+    get() = editText as? MaterialAutoCompleteTextView
