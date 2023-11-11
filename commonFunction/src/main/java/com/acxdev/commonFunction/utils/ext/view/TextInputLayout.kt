@@ -1,79 +1,157 @@
 package com.acxdev.commonFunction.utils.ext.view
 
-import android.annotation.SuppressLint
-import android.text.format.DateFormat
 import android.widget.ArrayAdapter
 import androidx.annotation.ArrayRes
+import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
 import com.acxdev.commonFunction.R
 import com.acxdev.commonFunction.utils.ext.*
+import com.google.android.material.datepicker.CalendarConstraints
+import com.google.android.material.datepicker.CompositeDateValidator
+import com.google.android.material.datepicker.DateValidatorPointBackward
+import com.google.android.material.datepicker.DateValidatorPointForward
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.textfield.MaterialAutoCompleteTextView
 import com.google.android.material.textfield.TextInputLayout
-import com.google.android.material.timepicker.MaterialTimePicker
-import com.google.android.material.timepicker.TimeFormat
+import java.text.SimpleDateFormat
+import java.util.Locale
 
 //TextInputLayout
 
 private const val DATE_PICKER = "DATE_PICKER"
 private const val TIME_PICKER = "TIME_PICKER"
 
-fun TextInputLayout.datePicker(title: String, format: String) {
-    setStartIconOnClickListener {
-        val builder = MaterialDatePicker.Builder.datePicker()
-        builder.setTitleText(title)
-        val datePicker = builder.build()
-        datePicker.show((context.getActivity()).supportFragmentManager, DATE_PICKER)
-        datePicker.addOnPositiveButtonClickListener { editText?.setText(it.toDate(format)) }
-    }
-}
-
-@SuppressLint("SetTextI18n")
-fun TextInputLayout.timePicker(title: String, timeFormat: Int? = null) {
-    setStartIconOnClickListener {
-        val isSystem24Hour = DateFormat.is24HourFormat(context.getActivity())
-        val clockFormat = if (isSystem24Hour) TimeFormat.CLOCK_24H else TimeFormat.CLOCK_12H
-
-        val picker = MaterialTimePicker.Builder()
-            .setTimeFormat(timeFormat ?: clockFormat)
-            .setHour(12)
-            .setMinute(0)
-            .setTitleText(title)
-            .build()
-        picker.show((context.getActivity()).supportFragmentManager, TIME_PICKER)
-        picker.addOnPositiveButtonClickListener {
-            editText?.setText("${picker.hour.toString().add0()}:${picker.minute.toString().add0()}")
-        }
-    }
-}
-
-@SuppressLint("SetTextI18n")
-fun TextInputLayout.datePickerWithTime(
+fun AppCompatActivity.setDatePicker(
+    vararg textInputLayouts: TextInputLayout,
     title: String,
-    titleTimePicker: String,
     format: String,
-    timeFormat: Int? = null
+    locale: Locale = Locale.getDefault(),
+    selectedDate: String = getToday(format, locale),
+    minDate: Long? = null,
+    maxDate: Long? = null,
 ) {
-    setStartIconOnClickListener {
-        val builder = MaterialDatePicker.Builder.datePicker()
-        builder.setTitleText(title)
-        val datePicker = builder.build()
-        datePicker.show((context.getActivity()).supportFragmentManager, DATE_PICKER)
-        datePicker.addOnPositiveButtonClickListener {
-            val isSystem24Hour = DateFormat.is24HourFormat(context.getActivity())
-            val clockFormat = if (isSystem24Hour) TimeFormat.CLOCK_24H else TimeFormat.CLOCK_12H
-            val picker = MaterialTimePicker.Builder()
-                .setTimeFormat(timeFormat ?: clockFormat)
-                .setHour(12)
-                .setMinute(0)
-                .setTitleText(titleTimePicker)
-                .build()
-            picker.show((context.getActivity()).supportFragmentManager, TIME_PICKER)
-            picker.addOnPositiveButtonClickListener { _ ->
-                editText?.setText("${picker.hour.toString().add0()}:${picker.minute.toString().add0()} - ${it.toDate(format)}")
+    val dateString = SimpleDateFormat(format, locale)
+    val selectedDateTimeMillis = dateString.parse(selectedDate)?.time
+
+    val validators = mutableListOf<CalendarConstraints.DateValidator>()
+
+    minDate?.let {
+        DateValidatorPointForward.from(minDate)
+    }
+
+    maxDate?.let {
+        DateValidatorPointBackward.before(maxDate)
+    }
+
+    val calendarConstraintBuilder = CalendarConstraints.Builder()
+        .setValidator(CompositeDateValidator.allOf(validators)).build()
+
+    textInputLayouts.forEach { textInputLayout ->
+        textInputLayout.setStartIconOnClickListener {
+            val builder = MaterialDatePicker.Builder.datePicker()
+            builder.setTitleText(title)
+            builder.setCalendarConstraints(calendarConstraintBuilder)
+            builder.setSelection(selectedDateTimeMillis)
+
+            val datePicker = builder.build()
+            datePicker.show(supportFragmentManager, DATE_PICKER)
+            datePicker.addOnPositiveButtonClickListener {
+                val resultDate = it.toDate(format, locale)
+                textInputLayout.setText(resultDate)
             }
         }
     }
 }
+
+fun Fragment.setDatePicker(
+    vararg textInputLayouts: TextInputLayout,
+    title: String,
+    format: String,
+    locale: Locale = Locale.getDefault(),
+    selectedDate: String = getToday(format, locale),
+    minDate: Long? = null,
+    maxDate: Long? = null,
+) {
+    val dateString = SimpleDateFormat(format, locale)
+    val selectedDateTimeMillis = dateString.parse(selectedDate)?.time
+
+    val validators = mutableListOf<CalendarConstraints.DateValidator>()
+
+    minDate?.let {
+        DateValidatorPointForward.from(minDate)
+    }
+
+    maxDate?.let {
+        DateValidatorPointBackward.before(maxDate)
+    }
+
+    val calendarConstraintBuilder = CalendarConstraints.Builder()
+        .setValidator(CompositeDateValidator.allOf(validators)).build()
+
+    textInputLayouts.forEach { textInputLayout ->
+        textInputLayout.setStartIconOnClickListener {
+            val builder = MaterialDatePicker.Builder.datePicker()
+            builder.setTitleText(title)
+            builder.setCalendarConstraints(calendarConstraintBuilder)
+            builder.setSelection(selectedDateTimeMillis)
+
+            val datePicker = builder.build()
+            datePicker.show(childFragmentManager, DATE_PICKER)
+            datePicker.addOnPositiveButtonClickListener {
+                val resultDate = it.toDate(format, locale)
+                textInputLayout.setText(resultDate)
+            }
+        }
+    }
+}
+
+//@SuppressLint("SetTextI18n")
+//fun TextInputLayout.timePicker(title: String, timeFormat: Int? = null) {
+//    setStartIconOnClickListener {
+//        val isSystem24Hour = DateFormat.is24HourFormat(context.getActivity())
+//        val clockFormat = if (isSystem24Hour) TimeFormat.CLOCK_24H else TimeFormat.CLOCK_12H
+//
+//        val picker = MaterialTimePicker.Builder()
+//            .setTimeFormat(timeFormat ?: clockFormat)
+//            .setHour(12)
+//            .setMinute(0)
+//            .setTitleText(title)
+//            .build()
+//        picker.show((context.getActivity()).supportFragmentManager, TIME_PICKER)
+//        picker.addOnPositiveButtonClickListener {
+//            editText?.setText("${picker.hour.toString().add0()}:${picker.minute.toString().add0()}")
+//        }
+//    }
+//}
+//
+//@SuppressLint("SetTextI18n")
+//fun TextInputLayout.datePickerWithTime(
+//    title: String,
+//    titleTimePicker: String,
+//    format: String,
+//    timeFormat: Int? = null
+//) {
+//    setStartIconOnClickListener {
+//        val builder = MaterialDatePicker.Builder.datePicker()
+//        builder.setTitleText(title)
+//        val datePicker = builder.build()
+//        datePicker.show((context.getActivity()).supportFragmentManager, DATE_PICKER)
+//        datePicker.addOnPositiveButtonClickListener {
+//            val isSystem24Hour = DateFormat.is24HourFormat(context.getActivity())
+//            val clockFormat = if (isSystem24Hour) TimeFormat.CLOCK_24H else TimeFormat.CLOCK_12H
+//            val picker = MaterialTimePicker.Builder()
+//                .setTimeFormat(timeFormat ?: clockFormat)
+//                .setHour(12)
+//                .setMinute(0)
+//                .setTitleText(titleTimePicker)
+//                .build()
+//            picker.show((context.getActivity()).supportFragmentManager, TIME_PICKER)
+//            picker.addOnPositiveButtonClickListener { _ ->
+//                editText?.setText("${picker.hour.toString().add0()}:${picker.minute.toString().add0()} - ${it.toDate(format)}")
+//            }
+//        }
+//    }
+//}
 
 fun alertAuth(mail: TextInputLayout, password: TextInputLayout, passwordLength: Int = 8): Boolean {
     val context = mail.context

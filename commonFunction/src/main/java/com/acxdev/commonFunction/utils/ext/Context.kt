@@ -82,16 +82,6 @@ fun Context.getColorPrimary(): Int  {
   return getResourceColor(android.R.attr.colorPrimary)
 }
 
-fun Context.getActivity(): AppCompatActivity {
-    return when (this) {
-        is AppCompatActivity -> this
-        is ContextWrapper -> baseContext.getActivity()
-        is Application -> baseContext.getActivity()
-        is android.view.ContextThemeWrapper -> baseContext.getActivity()
-        else -> (this as AppCompatActivity)
-    }
-}
-
 fun Context.showPlayStoreRate() {
     val manager = ReviewManagerFactory.create(this)
     val request = manager.requestReviewFlow()
@@ -112,15 +102,15 @@ fun Context.showPlayStoreRate() {
     }
 }
 
-fun Context.showSheetWithExtra(
-    bottomSheet: BottomSheetDialogFragment,
-    data: String? = null
-) {
-    val args = Bundle()
-    args.putString(ConstantLib.DATA, data)
-    bottomSheet.arguments = args
-    bottomSheet.show(getActivity().supportFragmentManager, bottomSheet.tag)
-}
+//fun Context.showSheetWithExtra(
+//    bottomSheet: BottomSheetDialogFragment,
+//    data: String? = null
+//) {
+//    val args = Bundle()
+//    args.putString(ConstantLib.DATA, data)
+//    bottomSheet.arguments = args
+//    bottomSheet.show(getActivity().supportFragmentManager, bottomSheet.tag)
+//}
 
 fun Context.getVersionName(): String {
     return try {
@@ -156,9 +146,9 @@ fun Context.getCacheSize(): Long {
     return size
 }
 
-fun Context.getView(): View {
-    return getActivity().window.decorView.rootView
-}
+//fun Context.getView(): View {
+//    return getActivity().window.decorView.rootView
+//}
 
 fun Context.whenPermissionGranted(permissions: String, permissionGranted: (() -> Unit)) {
     Dexter.withContext(this)

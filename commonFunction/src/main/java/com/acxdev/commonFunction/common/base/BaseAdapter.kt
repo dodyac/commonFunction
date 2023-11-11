@@ -18,7 +18,7 @@ abstract class BaseAdapter<VB : ViewBinding, T>(
 ) : RecyclerView.Adapter<ViewHolder<VB>>(), Filterable {
 
     var currentList = emptyList<T>()
-    private val listFilter = MutableListDelegate(list = currentList.toMutableList()) {
+    private val listFilter = MutableListDelegate<T> {
         adapterListener?.onListChanged(isEmpty())
     }
 
