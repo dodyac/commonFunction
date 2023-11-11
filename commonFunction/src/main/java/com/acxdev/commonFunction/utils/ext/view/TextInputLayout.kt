@@ -21,6 +21,10 @@ import java.util.Locale
 private const val DATE_PICKER = "DATE_PICKER"
 private const val TIME_PICKER = "TIME_PICKER"
 
+enum class IconGravity {
+    Start, End
+}
+
 fun AppCompatActivity.setDatePicker(
     vararg textInputLayouts: TextInputLayout,
     title: String,
@@ -29,35 +33,35 @@ fun AppCompatActivity.setDatePicker(
     selectedDate: String = getToday(format, locale),
     minDate: Long? = null,
     maxDate: Long? = null,
+    iconGravity: IconGravity = IconGravity.Start
 ) {
-    val dateString = SimpleDateFormat(format, locale)
-    val selectedDateTimeMillis = dateString.parse(selectedDate)?.time
-
-    val validators = mutableListOf<CalendarConstraints.DateValidator>()
-
-    minDate?.let {
-        DateValidatorPointForward.from(minDate)
-    }
-
-    maxDate?.let {
-        DateValidatorPointBackward.before(maxDate)
-    }
-
-    val calendarConstraintBuilder = CalendarConstraints.Builder()
-        .setValidator(CompositeDateValidator.allOf(validators)).build()
-
     textInputLayouts.forEach { textInputLayout ->
-        textInputLayout.setStartIconOnClickListener {
-            val builder = MaterialDatePicker.Builder.datePicker()
-            builder.setTitleText(title)
-            builder.setCalendarConstraints(calendarConstraintBuilder)
-            builder.setSelection(selectedDateTimeMillis)
-
-            val datePicker = builder.build()
-            datePicker.show(supportFragmentManager, DATE_PICKER)
-            datePicker.addOnPositiveButtonClickListener {
-                val resultDate = it.toDate(format, locale)
-                textInputLayout.setText(resultDate)
+        when(iconGravity) {
+            IconGravity.Start -> {
+                textInputLayout.setStartIconOnClickListener {
+                    showCalendarDialog(
+                        textInputLayout = textInputLayout,
+                        title = title,
+                        format = format,
+                        locale = locale,
+                        selectedDate = selectedDate,
+                        minDate = minDate,
+                        maxDate = maxDate
+                    )
+                }
+            }
+            IconGravity.End -> {
+                textInputLayout.setEndIconOnClickListener {
+                    showCalendarDialog(
+                        textInputLayout = textInputLayout,
+                        title = title,
+                        format = format,
+                        locale = locale,
+                        selectedDate = selectedDate,
+                        minDate = minDate,
+                        maxDate = maxDate
+                    )
+                }
             }
         }
     }
@@ -71,6 +75,48 @@ fun Fragment.setDatePicker(
     selectedDate: String = getToday(format, locale),
     minDate: Long? = null,
     maxDate: Long? = null,
+    iconGravity: IconGravity = IconGravity.Start
+) {
+    textInputLayouts.forEach { textInputLayout ->
+        when(iconGravity) {
+            IconGravity.Start -> {
+                textInputLayout.setStartIconOnClickListener {
+                    showCalendarDialog(
+                        textInputLayout = textInputLayout,
+                        title = title,
+                        format = format,
+                        locale = locale,
+                        selectedDate = selectedDate,
+                        minDate = minDate,
+                        maxDate = maxDate
+                    )
+                }
+            }
+            IconGravity.End -> {
+                textInputLayout.setEndIconOnClickListener {
+                    showCalendarDialog(
+                        textInputLayout = textInputLayout,
+                        title = title,
+                        format = format,
+                        locale = locale,
+                        selectedDate = selectedDate,
+                        minDate = minDate,
+                        maxDate = maxDate
+                    )
+                }
+            }
+        }
+    }
+}
+
+private fun AppCompatActivity.showCalendarDialog(
+    textInputLayout: TextInputLayout,
+    title: String,
+    format: String,
+    locale: Locale = Locale.getDefault(),
+    selectedDate: String = getToday(format, locale),
+    minDate: Long? = null,
+    maxDate: Long? = null
 ) {
     val dateString = SimpleDateFormat(format, locale)
     val selectedDateTimeMillis = dateString.parse(selectedDate)?.time
@@ -88,20 +134,54 @@ fun Fragment.setDatePicker(
     val calendarConstraintBuilder = CalendarConstraints.Builder()
         .setValidator(CompositeDateValidator.allOf(validators)).build()
 
-    textInputLayouts.forEach { textInputLayout ->
-        textInputLayout.setStartIconOnClickListener {
-            val builder = MaterialDatePicker.Builder.datePicker()
-            builder.setTitleText(title)
-            builder.setCalendarConstraints(calendarConstraintBuilder)
-            builder.setSelection(selectedDateTimeMillis)
+    val builder = MaterialDatePicker.Builder.datePicker()
+    builder.setTitleText(title)
+    builder.setCalendarConstraints(calendarConstraintBuilder)
+    builder.setSelection(selectedDateTimeMillis)
 
-            val datePicker = builder.build()
-            datePicker.show(childFragmentManager, DATE_PICKER)
-            datePicker.addOnPositiveButtonClickListener {
-                val resultDate = it.toDate(format, locale)
-                textInputLayout.setText(resultDate)
-            }
-        }
+    val datePicker = builder.build()
+    datePicker.show(supportFragmentManager, DATE_PICKER)
+    datePicker.addOnPositiveButtonClickListener {
+        val resultDate = it.toDate(format, locale)
+        textInputLayout.setText(resultDate)
+    }
+}
+
+private fun Fragment.showCalendarDialog(
+    textInputLayout: TextInputLayout,
+    title: String,
+    format: String,
+    locale: Locale = Locale.getDefault(),
+    selectedDate: String = getToday(format, locale),
+    minDate: Long? = null,
+    maxDate: Long? = null
+) {
+    val dateString = SimpleDateFormat(format, locale)
+    val selectedDateTimeMillis = dateString.parse(selectedDate)?.time
+
+    val validators = mutableListOf<CalendarConstraints.DateValidator>()
+
+    minDate?.let {
+        DateValidatorPointForward.from(minDate)
+    }
+
+    maxDate?.let {
+        DateValidatorPointBackward.before(maxDate)
+    }
+
+    val calendarConstraintBuilder = CalendarConstraints.Builder()
+        .setValidator(CompositeDateValidator.allOf(validators)).build()
+
+    val builder = MaterialDatePicker.Builder.datePicker()
+    builder.setTitleText(title)
+    builder.setCalendarConstraints(calendarConstraintBuilder)
+    builder.setSelection(selectedDateTimeMillis)
+
+    val datePicker = builder.build()
+    datePicker.show(childFragmentManager, DATE_PICKER)
+    datePicker.addOnPositiveButtonClickListener {
+        val resultDate = it.toDate(format, locale)
+        textInputLayout.setText(resultDate)
     }
 }
 
