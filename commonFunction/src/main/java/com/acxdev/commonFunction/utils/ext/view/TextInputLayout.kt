@@ -2,8 +2,8 @@ package com.acxdev.commonFunction.utils.ext.view
 
 import android.widget.ArrayAdapter
 import androidx.annotation.ArrayRes
-import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.Fragment
+import androidx.core.util.Pair
+import androidx.fragment.app.FragmentManager
 import com.acxdev.commonFunction.R
 import com.acxdev.commonFunction.utils.ext.*
 import com.google.android.material.datepicker.CalendarConstraints
@@ -13,7 +13,12 @@ import com.google.android.material.datepicker.DateValidatorPointForward
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.textfield.MaterialAutoCompleteTextView
 import com.google.android.material.textfield.TextInputLayout
-import java.text.SimpleDateFormat
+import java.time.Instant
+import java.time.LocalDate
+import java.time.LocalDateTime
+import java.time.ZoneId
+import java.time.ZoneOffset
+import java.time.format.DateTimeFormatter
 import java.util.Locale
 
 //TextInputLayout
@@ -26,116 +31,128 @@ enum class IconGravity {
 }
 
 data class CalendarDialog(
-    val textInputLayout: TextInputLayout,
     val title: String,
     val format: String,
     val locale: Locale = Locale.getDefault(),
-    val selectedDate: String = getToday(format, locale),
-    val minDate: Long? = null,
-    val maxDate: Long? = null
-)
+    val zoneId: ZoneId = ZoneId.systemDefault(),
+    val minDate: LocalDate? = null,
+    val maxDate: LocalDate? = null
+) {
+//    It turns out that the MaterialDatePicker uses UTC time format, which means it doesn't contain
+//    to show
+    private fun LocalDate.toEpochMilli(): Long {
+        return atStartOfDay()
+            .atZone(ZoneId.ofOffset("UTC", ZoneOffset.UTC))
+            .toInstant()
+            .toEpochMilli()
+    }
 
-fun AppCompatActivity.setDatePicker(
-    vararg calendarDialogs: CalendarDialog,
+//    to set
+    fun toUTCLocalDateTime(timeMillis: Long): String {
+        val localDateTime = LocalDateTime.ofInstant(
+            Instant.ofEpochMilli(timeMillis),
+            ZoneId.ofOffset("UTC", ZoneOffset.UTC)
+        )
+        return localDateTime
+            .atZone(zoneId)
+            .toInstant()
+            .toEpochMilli()
+            .toDate(format, locale)
+    }
+
+    fun getSelectedDateTimeMillis(selectedDate: String): Long {
+        val formatter: DateTimeFormatter = DateTimeFormatter.ofPattern(format, locale)
+        val date = LocalDate.parse(selectedDate, formatter)
+        return date.toEpochMilli()
+    }
+
+    fun getCalendarConstraintValidators(): CalendarConstraints {
+        val validators = mutableListOf<CalendarConstraints.DateValidator>()
+
+        minDate?.let {
+            val minDate = it.toEpochMilli()
+            validators.add(DateValidatorPointForward.from(minDate))
+        }
+
+        maxDate?.let {
+            val maxDate = it.toEpochMilli()
+            validators.add(DateValidatorPointBackward.before(maxDate))
+        }
+
+        return CalendarConstraints.Builder()
+            .setValidator(CompositeDateValidator.allOf(validators))
+            .build()
+    }
+}
+
+fun FragmentManager.setDatePicker(
+    vararg textInputLayouts: TextInputLayout,
+    calendarDialog: CalendarDialog,
     iconGravity: IconGravity = IconGravity.Start
 ) {
-    calendarDialogs.forEach { calendarDialog ->
+    textInputLayouts.forEach { textInputLayout ->
         when(iconGravity) {
             IconGravity.Start -> {
-                calendarDialog.textInputLayout.setStartIconOnClickListener {
-                    showCalendarDialog(calendarDialog)
+                textInputLayout.setStartIconOnClickListener {
+                    showCalendarDialog(
+                        textInputLayout = textInputLayout,
+                        calendarDialog = calendarDialog
+                    )
                 }
             }
             IconGravity.End -> {
-                calendarDialog.textInputLayout.setEndIconOnClickListener {
-                    showCalendarDialog(calendarDialog)
+                textInputLayout.setEndIconOnClickListener {
+                    showCalendarDialog(
+                        textInputLayout = textInputLayout,
+                        calendarDialog = calendarDialog
+                    )
                 }
             }
         }
     }
 }
 
-fun Fragment.setDatePicker(
-    vararg calendarDialogs: CalendarDialog,
-    iconGravity: IconGravity = IconGravity.Start
-) {
-    calendarDialogs.forEach { calendarDialog ->
-        when(iconGravity) {
-            IconGravity.Start -> {
-                calendarDialog.textInputLayout.setStartIconOnClickListener {
-                    showCalendarDialog(calendarDialog)
-                }
-            }
-            IconGravity.End -> {
-                calendarDialog.textInputLayout.setEndIconOnClickListener {
-                    showCalendarDialog(calendarDialog)
-                }
-            }
-        }
-    }
-}
-
-private fun AppCompatActivity.showCalendarDialog(
+private fun FragmentManager.showCalendarDialog(
+    textInputLayout: TextInputLayout,
     calendarDialog: CalendarDialog
 ) {
-    val dateString = SimpleDateFormat(calendarDialog.format, calendarDialog.locale)
-    val selectedDateTimeMillis = dateString.parse(calendarDialog.selectedDate)?.time
-
-    val validators = mutableListOf<CalendarConstraints.DateValidator>()
-
-    calendarDialog.minDate?.let {
-        DateValidatorPointForward.from(calendarDialog.minDate)
-    }
-
-    calendarDialog.maxDate?.let {
-        DateValidatorPointBackward.before(calendarDialog.maxDate)
-    }
-
-    val calendarConstraintBuilder = CalendarConstraints.Builder()
-        .setValidator(CompositeDateValidator.allOf(validators)).build()
+    val selectedDateTimeMillis = calendarDialog
+        .getSelectedDateTimeMillis(textInputLayout.toEditString())
 
     val builder = MaterialDatePicker.Builder.datePicker()
     builder.setTitleText(calendarDialog.title)
-    builder.setCalendarConstraints(calendarConstraintBuilder)
+    builder.setCalendarConstraints(calendarDialog.getCalendarConstraintValidators())
     builder.setSelection(selectedDateTimeMillis)
 
     val datePicker = builder.build()
-    datePicker.show(supportFragmentManager, DATE_PICKER)
+    datePicker.show(this, DATE_PICKER)
     datePicker.addOnPositiveButtonClickListener {
-        val resultDate = it.toDate(calendarDialog.format, calendarDialog.locale)
-        calendarDialog.textInputLayout.setText(resultDate)
+        val resultDate = calendarDialog.toUTCLocalDateTime(it)
+        textInputLayout.setText(resultDate)
     }
 }
 
-private fun Fragment.showCalendarDialog(
+fun FragmentManager.showCalendarDialog(
+    dateStart: Pair<TextInputLayout, String>,
+    dateEnd: Pair<TextInputLayout, String>,
     calendarDialog: CalendarDialog
 ) {
-    val dateString = SimpleDateFormat(calendarDialog.format, calendarDialog.locale)
-    val selectedDateTimeMillis = dateString.parse(calendarDialog.selectedDate)?.time
+    val localDateStartTimeMillis = calendarDialog.getSelectedDateTimeMillis(dateStart.second)
+    val localDateEndTimeMillis = calendarDialog.getSelectedDateTimeMillis(dateEnd.second)
 
-    val validators = mutableListOf<CalendarConstraints.DateValidator>()
-
-    calendarDialog.minDate?.let {
-        DateValidatorPointForward.from(calendarDialog.minDate)
-    }
-
-    calendarDialog.maxDate?.let {
-        DateValidatorPointBackward.before(calendarDialog.maxDate)
-    }
-
-    val calendarConstraintBuilder = CalendarConstraints.Builder()
-        .setValidator(CompositeDateValidator.allOf(validators)).build()
-
-    val builder = MaterialDatePicker.Builder.datePicker()
+    val builder = MaterialDatePicker.Builder.dateRangePicker()
     builder.setTitleText(calendarDialog.title)
-    builder.setCalendarConstraints(calendarConstraintBuilder)
-    builder.setSelection(selectedDateTimeMillis)
+    builder.setCalendarConstraints(calendarDialog.getCalendarConstraintValidators())
+    builder.setSelection(Pair(localDateStartTimeMillis, localDateEndTimeMillis))
 
     val datePicker = builder.build()
-    datePicker.show(childFragmentManager, DATE_PICKER)
+    datePicker.show(this, DATE_PICKER)
     datePicker.addOnPositiveButtonClickListener {
-        val resultDate = it.toDate(calendarDialog.format, calendarDialog.locale)
-        calendarDialog.textInputLayout.setText(resultDate)
+        val resultDateStart = calendarDialog.toUTCLocalDateTime(it.first)
+        dateStart.first.setText(resultDateStart)
+
+        val resultDateEnd = calendarDialog.toUTCLocalDateTime(it.second)
+        dateEnd.first.setText(resultDateEnd)
     }
 }
 
