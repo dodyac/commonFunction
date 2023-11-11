@@ -25,42 +25,30 @@ enum class IconGravity {
     Start, End
 }
 
+data class CalendarDialog(
+    val textInputLayout: TextInputLayout,
+    val title: String,
+    val format: String,
+    val locale: Locale = Locale.getDefault(),
+    val selectedDate: String = getToday(format, locale),
+    val minDate: Long? = null,
+    val maxDate: Long? = null
+)
+
 fun AppCompatActivity.setDatePicker(
-    vararg textInputLayouts: TextInputLayout,
-    title: String,
-    format: String,
-    locale: Locale = Locale.getDefault(),
-    selectedDate: String = getToday(format, locale),
-    minDate: Long? = null,
-    maxDate: Long? = null,
+    vararg calendarDialogs: CalendarDialog,
     iconGravity: IconGravity = IconGravity.Start
 ) {
-    textInputLayouts.forEach { textInputLayout ->
+    calendarDialogs.forEach { calendarDialog ->
         when(iconGravity) {
             IconGravity.Start -> {
-                textInputLayout.setStartIconOnClickListener {
-                    showCalendarDialog(
-                        textInputLayout = textInputLayout,
-                        title = title,
-                        format = format,
-                        locale = locale,
-                        selectedDate = selectedDate,
-                        minDate = minDate,
-                        maxDate = maxDate
-                    )
+                calendarDialog.textInputLayout.setStartIconOnClickListener {
+                    showCalendarDialog(calendarDialog)
                 }
             }
             IconGravity.End -> {
-                textInputLayout.setEndIconOnClickListener {
-                    showCalendarDialog(
-                        textInputLayout = textInputLayout,
-                        title = title,
-                        format = format,
-                        locale = locale,
-                        selectedDate = selectedDate,
-                        minDate = minDate,
-                        maxDate = maxDate
-                    )
+                calendarDialog.textInputLayout.setEndIconOnClickListener {
+                    showCalendarDialog(calendarDialog)
                 }
             }
         }
@@ -68,41 +56,19 @@ fun AppCompatActivity.setDatePicker(
 }
 
 fun Fragment.setDatePicker(
-    vararg textInputLayouts: TextInputLayout,
-    title: String,
-    format: String,
-    locale: Locale = Locale.getDefault(),
-    selectedDate: String = getToday(format, locale),
-    minDate: Long? = null,
-    maxDate: Long? = null,
+    vararg calendarDialogs: CalendarDialog,
     iconGravity: IconGravity = IconGravity.Start
 ) {
-    textInputLayouts.forEach { textInputLayout ->
+    calendarDialogs.forEach { calendarDialog ->
         when(iconGravity) {
             IconGravity.Start -> {
-                textInputLayout.setStartIconOnClickListener {
-                    showCalendarDialog(
-                        textInputLayout = textInputLayout,
-                        title = title,
-                        format = format,
-                        locale = locale,
-                        selectedDate = selectedDate,
-                        minDate = minDate,
-                        maxDate = maxDate
-                    )
+                calendarDialog.textInputLayout.setStartIconOnClickListener {
+                    showCalendarDialog(calendarDialog)
                 }
             }
             IconGravity.End -> {
-                textInputLayout.setEndIconOnClickListener {
-                    showCalendarDialog(
-                        textInputLayout = textInputLayout,
-                        title = title,
-                        format = format,
-                        locale = locale,
-                        selectedDate = selectedDate,
-                        minDate = minDate,
-                        maxDate = maxDate
-                    )
+                calendarDialog.textInputLayout.setEndIconOnClickListener {
+                    showCalendarDialog(calendarDialog)
                 }
             }
         }
@@ -110,78 +76,66 @@ fun Fragment.setDatePicker(
 }
 
 private fun AppCompatActivity.showCalendarDialog(
-    textInputLayout: TextInputLayout,
-    title: String,
-    format: String,
-    locale: Locale = Locale.getDefault(),
-    selectedDate: String = getToday(format, locale),
-    minDate: Long? = null,
-    maxDate: Long? = null
+    calendarDialog: CalendarDialog
 ) {
-    val dateString = SimpleDateFormat(format, locale)
-    val selectedDateTimeMillis = dateString.parse(selectedDate)?.time
+    val dateString = SimpleDateFormat(calendarDialog.format, calendarDialog.locale)
+    val selectedDateTimeMillis = dateString.parse(calendarDialog.selectedDate)?.time
 
     val validators = mutableListOf<CalendarConstraints.DateValidator>()
 
-    minDate?.let {
-        DateValidatorPointForward.from(minDate)
+    calendarDialog.minDate?.let {
+        DateValidatorPointForward.from(calendarDialog.minDate)
     }
 
-    maxDate?.let {
-        DateValidatorPointBackward.before(maxDate)
+    calendarDialog.maxDate?.let {
+        DateValidatorPointBackward.before(calendarDialog.maxDate)
     }
 
     val calendarConstraintBuilder = CalendarConstraints.Builder()
         .setValidator(CompositeDateValidator.allOf(validators)).build()
 
     val builder = MaterialDatePicker.Builder.datePicker()
-    builder.setTitleText(title)
+    builder.setTitleText(calendarDialog.title)
     builder.setCalendarConstraints(calendarConstraintBuilder)
     builder.setSelection(selectedDateTimeMillis)
 
     val datePicker = builder.build()
     datePicker.show(supportFragmentManager, DATE_PICKER)
     datePicker.addOnPositiveButtonClickListener {
-        val resultDate = it.toDate(format, locale)
-        textInputLayout.setText(resultDate)
+        val resultDate = it.toDate(calendarDialog.format, calendarDialog.locale)
+        calendarDialog.textInputLayout.setText(resultDate)
     }
 }
 
 private fun Fragment.showCalendarDialog(
-    textInputLayout: TextInputLayout,
-    title: String,
-    format: String,
-    locale: Locale = Locale.getDefault(),
-    selectedDate: String = getToday(format, locale),
-    minDate: Long? = null,
-    maxDate: Long? = null
+    calendarDialog: CalendarDialog
 ) {
-    val dateString = SimpleDateFormat(format, locale)
-    val selectedDateTimeMillis = dateString.parse(selectedDate)?.time
+    val dateString = SimpleDateFormat(calendarDialog.format, calendarDialog.locale)
+    val selectedDateTimeMillis = dateString.parse(calendarDialog.selectedDate)?.time
 
     val validators = mutableListOf<CalendarConstraints.DateValidator>()
 
-    minDate?.let {
-        DateValidatorPointForward.from(minDate)
+    calendarDialog.minDate?.let {
+        DateValidatorPointForward.from(calendarDialog.minDate)
     }
 
-    maxDate?.let {
-        DateValidatorPointBackward.before(maxDate)
+    calendarDialog.maxDate?.let {
+        DateValidatorPointBackward.before(calendarDialog.maxDate)
     }
 
     val calendarConstraintBuilder = CalendarConstraints.Builder()
         .setValidator(CompositeDateValidator.allOf(validators)).build()
 
     val builder = MaterialDatePicker.Builder.datePicker()
-    builder.setTitleText(title)
+    builder.setTitleText(calendarDialog.title)
     builder.setCalendarConstraints(calendarConstraintBuilder)
     builder.setSelection(selectedDateTimeMillis)
 
     val datePicker = builder.build()
     datePicker.show(childFragmentManager, DATE_PICKER)
     datePicker.addOnPositiveButtonClickListener {
-        val resultDate = it.toDate(format, locale)
-        textInputLayout.setText(resultDate)
+        val resultDate = it.toDate(calendarDialog.format, calendarDialog.locale)
+        calendarDialog.textInputLayout.setText(resultDate)
     }
 }
 
