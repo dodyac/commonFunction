@@ -16,7 +16,6 @@ commonFunction is an Android Library that can helps you with some common functio
 ## Credits
 
 * https://github.com/GrenderG/Toasty - Toasty
-* https://github.com/amulyakhare/TextDrawable - Text Drawable
 * https://github.com/TheFinestArtist/FinestWebView-Android - FinestWebView
 
 ## License
