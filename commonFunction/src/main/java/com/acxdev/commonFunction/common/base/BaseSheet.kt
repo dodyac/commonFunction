@@ -32,6 +32,7 @@ abstract class BaseSheet<VB : ViewBinding> : BottomSheetDialogFragment() {
     protected val sqliteZ by lazy {
         SqliteZ(context)
     }
+    protected var sheetBehavior: BottomSheetBehavior<View>? = null
 
     val TAG = javaClass.simpleName
 
@@ -58,6 +59,8 @@ abstract class BaseSheet<VB : ViewBinding> : BottomSheetDialogFragment() {
                     ?.apply {
                         background = ColorDrawable(Color.TRANSPARENT)
 
+                        sheetBehavior = BottomSheetBehavior.from(this)
+
                         if (!isFullScreen) return@setOnShowListener
 
                         val params = layoutParams
@@ -65,8 +68,7 @@ abstract class BaseSheet<VB : ViewBinding> : BottomSheetDialogFragment() {
 
                         layoutParams = params
 
-                        val behaviour = BottomSheetBehavior.from(this)
-                        behaviour.state = BottomSheetBehavior.STATE_EXPANDED
+                        sheetBehavior?.state = BottomSheetBehavior.STATE_EXPANDED
                     }
             }
         }
