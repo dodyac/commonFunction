@@ -1,6 +1,8 @@
 package com.acxdev.usefulmethod
 
+import android.graphics.Color
 import androidx.activity.viewModels
+import androidx.core.widget.doOnTextChanged
 import androidx.lifecycle.lifecycleScope
 import com.acxdev.commonFunction.common.base.BaseActivity
 import com.acxdev.commonFunction.common.base.BaseAdapter
@@ -10,6 +12,7 @@ import com.acxdev.commonFunction.common.base.BaseNetworking.whenLoadedSuccess
 import com.acxdev.commonFunction.model.ApiResponse
 import com.acxdev.commonFunction.model.BaseResponse
 import com.acxdev.commonFunction.utils.ext.useCurrentTheme
+import com.acxdev.commonFunction.utils.ext.view.backgroundTint
 import com.acxdev.commonFunction.utils.ext.view.setVStack
 import com.acxdev.commonFunction.utils.toast
 import com.acxdev.usefulmethod.databinding.ActivityMainBinding
@@ -20,7 +23,16 @@ import kotlinx.coroutines.flow.collectLatest
 class MainActivity : BaseActivity<ActivityMainBinding>() {
 
     private val testViewModel: TestViewModel by viewModels()
-    private lateinit var adapterName: AdapterName
+    private val adapterName by lazy {
+        AdapterName(object : BaseAdapter.AdapterListener<User> {
+            override fun onListChanged(
+                size: Int,
+                isEmpty: Boolean
+            ) {
+                binding.tvItemTotal.text = size.toString()
+            }
+        })
+    }
     private val loading by lazy {
         Loading()
     }
@@ -33,8 +45,13 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
     override fun ActivityMainBinding.setViews() {
         useCurrentTheme()
 
-        adapterName = AdapterName()
         recycler.setVStack(adapterName)
+    }
+
+    override fun ActivityMainBinding.doAction() {
+        tilSearch.editText?.doOnTextChanged { text, _, _, _ ->
+            adapterName.filter(text)
+        }
     }
 
     private fun useCoroutine() {
@@ -118,10 +135,37 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
             get() = false
     }
 
-    internal class AdapterName: BaseAdapter<RowTBinding, User>() {
+    internal class AdapterName(
+        adapterListener: AdapterListener<User>
+    ): BaseAdapter<RowTBinding, User>(
+        adapterListener
+    ) {
 
         override fun RowTBinding.setViews(item: User, position: Int) {
-            root.text = item.name
+            root.apply {
+                backgroundTint(getColor(
+                    if (stateMap.getState(position)) {
+                        R.color.successColor
+                    } else {
+                        //crash
+//                        Color.parseColor("#FFFFFF")
+                        R.color.black
+                    }
+                ))
+                text = item.name
+                setOnClickListener {
+                    stateMap.toggleState(position)
+                    notifyItemChanged(position)
+                }
+            }
+        }
+
+        override fun User.filterBy(): List<String> {
+            return listOf(
+                username,
+                name,
+                email
+            )
         }
     }
 }

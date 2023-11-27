@@ -51,18 +51,6 @@ fun Fragment.toast(string: String, isLengthLong: Boolean = true) {
     context?.toast(string, isLengthLong)
 }
 
-fun Fragment.whenPermissionGranted(permission: String, permissionGranted: (() -> Unit)) {
-    context?.whenPermissionGranted(permission) {
-        permissionGranted.invoke()
-    }
-}
-
-fun Fragment.whenPermissionsGranted(vararg permissions: String, permissionGranted: (() -> Unit)) {
-    context?.whenPermissionsGranted(*permissions) {
-        permissionGranted.invoke()
-    }
-}
-
 fun Fragment.getColor(@ColorRes colorRes: Int): Int {
     return context?.let { ContextCompat.getColor(it, colorRes) } ?: Color.TRANSPARENT
 }

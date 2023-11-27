@@ -48,7 +48,6 @@ dependencies {
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
     implementation 'com.thefinestartist:finestwebview:1.2.7'
     implementation 'com.google.code.gson:gson:2.8.9'
-    implementation 'com.karumi:dexter:6.2.3'
     implementation 'com.airbnb.android:lottie:4.2.0'
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
     implementation 'com.google.android.flexbox:flexbox:3.0.0'

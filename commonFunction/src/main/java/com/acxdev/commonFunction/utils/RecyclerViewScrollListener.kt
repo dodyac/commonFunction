@@ -4,7 +4,9 @@ import android.os.Handler
 import android.os.Looper
 import androidx.recyclerview.widget.RecyclerView
 
-class RecyclerViewScrollListener(private val onScroll: OnScroll) : RecyclerView.OnScrollListener() {
+class RecyclerViewScrollListener(
+    private val onScroll: OnScroll
+) : RecyclerView.OnScrollListener() {
 
     private val scrollHandler = Handler(Looper.getMainLooper())
     private val scrollRunnable = Runnable {

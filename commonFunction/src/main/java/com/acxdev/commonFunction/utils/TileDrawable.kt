@@ -14,7 +14,7 @@ class TileDrawable(drawable: Drawable, tileMode: TileMode?) : Drawable() {
 
     override fun setAlpha(alpha: Int) { paint.alpha = alpha }
 
-    override fun setColorFilter(@Nullable colorFilter: ColorFilter?) { paint.colorFilter = colorFilter }
+    override fun setColorFilter(colorFilter: ColorFilter?) { paint.colorFilter = colorFilter }
 
     override fun getOpacity(): Int { return PixelFormat.TRANSLUCENT }
 

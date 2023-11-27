@@ -6,12 +6,12 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.Filter
 import android.widget.Filterable
+import androidx.annotation.ColorRes
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewbinding.ViewBinding
 import com.acxdev.commonFunction.common.Inflater.inflateBinding
 import com.acxdev.commonFunction.model.ViewHolder
-import com.acxdev.commonFunction.utils.MutableListDelegate
 
 abstract class BaseAdapter<VB : ViewBinding, T>(
     private val adapterListener: AdapterListener<T>? = null
@@ -19,21 +19,33 @@ abstract class BaseAdapter<VB : ViewBinding, T>(
 
     var currentList = emptyList<T>()
     private val listFilter = MutableListDelegate<T> {
-        adapterListener?.onListChanged(isEmpty())
+        adapterListener?.onListChanged(
+            size = size,
+            isEmpty = isEmpty()
+        )
     }
 
     private var shimmerLoadedListener: ShimmerLoadedListener? = null
 
     protected lateinit var context: Context
+    protected val stateMap by lazy {
+        StateMap()
+    }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder<VB> {
+    override fun onCreateViewHolder(
+        parent: ViewGroup,
+        viewType: Int
+    ): ViewHolder<VB> {
         context = parent.context
         val inflater = context.getSystemService(Activity.LAYOUT_INFLATER_SERVICE) as LayoutInflater
         val binding = inflateBinding(inflater, parent)
         return ViewHolder(binding)
     }
 
-    override fun onBindViewHolder(holder: ViewHolder<VB>, position: Int) {
+    override fun onBindViewHolder(
+        holder: ViewHolder<VB>,
+        position: Int
+    ) {
         val item = listFilter[position]
 
         holder.binding.setViews(item, holder.adapterPosition)
@@ -46,14 +58,26 @@ abstract class BaseAdapter<VB : ViewBinding, T>(
     override fun getFilter() = object : Filter() {
         override fun performFiltering(constraint: CharSequence?): FilterResults {
             val query = constraint.toString().lowercase()
-            val iList = mutableListOf<T>()
-            if (query.isEmpty()) {
-                iList.addAll(currentList)
+            val iList = if (query.isEmpty()) {
                 currentList
-            } else currentList.forEach {
-                if (filterBy(it, query)) {
-                    iList.add(it)
+            } else {
+                val list = mutableListOf<T>()
+                currentList.forEach {
+                    val filtered = it.filterBy()
+
+                    if (filtered.isNotEmpty()) {
+                        val isExist = filtered.any { string ->
+                            string.lowercase().contains(query)
+                        }
+
+                        if (isExist) {
+                            list.add(it)
+                        }
+                    } else {
+                        list.add(it)
+                    }
                 }
+                list
             }
             val filterResults = FilterResults()
             filterResults.values = iList
@@ -68,10 +92,21 @@ abstract class BaseAdapter<VB : ViewBinding, T>(
         }
     }
 
-    protected abstract fun VB.setViews(item: T, position: Int)
+    protected abstract fun VB.setViews(
+        item: T,
+        position: Int
+    )
 
-    protected open fun filterBy(item: T, query: String): Boolean {
-        return true
+    fun filter(charSequence: CharSequence?) {
+        filter.filter(charSequence)
+    }
+
+    protected open fun T.filterBy(): List<String> {
+        return emptyList()
+    }
+
+    protected fun getColor(@ColorRes int: Int): Int {
+       return context.getColor(int)
     }
 
     fun setAdapterList(newList: List<T>) {
@@ -80,7 +115,9 @@ abstract class BaseAdapter<VB : ViewBinding, T>(
         shimmerLoadedListener?.onAdapterListSet()
     }
 
-    fun setShimmerLoadedListener(shimmerLoadedListener: ShimmerLoadedListener) {
+    fun setShimmerLoadedListener(
+        shimmerLoadedListener: ShimmerLoadedListener
+    ) {
         this.shimmerLoadedListener = shimmerLoadedListener
     }
 
@@ -93,7 +130,10 @@ abstract class BaseAdapter<VB : ViewBinding, T>(
         diffResult.dispatchUpdatesTo(this)
     }
 
-    inner class Diff<T>(private val oldList: List<T>, private val newList: List<T>) : DiffUtil.Callback() {
+    inner class Diff<T>(
+        private val oldList: List<T>,
+        private val newList: List<T>
+    ) : DiffUtil.Callback() {
 
         override fun getOldListSize(): Int = oldList.size
 
@@ -106,12 +146,45 @@ abstract class BaseAdapter<VB : ViewBinding, T>(
             oldList[oldItemPosition] == newList[newItemPosition]
     }
 
+    inner class StateMap {
+        private val stateMap: MutableMap<Int, Boolean> = mutableMapOf()
+
+        fun toggleState(position: Int) {
+            val currentState = stateMap[position] ?: false
+            stateMap[position] = !currentState
+        }
+
+        fun getState(position: Int): Boolean {
+            return stateMap[position] == true
+        }
+
+        fun clearState() {
+            stateMap.clear()
+        }
+    }
+
+    inner class MutableListDelegate<T>(
+        private val list: MutableList<T> = mutableListOf(),
+        private val listener: MutableList<T>.() -> Unit
+    ) : MutableList<T> by list {
+
+        override fun addAll(elements: Collection<T>): Boolean {
+            list.addAll(elements).also {
+                listener.invoke(list)
+            }
+            return true
+        }
+    }
+
     interface ShimmerLoadedListener {
         fun onAdapterListSet()
     }
 
     interface AdapterListener<T> {
         fun onFilteredResult(list: List<T>) {}
-        fun onListChanged(isEmpty: Boolean) {}
+        fun onListChanged(
+            size: Int,
+            isEmpty: Boolean
+        ) {}
     }
 }

@@ -1,20 +1,15 @@
 package com.acxdev.commonFunction.utils.ext
 
 import android.app.Activity
-import android.app.Application
 import android.content.Context
-import android.content.ContextWrapper
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Color
 import android.net.Uri
-import android.os.Bundle
 import android.provider.Settings
-import android.view.View
 import androidx.annotation.AttrRes
 import androidx.annotation.ColorInt
 import androidx.annotation.StringRes
-import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.graphics.alpha
 import androidx.core.graphics.blue
@@ -23,18 +18,8 @@ import androidx.core.graphics.red
 import com.acxdev.commonFunction.common.ConstantLib
 import com.acxdev.commonFunction.model.Toast
 import com.acxdev.commonFunction.utils.Preference
-import com.acxdev.commonFunction.utils.toast
 import com.acxdev.commonFunction.utils.toasty
-import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.play.core.review.ReviewManagerFactory
-import com.karumi.dexter.Dexter
-import com.karumi.dexter.MultiplePermissionsReport
-import com.karumi.dexter.PermissionToken
-import com.karumi.dexter.listener.PermissionDeniedResponse
-import com.karumi.dexter.listener.PermissionGrantedResponse
-import com.karumi.dexter.listener.PermissionRequest
-import com.karumi.dexter.listener.multi.MultiplePermissionsListener
-import com.karumi.dexter.listener.single.PermissionListener
 import com.thefinestartist.finestwebview.FinestWebView
 import com.yalantis.ucrop.UCrop
 import kotlin.math.roundToInt
@@ -77,10 +62,9 @@ fun Context.getResourceColor(@AttrRes resource: Int, alphaFactor: Float = 1f): I
     return color
 }
 
-@ColorInt
-fun Context.getColorPrimary(): Int  {
-  return getResourceColor(android.R.attr.colorPrimary)
-}
+val Context.colorPrimary: Int
+    @ColorInt
+    get() = getResourceColor(android.R.attr.colorPrimary)
 
 fun Context.showPlayStoreRate() {
     val manager = ReviewManagerFactory.create(this)
@@ -149,51 +133,6 @@ fun Context.getCacheSize(): Long {
 //fun Context.getView(): View {
 //    return getActivity().window.decorView.rootView
 //}
-
-fun Context.whenPermissionGranted(permissions: String, permissionGranted: (() -> Unit)) {
-    Dexter.withContext(this)
-        .withPermission(permissions)
-        .withListener(object : PermissionListener {
-            override fun onPermissionGranted(p0: PermissionGrantedResponse?) {
-                permissionGranted.invoke()
-            }
-
-            override fun onPermissionDenied(p0: PermissionDeniedResponse?) {
-                toast("Permission Denied")
-            }
-
-            override fun onPermissionRationaleShouldBeShown(
-                p0: PermissionRequest?,
-                p1: PermissionToken?
-            ) {
-                p1?.continuePermissionRequest()
-            }
-
-        }).check()
-}
-
-fun Context.whenPermissionsGranted(vararg permissions: String, permissionGranted: (() -> Unit)) {
-    Dexter.withContext(this)
-        .withPermissions(permissions.toMutableList())
-        .withListener(object : MultiplePermissionsListener {
-            override fun onPermissionsChecked(p0: MultiplePermissionsReport?) {
-                p0?.let {
-                    if(it.areAllPermissionsGranted()) {
-                        permissionGranted.invoke()
-                    } else {
-                        toast("Permissions Denied")
-                    }
-                }
-            }
-
-            override fun onPermissionRationaleShouldBeShown(
-                p0: MutableList<PermissionRequest>?,
-                p1: PermissionToken?
-            ) {
-                p1?.continuePermissionRequest()
-            }
-        }).check()
-}
 
 fun <T>Context.startActivityExtra(cls: Class<T>, data: String = emptyString(), intent: (Intent.() -> Unit)? = null) {
     val intents = Intent(this, cls)

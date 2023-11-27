@@ -6,20 +6,42 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/til_search"
+        style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <TextView
+        android:id="@+id/tv_item_total"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/til_search" />
+
     <com.acxdev.commonFunction.widget.shimmer.ShimmerRecyclerView
         android:id="@+id/recycler"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="@dimen/d0dp"
         android:clipToPadding="false"
         android:padding="@dimen/d16dp"
         app:count="4"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+        app:layout_constraintTop_toBottomOf="@+id/tv_item_total" />
 
     <com.acxdev.commonFunction.widget.EmptyLayoutView
+        android:id="@+id/emptyLayoutView"
         android:layout_width="match_parent"
-        app:title="kaloa"
+        android:layout_height="match_parent"
+        android:visibility="gone"
         app:image="@drawable/close"
         app:image_size="@dimen/d120dp"
-        android:layout_height="match_parent"/>
+        app:title="kaloa" />
 </androidx.constraintlayout.widget.ConstraintLayout>

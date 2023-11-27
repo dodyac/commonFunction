@@ -14,8 +14,8 @@ import com.acxdev.commonFunction.utils.TileDrawable
 import com.acxdev.commonFunction.utils.ext.emptyString
 import java.io.ByteArrayOutputStream
 
-fun ImageView.toBase64(): String {
-    return try {
+val ImageView.base64: String
+    get() = try {
         val byteArrayOutputStream = ByteArrayOutputStream()
         (drawable as BitmapDrawable).bitmap.compress(
             Bitmap.CompressFormat.PNG,
@@ -28,7 +28,6 @@ fun ImageView.toBase64(): String {
         e.printStackTrace()
         emptyString()
     }
-}
 
 fun ImageView.tint(@ColorInt color: Int) {
     ImageViewCompat.setImageTintList(

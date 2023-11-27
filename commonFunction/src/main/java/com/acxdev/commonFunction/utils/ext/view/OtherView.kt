@@ -145,11 +145,13 @@ fun TextView.leftDrawable(@DrawableRes id: Int = 0) {
     this.setCompoundDrawablesWithIntrinsicBounds(id, 0, 0, 0)
 }
 
-fun Any.toJson(): String {
-    return Gson().toJson(this)
-}
+val Any.json: String
+    get() = Gson().toJson(this)
 
-fun SwipeRefreshLayout.whenRefreshed(delay: Long = 200, action: () -> Unit) {
+fun SwipeRefreshLayout.whenRefreshed(
+    delay: Long = 200,
+    action: () -> Unit
+) {
     setOnRefreshListener {
         postDelayed({
             isRefreshing = false

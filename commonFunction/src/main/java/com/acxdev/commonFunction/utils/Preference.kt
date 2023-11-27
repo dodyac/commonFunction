@@ -11,8 +11,12 @@ class Preference(private val context: Context) {
         private const val IS_DARK_MODE = "is_dark_mode"
     }
 
-    fun put(path: String, data: Any?, prefsName: String = PREFERENCE) {
-        val prefs = context.getSharedPreferences(prefsName, Context.MODE_PRIVATE)
+    fun put(
+        path: String,
+        data: Any?,
+        prefsName: String = PREFERENCE
+    ) {
+        val prefs = get(prefsName)
         val editor = prefs.edit()
         when (data) {
             is Boolean -> editor.putBoolean(path, data)
@@ -29,28 +33,28 @@ class Preference(private val context: Context) {
     }
 
     fun clear(prefsName: String = PREFERENCE) {
-        context.getSharedPreferences(prefsName, Context.MODE_PRIVATE)
+        get(prefsName)
             .edit()
             .clear()
             .apply()
     }
 
     fun signIn() {
-        context.getSharedPreferences(PREFERENCE, Context.MODE_PRIVATE)
+        get()
             .edit()
             .putBoolean(LOGGED, true)
             .apply()
     }
 
     fun signOut() {
-        context.getSharedPreferences(PREFERENCE, Context.MODE_PRIVATE)
+        get()
             .edit()
             .remove(LOGGED)
             .apply()
     }
 
     fun isSigned(): Boolean {
-        return context.getSharedPreferences(PREFERENCE, Context.MODE_PRIVATE)
+        return get()
             .getBoolean(LOGGED, false)
     }
 
