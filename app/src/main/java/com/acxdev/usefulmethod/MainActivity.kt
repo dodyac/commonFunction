@@ -145,7 +145,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
             root.apply {
                 backgroundTint(getColor(
                     if (stateMap.getState(position)) {
-                        R.color.successColor
+                        R.color.teal_700
                     } else {
                         //crash
 //                        Color.parseColor("#FFFFFF")

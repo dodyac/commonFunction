@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.Filter
 import android.widget.Filterable
 import androidx.annotation.ColorRes
+import androidx.annotation.StringRes
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewbinding.ViewBinding
@@ -105,8 +106,19 @@ abstract class BaseAdapter<VB : ViewBinding, T>(
         return emptyList()
     }
 
-    protected fun getColor(@ColorRes int: Int): Int {
-       return context.getColor(int)
+    protected fun getString(@StringRes resId: Int): String {
+        return context.getString(resId)
+    }
+
+    protected fun getString(
+        @StringRes resId: Int,
+        vararg formatArgs: Any
+    ): String {
+        return context.getString(resId, formatArgs)
+    }
+
+    protected fun getColor(@ColorRes resId: Int): Int {
+       return context.getColor(resId)
     }
 
     fun setAdapterList(newList: List<T>) {
