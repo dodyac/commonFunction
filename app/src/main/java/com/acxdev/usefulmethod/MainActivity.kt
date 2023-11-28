@@ -1,6 +1,5 @@
 package com.acxdev.usefulmethod
 
-import android.graphics.Color
 import androidx.activity.viewModels
 import androidx.core.widget.doOnTextChanged
 import androidx.lifecycle.lifecycleScope
@@ -11,6 +10,7 @@ import com.acxdev.commonFunction.common.base.BaseNetworking.whenLoaded
 import com.acxdev.commonFunction.common.base.BaseNetworking.whenLoadedSuccess
 import com.acxdev.commonFunction.model.ApiResponse
 import com.acxdev.commonFunction.model.BaseResponse
+import com.acxdev.commonFunction.utils.ImageLoader.setImageUrl
 import com.acxdev.commonFunction.utils.ext.useCurrentTheme
 import com.acxdev.commonFunction.utils.ext.view.backgroundTint
 import com.acxdev.commonFunction.utils.ext.view.setVStack
@@ -46,6 +46,10 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
         useCurrentTheme()
 
         recycler.setVStack(adapterName)
+        image.setImageUrl(
+            "https://www.mast.com.mx/images/easyblog_articles/40/url.jpgz",
+            errorDrawable = R.color.black
+        )
     }
 
     override fun ActivityMainBinding.doAction() {

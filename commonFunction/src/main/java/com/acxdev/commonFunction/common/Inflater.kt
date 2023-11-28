@@ -33,7 +33,12 @@ object Inflater {
         container: ViewGroup?
     ): VB {
         val bindingClass = javaClass.getClass<VB>()
-        val inflateMethod = bindingClass.getMethod("inflate", LayoutInflater::class.java, ViewGroup::class.java, Boolean::class.java)
+        val inflateMethod = bindingClass.getMethod(
+            "inflate",
+            LayoutInflater::class.java,
+            ViewGroup::class.java,
+            Boolean::class.java
+        )
         return inflateMethod.invoke(null, inflater, container, false) as VB
     }
 
@@ -42,7 +47,12 @@ object Inflater {
         container: ViewGroup?
     ): VB {
         val bindingClass = javaClass.getClass<VB>()
-        val inflateMethod = bindingClass.getMethod("inflate", LayoutInflater::class.java, ViewGroup::class.java, Boolean::class.java)
+        val inflateMethod = bindingClass.getMethod(
+            "inflate",
+            LayoutInflater::class.java,
+            ViewGroup::class.java,
+            Boolean::class.java
+        )
         return inflateMethod.invoke(null, inflater, container, false) as VB
     }
 }

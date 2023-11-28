@@ -82,7 +82,13 @@ fun Fragment.setBackgroundBlurRadius(
                 if (isRemove) {
                     decorView.setRenderEffect(null)
                 } else {
-                    decorView.setRenderEffect(RenderEffect.createBlurEffect(radius.toFloat(), radius.toFloat(), Shader.TileMode.MIRROR))
+                    decorView.setRenderEffect(
+                        RenderEffect.createBlurEffect(
+                            radius.toFloat(),
+                            radius.toFloat(),
+                            Shader.TileMode.MIRROR
+                        )
+                    )
                 }
                 setBackgroundBlurRadius(radius)
             }

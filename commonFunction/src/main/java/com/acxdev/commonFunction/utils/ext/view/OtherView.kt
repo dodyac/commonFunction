@@ -165,3 +165,12 @@ fun View.slideUp() {
     val bottomViewNavigationBehavior = layoutParams.behavior as HideBottomViewOnScrollBehavior
     bottomViewNavigationBehavior.slideUp(this)
 }
+
+val View.removeViewIfNeeded: View
+    get() =
+        //cause it need to remove it's view
+        run {
+            (parent as? ViewGroup)
+                ?.removeView(this)
+            return this
+        }

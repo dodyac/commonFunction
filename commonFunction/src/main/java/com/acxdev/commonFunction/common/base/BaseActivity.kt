@@ -13,8 +13,9 @@ abstract class BaseActivity<VB : ViewBinding> : AppCompatActivity() {
 
     private var _binding: VB? = null
     protected val binding: VB by lazy {
-        _binding!!
+        _binding ?: throw IllegalStateException("$TAG already destroyed")
     }
+
     protected val sqliteZ by lazy {
         SqliteZ(this)
     }
@@ -39,7 +40,8 @@ abstract class BaseActivity<VB : ViewBinding> : AppCompatActivity() {
     protected open fun VB.setViews() {}
     protected open fun VB.doAction() {}
 
-    protected fun getStringExtra(path: String? = null): String? = intent.getStringExtra(path ?: ConstantLib.DATA)
+    protected fun getStringExtra(path: String? = null): String? =
+        intent.getStringExtra(path ?: ConstantLib.DATA)
 
     protected fun <T> getExtraAs(cls: Class<T>, data: String? = null): T =
         intent.getStringExtra(data ?: ConstantLib.DATA).toClass(cls)

@@ -13,7 +13,7 @@ import com.bumptech.glide.request.RequestOptions
 object ImageLoader {
 
     fun ImageView.setImageUrl(
-        url: String,
+        url: String?,
         imageStyle: ImageStyle = ImageStyle.None,
         @DrawableRes
         placeHolderDrawable: Int? = null,
@@ -79,7 +79,7 @@ object ImageLoader {
     }
 
     fun ImageView.setImageUri(
-        uri: Uri,
+        uri: Uri?,
         imageStyle: ImageStyle = ImageStyle.None,
         @DrawableRes
         placeHolderDrawable: Int? = null,
@@ -113,8 +113,8 @@ object ImageLoader {
 
 
     sealed class ImageStyle {
-        object Circle: ImageStyle()
+        data object Circle: ImageStyle()
         data class Rounded(val radius: Int): ImageStyle()
-        object None: ImageStyle()
+        data object None: ImageStyle()
     }
 }
