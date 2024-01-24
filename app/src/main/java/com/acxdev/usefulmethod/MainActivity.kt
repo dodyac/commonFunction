@@ -12,7 +12,11 @@ import com.acxdev.commonFunction.model.ApiResponse
 import com.acxdev.commonFunction.model.BaseResponse
 import com.acxdev.commonFunction.utils.ImageLoader.setImageUrl
 import com.acxdev.commonFunction.utils.ext.useCurrentTheme
+import com.acxdev.commonFunction.utils.ext.view.NumericValidation
+import com.acxdev.commonFunction.utils.ext.view.TilValidation
+import com.acxdev.commonFunction.utils.ext.view.applyTo
 import com.acxdev.commonFunction.utils.ext.view.backgroundTint
+import com.acxdev.commonFunction.utils.ext.view.isNotValid
 import com.acxdev.commonFunction.utils.ext.view.setVStack
 import com.acxdev.commonFunction.utils.toast
 import com.acxdev.usefulmethod.databinding.ActivityMainBinding
@@ -53,6 +57,27 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
     }
 
     override fun ActivityMainBinding.doAction() {
+        listOf(
+            TilValidation.NotEmpty,
+            TilValidation.Numeric(
+                numericValidation = NumericValidation.GreaterThan,
+                value = 0.0
+            ),
+            TilValidation.Numeric(
+                numericValidation = NumericValidation.LessThan,
+                value = 20.0
+            )
+        ).applyTo(tilSearch)
+        button.setOnClickListener {
+//            if (isNotValid(tilSearch)) {
+//                return@setOnClickListener
+//            }
+            if (tilSearch.isNotValid()) {
+                return@setOnClickListener
+            }
+            toast("ok")
+        }
+
         tilSearch.editText?.doOnTextChanged { text, _, _, _ ->
             adapterName.filter(text)
         }

@@ -1,10 +1,11 @@
 package com.acxdev.commonFunction.utils.ext.view
 
 import android.widget.ArrayAdapter
+import android.widget.AutoCompleteTextView
 import androidx.annotation.ArrayRes
 import androidx.core.util.Pair
+import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.FragmentManager
-import com.acxdev.commonFunction.R
 import com.acxdev.commonFunction.utils.ext.*
 import com.google.android.material.datepicker.CalendarConstraints
 import com.google.android.material.datepicker.CompositeDateValidator
@@ -117,7 +118,7 @@ private fun FragmentManager.showCalendarDialog(
     calendarDialog: CalendarDialog
 ) {
     val selectedDateTimeMillis = calendarDialog
-        .getSelectedDateTimeMillis(textInputLayout.toEditString())
+        .getSelectedDateTimeMillis(textInputLayout.string)
 
     val builder = MaterialDatePicker.Builder.datePicker()
     builder.setTitleText(calendarDialog.title)
@@ -204,115 +205,6 @@ fun FragmentManager.showCalendarDialog(
 //    }
 //}
 
-fun alertAuth(mail: TextInputLayout, password: TextInputLayout, passwordLength: Int = 8): Boolean {
-    val context = mail.context
-    when {
-        mail.toEditString().isEmpty() -> {
-            mail.isErrorEnabled = true
-            mail.error = context.getString(R.string.emptyMail)
-            mail.requestFocus()
-            return false
-        }
-        !mail.toEditString().isEmailValid() -> {
-            mail.isErrorEnabled = true
-            mail.error = context.getString(R.string.notMail)
-            mail.clearFocus()
-            mail.requestFocus()
-            return false
-        }
-        password.toEditString().isEmpty() -> {
-            password.isErrorEnabled = true
-            password.error = context.getString(R.string.emptyPassword)
-            password.requestFocus()
-            return false
-        }
-        password.toEditString().length < passwordLength -> {
-            password.isErrorEnabled = true
-            password.error = context.getString(R.string.shortPassword)
-            password.clearFocus()
-            password.requestFocus()
-            return false
-        }
-        else -> {
-            mail.isErrorEnabled = false
-            password.isErrorEnabled = false
-            return true
-        }
-    }
-}
-
-fun TextInputLayout.alertMail(): Boolean {
-    when {
-        toEditString().isEmpty() -> {
-            isErrorEnabled = true
-            error = context.getString(R.string.emptyMail)
-            requestFocus()
-            return false
-        }
-        !toEditString().isEmailValid() -> {
-            isErrorEnabled = true
-            error = context.getString(R.string.notMail)
-            clearFocus()
-            requestFocus()
-            return false
-        }
-        else -> {
-            isErrorEnabled = false
-            return true
-        }
-    }
-}
-
-fun TextInputLayout.alertPassword(passwordLength: Int = 8): Boolean {
-    when {
-        toEditString().isEmpty() -> {
-            isErrorEnabled = true
-            error = context.getString(R.string.emptyPassword)
-            requestFocus()
-            return false
-        }
-        toEditString().length < passwordLength -> {
-            isErrorEnabled = true
-            error = context.getString(R.string.shortPassword)
-            clearFocus()
-            requestFocus()
-            return false
-        }
-        else -> {
-            isErrorEnabled = false
-            return true
-        }
-    }
-}
-
-fun TextInputLayout.isNotEmpty(): Boolean {
-    return if(toEditString().isEmpty()) {
-        isErrorEnabled = true
-        error = "$hint ${context.getString(R.string.cannotEmpty)}"
-        requestFocus()
-        false
-    } else {
-        isErrorEnabled = false
-        clearFocus()
-        true
-    }
-}
-
-fun TextInputLayout.isEmpty(): Boolean {
-    return if(toEditString().isEmpty()) {
-        isErrorEnabled = true
-        error = "$hint ${context.getString(R.string.cannotEmpty)}"
-        requestFocus()
-        true
-    } else {
-        isErrorEnabled = false
-        clearFocus()
-        false
-    }
-}
-
-fun TextInputLayout.toEditString(): String = editText?.text.toString()
-
 fun TextInputLayout.setText(string: String?) {
     editText?.setText(string)
 }
@@ -331,5 +223,132 @@ fun MaterialAutoCompleteTextView.set(list: List<String>) {
     setAdapter(dataAdapter)
 }
 
-val TextInputLayout.autoComplete: MaterialAutoCompleteTextView?
+val TextInputLayout.string: String
+    get() = editText?.text.toString()
+
+val TextInputLayout.materialAutoComplete: MaterialAutoCompleteTextView?
     get() = editText as? MaterialAutoCompleteTextView
+
+val TextInputLayout.autoComplete: AutoCompleteTextView?
+    get() = editText as? AutoCompleteTextView
+
+sealed class TilValidation {
+    data object NotEmpty: TilValidation()
+    data class Numeric(
+        val numericValidation: NumericValidation,
+        val value: Double
+    ) : TilValidation()
+
+    fun applyTo(vararg textInputLayouts: TextInputLayout) {
+        textInputLayouts.forEach {
+            it.addValidations(this)
+        }
+    }
+}
+
+enum class NumericValidation(val errorMsg: String) {
+    GreaterThan("harus lebih dari "),
+    GreaterThanEqual("harus lebih dari sama dengan "),
+    Equal("tidak boleh "),
+    LessThan("harus kurang dari "),
+    LessThanEqual("harus kurang dari sama dengan "),
+}
+
+fun List<TilValidation>.applyTo(vararg textInputLayouts: TextInputLayout) {
+    textInputLayouts.forEach {
+        it.addValidations(*toTypedArray())
+    }
+}
+
+fun TextInputLayout.addValidations(vararg tilValidations: TilValidation) {
+    fun TextInputLayout.showError(msg: String) {
+        isErrorEnabled = true
+        error = if (hint.isNullOrEmpty()) {
+            msg
+        } else {
+            "$hint $msg"
+        }
+    }
+    fun TextInputLayout.showErrorNumeric(validation: TilValidation.Numeric) {
+        showError("${validation.numericValidation.errorMsg} ${validation.value.toReadable()}")
+    }
+    fun TextInputLayout.hideError() {
+        isErrorEnabled = false
+    }
+
+    editText?.doOnTextChanged { text, _, _, _ ->
+        for (tilValidation in tilValidations) {
+            when(tilValidation) {
+                TilValidation.NotEmpty -> {
+                    if (text.isNullOrEmpty()) {
+                        showError("tidak boleh kosong")
+                        break
+                    } else {
+                        hideError()
+                    }
+                }
+                is TilValidation.Numeric -> {
+                    val currentNum = text.toString().toDoubleOrNull() ?: 0.0
+                    when(tilValidation.numericValidation) {
+                        NumericValidation.GreaterThan -> {
+                            if (currentNum > tilValidation.value) {
+                                hideError()
+                            } else {
+                                showErrorNumeric(tilValidation)
+                                break
+                            }
+                        }
+                        NumericValidation.GreaterThanEqual -> {
+                            if (currentNum >= tilValidation.value) {
+                                hideError()
+                            } else {
+                                showErrorNumeric(tilValidation)
+                                break
+                            }
+                        }
+                        NumericValidation.Equal -> {
+                            if (currentNum != tilValidation.value) {
+                                hideError()
+                            } else {
+                                showErrorNumeric(tilValidation)
+                                break
+                            }
+                        }
+                        NumericValidation.LessThan -> {
+                            if (currentNum < tilValidation.value) {
+                                hideError()
+                            } else {
+                                showErrorNumeric(tilValidation)
+                                break
+                            }
+                        }
+                        NumericValidation.LessThanEqual -> {
+                            if (currentNum > tilValidation.value) {
+                                hideError()
+                            } else {
+                                showErrorNumeric(tilValidation)
+                                break
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+fun isNotValid(vararg textInputLayouts: TextInputLayout): Boolean {
+    textInputLayouts.forEach {
+        it.setText(it.string)
+        it.clearFocus()
+    }
+
+    return textInputLayouts.any { it.isErrorEnabled }
+}
+
+fun TextInputLayout.isNotValid(): Boolean {
+    setText(string)
+    clearFocus()
+
+    return isErrorEnabled
+}
