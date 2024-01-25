@@ -96,6 +96,10 @@ abstract class BaseSheet<VB : ViewBinding> : BottomSheetDialogFragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+        val db = sqliteZ.readableDatabase
+        if (db.isOpen) {
+            db.close()
+        }
     }
 
     override fun onDismiss(dialog: DialogInterface) {

@@ -46,6 +46,10 @@ abstract class BaseFragment<VB : ViewBinding> : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+        val db = sqliteZ.readableDatabase
+        if (db.isOpen) {
+            db.close()
+        }
     }
 
     protected fun safeContext(result: Context.() -> Unit) {

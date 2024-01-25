@@ -84,6 +84,10 @@ abstract class BaseDialog<VB : ViewBinding> : AppCompatDialogFragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+        val db = sqliteZ.readableDatabase
+        if (db.isOpen) {
+            db.close()
+        }
     }
 
     override fun onDismiss(dialog: DialogInterface) {

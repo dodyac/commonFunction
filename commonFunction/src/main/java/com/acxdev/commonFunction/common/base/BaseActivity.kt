@@ -45,4 +45,12 @@ abstract class BaseActivity<VB : ViewBinding> : AppCompatActivity() {
 
     protected fun <T> getExtraAs(cls: Class<T>, data: String? = null): T =
         intent.getStringExtra(data ?: ConstantLib.DATA).toClass(cls)
+
+    override fun onDestroy() {
+        super.onDestroy()
+        val db = sqliteZ.readableDatabase
+        if (db.isOpen) {
+            db.close()
+        }
+    }
 }
