@@ -117,13 +117,15 @@ private fun FragmentManager.showCalendarDialog(
     textInputLayout: TextInputLayout,
     calendarDialog: CalendarDialog
 ) {
-    val selectedDateTimeMillis = calendarDialog
-        .getSelectedDateTimeMillis(textInputLayout.string)
 
     val builder = MaterialDatePicker.Builder.datePicker()
     builder.setTitleText(calendarDialog.title)
     builder.setCalendarConstraints(calendarDialog.getCalendarConstraintValidators())
-    builder.setSelection(selectedDateTimeMillis)
+    if (textInputLayout.string.isNotEmpty()) {
+        val selectedDateTimeMillis = calendarDialog
+            .getSelectedDateTimeMillis(textInputLayout.string)
+        builder.setSelection(selectedDateTimeMillis)
+    }
 
     val datePicker = builder.build()
     datePicker.show(this, DATE_PICKER)
