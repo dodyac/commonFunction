@@ -6,8 +6,8 @@ import androidx.viewbinding.ViewBinding
 import com.acxdev.commonFunction.common.ConstantLib
 import com.acxdev.commonFunction.common.Inflater.inflateBinding
 import com.acxdev.commonFunction.utils.ext.toClass
-import com.acxdev.sqlitez.DatabaseNameHolder
 import com.acxdev.sqlitez.SqliteZ
+import com.acxdev.sqlitez.common.DatabaseNameHolder
 
 abstract class BaseActivity<VB : ViewBinding> : AppCompatActivity() {
 
