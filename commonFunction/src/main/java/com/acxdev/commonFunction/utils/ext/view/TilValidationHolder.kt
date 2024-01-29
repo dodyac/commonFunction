@@ -40,4 +40,15 @@ object TilValidationHolder {
             }
         }
     }
+
+    fun Validation.getValidation(): String {
+        return when(this) {
+            Validation.NotEmpty -> notEmpty
+            Validation.GreaterThan -> greaterThan
+            Validation.GreaterThanEqual -> greaterThanEqual
+            Validation.Equal -> equal
+            Validation.LessThan -> lessThan
+            Validation.LessThanEqual -> lessThanEqual
+        }
+    }
 }

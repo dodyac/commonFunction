@@ -7,6 +7,7 @@ import androidx.core.util.Pair
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.FragmentManager
 import com.acxdev.commonFunction.utils.ext.*
+import com.acxdev.commonFunction.utils.ext.view.TilValidationHolder.getValidation
 import com.google.android.material.datepicker.CalendarConstraints
 import com.google.android.material.datepicker.CompositeDateValidator
 import com.google.android.material.datepicker.DateValidatorPointBackward
@@ -249,11 +250,11 @@ sealed class TilValidation {
 }
 
 enum class NumericValidation(val errorMsg: String) {
-    GreaterThan("harus lebih dari "),
-    GreaterThanEqual("harus lebih dari sama dengan "),
-    Equal("tidak boleh "),
-    LessThan("harus kurang dari "),
-    LessThanEqual("harus kurang dari sama dengan "),
+    GreaterThan(TilValidationHolder.Validation.GreaterThan.getValidation()),
+    GreaterThanEqual(TilValidationHolder.Validation.GreaterThanEqual.getValidation()),
+    Equal(TilValidationHolder.Validation.Equal.getValidation()),
+    LessThan(TilValidationHolder.Validation.LessThan.getValidation()),
+    LessThanEqual(TilValidationHolder.Validation.LessThanEqual.getValidation()),
 }
 
 fun List<TilValidation>.applyTo(vararg textInputLayouts: TextInputLayout) {
@@ -283,7 +284,7 @@ fun TextInputLayout.addValidations(vararg tilValidations: TilValidation) {
             when(tilValidation) {
                 TilValidation.NotEmpty -> {
                     if (text.isNullOrEmpty()) {
-                        showError("tidak boleh kosong")
+                        showError(TilValidationHolder.Validation.NotEmpty.getValidation())
                         break
                     } else {
                         hideError()
