@@ -5,4 +5,5 @@ object ConstantLib {
     const val NULL = "null"
     const val EMPTY = ""
     const val DATA = "data"
+    const val APP_PREFS = "app_prefs"
 }

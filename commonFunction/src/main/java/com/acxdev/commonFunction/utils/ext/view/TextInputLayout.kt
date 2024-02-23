@@ -326,7 +326,7 @@ fun TextInputLayout.addValidations(vararg tilValidations: TilValidation) {
                             }
                         }
                         NumericValidation.LessThanEqual -> {
-                            if (currentNum > tilValidation.value) {
+                            if (currentNum <= tilValidation.value) {
                                 hideError()
                             } else {
                                 showErrorNumeric(tilValidation)
