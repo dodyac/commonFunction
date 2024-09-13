@@ -58,7 +58,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:visibility="gone"
-        app:image="@drawable/close"
         app:image_size="@dimen/d120dp"
         app:title="kaloa" />
 </androidx.constraintlayout.widget.ConstraintLayout>

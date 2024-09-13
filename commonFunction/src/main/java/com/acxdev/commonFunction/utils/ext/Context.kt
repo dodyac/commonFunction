@@ -20,19 +20,8 @@ import com.acxdev.commonFunction.model.Toast
 import com.acxdev.commonFunction.utils.Preference
 import com.acxdev.commonFunction.utils.toasty
 import com.google.android.play.core.review.ReviewManagerFactory
-import com.thefinestartist.finestwebview.FinestWebView
 import com.yalantis.ucrop.UCrop
 import kotlin.math.roundToInt
-
-fun Context.webView(url: String, @ColorInt color: Int) {
-    FinestWebView.Builder(this as Activity).toolbarColor(color)
-        .swipeRefreshColor(color).show(url)
-}
-
-fun Context.webView(@StringRes url: Int, @ColorInt color: Int) {
-    FinestWebView.Builder(this as Activity).toolbarColor(color)
-        .swipeRefreshColor(color).show(getString(url))
-}
 
 fun Context.openPDFDocument(filename: String) {
     val pdfIntent = Intent(Intent.ACTION_VIEW)
