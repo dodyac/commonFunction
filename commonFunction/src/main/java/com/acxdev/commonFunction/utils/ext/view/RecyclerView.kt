@@ -47,6 +47,18 @@ fun RecyclerView.setGrid(
     setHasFixedSize(hasFixed)
 }
 
+fun RecyclerView.setGridFixed(
+    adapter: RecyclerView.Adapter<*>,
+    spanCount: Int,
+    hasFixed: Boolean = true
+) {
+
+    layoutManager = GridLayoutManager(context, spanCount)
+    this.adapter = adapter
+    setHasFixedSize(hasFixed)
+}
+
+
 fun RecyclerView.setStag(
     adapter: RecyclerView.Adapter<*>,
     @DimenRes columnWidthRes: Int,

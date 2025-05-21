@@ -1,6 +1,5 @@
 package com.acxdev.commonFunction.utils.ext
 
-import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -16,9 +15,7 @@ import androidx.core.graphics.alpha
 import androidx.core.graphics.blue
 import androidx.core.graphics.green
 import androidx.core.graphics.red
-import com.acxdev.commonFunction.common.ConstantLib
 import com.acxdev.commonFunction.utils.Preference
-import com.google.android.play.core.review.ReviewManagerFactory
 import kotlin.math.roundToInt
 
 fun Context.openPDFDocument(filename: String) {
@@ -45,26 +42,6 @@ fun Context.getResourceColor(@AttrRes resource: Int, alphaFactor: Float = 1f): I
 val Context.colorPrimary: Int
     @ColorInt
     get() = getResourceColor(android.R.attr.colorPrimary)
-
-fun Context.showPlayStoreRate() {
-    val manager = ReviewManagerFactory.create(this)
-    val request = manager.requestReviewFlow()
-    request.addOnCompleteListener {
-        if (it.isSuccessful) {
-            val reviewInfo = it.result
-            val flow = manager.launchReviewFlow(this as Activity, reviewInfo)
-            flow.addOnCompleteListener {
-                // The flow has finished. The API does not indicate whether the user
-                // reviewed or not, or even whether the review dialog was shown. Thus, no
-                // matter the result, we continue our app flow.
-            }
-        } else {
-            // There was some problem, continue regardless of the result.
-            // you can show your own rate dialog alert and redirect user to your app page
-            // on play store.
-        }
-    }
-}
 
 fun Context.getVersionName(): String {
     return try {
