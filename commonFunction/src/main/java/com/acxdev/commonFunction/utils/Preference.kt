@@ -2,6 +2,7 @@ package com.acxdev.commonFunction.utils
 
 import android.content.Context
 import android.content.SharedPreferences
+import androidx.core.content.edit
 
 class Preference(private val context: Context) {
 
@@ -17,15 +18,15 @@ class Preference(private val context: Context) {
         prefsName: String = PREFERENCE
     ) {
         val prefs = get(prefsName)
-        val editor = prefs.edit()
-        when (data) {
-            is Boolean -> editor.putBoolean(path, data)
-            is String -> editor.putString(path, data)
-            is Int -> editor.putInt(path, data)
-            is Long -> editor.putLong(path, data)
-            is Float -> editor.putFloat(path, data)
+        prefs.edit {
+            when (data) {
+                is Boolean -> putBoolean(path, data)
+                is String -> putString(path, data)
+                is Int -> putInt(path, data)
+                is Long -> putLong(path, data)
+                is Float -> putFloat(path, data)
+            }
         }
-        editor.apply()
     }
 
     fun get(prefsName: String = PREFERENCE): SharedPreferences {
@@ -34,23 +35,23 @@ class Preference(private val context: Context) {
 
     fun clear(prefsName: String = PREFERENCE) {
         get(prefsName)
-            .edit()
-            .clear()
-            .apply()
+            .edit {
+                clear()
+            }
     }
 
     fun signIn() {
         get()
-            .edit()
-            .putBoolean(LOGGED, true)
-            .apply()
+            .edit {
+                putBoolean(LOGGED, true)
+            }
     }
 
     fun signOut() {
         get()
-            .edit()
-            .remove(LOGGED)
-            .apply()
+            .edit {
+                remove(LOGGED)
+            }
     }
 
     fun isSigned(): Boolean {

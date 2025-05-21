@@ -4,23 +4,21 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.graphics.Color
 import android.net.Uri
 import android.provider.Settings
 import androidx.annotation.AttrRes
 import androidx.annotation.ColorInt
-import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.graphics.alpha
 import androidx.core.graphics.blue
 import androidx.core.graphics.green
 import androidx.core.graphics.red
 import com.acxdev.commonFunction.common.ConstantLib
-import com.acxdev.commonFunction.model.Toast
 import com.acxdev.commonFunction.utils.Preference
-import com.acxdev.commonFunction.utils.toasty
 import com.google.android.play.core.review.ReviewManagerFactory
-import com.yalantis.ucrop.UCrop
 import kotlin.math.roundToInt
 
 fun Context.openPDFDocument(filename: String) {
@@ -28,13 +26,6 @@ fun Context.openPDFDocument(filename: String) {
     pdfIntent.setDataAndType(Uri.parse(filename), "application/pdf")
     pdfIntent.flags = Intent.FLAG_ACTIVITY_NO_HISTORY
     startActivity(Intent.createChooser(pdfIntent, "Open PDF"))
-}
-
-fun Context.cropError(data: Intent?) {
-    val cropError = data?.let { UCrop.getError(it) }
-    cropError?.let {
-        it.message?.let { it1 -> toasty(Toast.Error, it1) }
-    }
 }
 
 @ColorInt
@@ -75,19 +66,9 @@ fun Context.showPlayStoreRate() {
     }
 }
 
-//fun Context.showSheetWithExtra(
-//    bottomSheet: BottomSheetDialogFragment,
-//    data: String? = null
-//) {
-//    val args = Bundle()
-//    args.putString(ConstantLib.DATA, data)
-//    bottomSheet.arguments = args
-//    bottomSheet.show(getActivity().supportFragmentManager, bottomSheet.tag)
-//}
-
 fun Context.getVersionName(): String {
     return try {
-        packageManager.getPackageInfo(packageName, 0).versionName
+        packageManager.getPackageInfo(packageName, 0).versionName.orEmpty()
     } catch (e: PackageManager.NameNotFoundException) {
         emptyString()
     }
@@ -119,19 +100,17 @@ fun Context.getCacheSize(): Long {
     return size
 }
 
+fun Context.getBitmapFromUri(uri: Uri): Bitmap? {
+    return try {
+        contentResolver.openInputStream(uri)?.use { inputStream ->
+            BitmapFactory.decodeStream(inputStream)
+        }
+    } catch (e: Exception) {
+        e.printStackTrace()
+        null
+    }
+}
+
 //fun Context.getView(): View {
 //    return getActivity().window.decorView.rootView
 //}
-
-fun <T>Context.startActivityExtra(cls: Class<T>, data: String = emptyString(), intent: (Intent.() -> Unit)? = null) {
-    val intents = Intent(this, cls)
-    intents.putExtra(ConstantLib.DATA, data)
-
-    if(intent != null) {
-        intent.invoke(intents)
-    } else {
-        intents.also {
-            startActivity(it)
-        }
-    }
-}

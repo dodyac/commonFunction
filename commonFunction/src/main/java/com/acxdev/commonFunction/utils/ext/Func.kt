@@ -14,6 +14,7 @@ import java.io.File
 import java.text.DecimalFormat
 import java.text.SimpleDateFormat
 import java.util.*
+import androidx.core.graphics.scale
 
 fun getToday(pattern: String, locale: Locale = Locale.getDefault()): String {
     val date = System.currentTimeMillis()
@@ -65,6 +66,14 @@ fun Uri?.toBase64(context: Context): String {
     return Base64.encodeToString(byteArray, Base64.DEFAULT)
 }
 
+val Bitmap.base64: String?
+    get() {
+        val outputStream = ByteArrayOutputStream()
+        compress(Bitmap.CompressFormat.PNG, 100, outputStream)
+        val byteArray = outputStream.toByteArray()
+        return Base64.encodeToString(byteArray, Base64.DEFAULT)
+    }
+
 fun Bitmap.resizeBitmap(maxSize: Int): Bitmap {
     var bitmapWidth = width
     var bitmapHeight = height
@@ -76,7 +85,7 @@ fun Bitmap.resizeBitmap(maxSize: Int): Bitmap {
         bitmapHeight = maxSize
         bitmapWidth = (bitmapHeight * bitmapRatio).toInt()
     }
-    return Bitmap.createScaledBitmap(this, bitmapWidth, bitmapHeight, false)
+    return this.scale(bitmapWidth, bitmapHeight, false)
 }
 
 fun Bitmap.rotateImage(angle: Int): Bitmap {

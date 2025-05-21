@@ -64,9 +64,6 @@ abstract class BaseFragment<VB : ViewBinding> : Fragment() {
     protected open fun VB.setViews() {}
     protected open fun VB.doAction() {}
 
-    fun getStringExtra(path: String? = null): String? =
-        arguments?.getString(path ?: ConstantLib.DATA)
-
     fun <T> getExtraAs(cls: Class<T>, data: String? = null): T =
         arguments?.getString(data ?: ConstantLib.DATA).toClass(cls)
 }

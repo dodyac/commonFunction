@@ -22,10 +22,12 @@
 
         <com.acxdev.commonFunction.widget.shimmer.ShimmerText
             android:id="@+id/shimmerText"
-            android:layout_width="wrap_content"
+            android:layout_width="@dimen/d0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/d16dp"
-            android:text="@string/app_name"
+            android:maxLines="1"
+            tools:text="@string/loremIpsum"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/shimmerImage"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -34,7 +36,8 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/d16dp"
             android:layout_marginTop="@dimen/d4dp"
-            android:text="@string/app_name"
+            tools:text="@string/loremIpsum"
+            android:maxLines="1"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/shimmerImage"
             app:layout_constraintTop_toBottomOf="@+id/shimmerText" />

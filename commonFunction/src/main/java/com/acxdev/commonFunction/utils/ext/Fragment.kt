@@ -14,33 +14,16 @@ import androidx.annotation.ColorRes
 import androidx.annotation.StringRes
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
-import com.acxdev.commonFunction.common.ConstantLib
 import com.acxdev.commonFunction.model.BlurBackground
-import com.acxdev.commonFunction.model.Toast
+import com.acxdev.commonFunction.model.Extra
 import com.acxdev.commonFunction.utils.toast
-import com.acxdev.commonFunction.utils.toasty
 
-fun Fragment.putExtra(
-    data: String,
-    secondPath: String? = null,
-    secondData: String? = null,
-    thirdPath: String? = null,
-    thirdData: String? = null
-): Fragment {
+fun Fragment.putExtras(vararg extras: Extra) {
     val args = Bundle()
-    args.putString(ConstantLib.DATA, data)
-    args.putString(secondPath, secondData)
-    args.putString(thirdPath, thirdData)
+    extras.forEach {
+        args.putString(it.key, it.value)
+    }
     arguments = args
-    return this
-}
-
-fun Fragment.toasty(toast: Toast, string: String, isLengthLong: Boolean = true) {
-    context?.toasty(toast, string, isLengthLong)
-}
-
-fun Fragment.toasty(toast: Toast, @StringRes string: Int, isLengthLong: Boolean = true) {
-    context?.toasty(toast, string, isLengthLong)
 }
 
 fun Fragment.toast(@StringRes string: Int, isLengthLong: Boolean = true) {

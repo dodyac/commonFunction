@@ -40,9 +40,6 @@ abstract class BaseActivity<VB : ViewBinding> : AppCompatActivity() {
     protected open fun VB.setViews() {}
     protected open fun VB.doAction() {}
 
-    protected fun getStringExtra(path: String? = null): String? =
-        intent.getStringExtra(path ?: ConstantLib.DATA)
-
     protected fun <T> getExtraAs(cls: Class<T>, data: String? = null): T =
         intent.getStringExtra(data ?: ConstantLib.DATA).toClass(cls)
 

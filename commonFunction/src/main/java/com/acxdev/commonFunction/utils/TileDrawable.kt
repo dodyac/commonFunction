@@ -4,7 +4,6 @@ import android.graphics.*
 import android.graphics.Shader.TileMode
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
-import androidx.annotation.Nullable
 
 class TileDrawable(drawable: Drawable, tileMode: TileMode?) : Drawable() {
 

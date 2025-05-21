@@ -1,6 +1,6 @@
 package com.acxdev.commonFunction.utils.ext.view
 
-import android.content.Context
+import androidx.annotation.DimenRes
 import androidx.recyclerview.widget.*
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.acxdev.commonFunction.utils.RecyclerViewScrollListener
@@ -11,7 +11,7 @@ import com.google.android.flexbox.FlexboxLayoutManager
 fun RecyclerView.setHStack(
     adapter: RecyclerView.Adapter<*>,
     isSnap: Boolean = false,
-    hasFixed: Boolean = false
+    hasFixed: Boolean = true
 ) {
     layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
     this.adapter = adapter
@@ -25,7 +25,7 @@ fun RecyclerView.setHStack(
 fun RecyclerView.setVStack(
     adapter: RecyclerView.Adapter<*>,
     spanCount: Int = 1,
-    hasFixed: Boolean = false,
+    hasFixed: Boolean = true,
 ) {
     layoutManager = GridLayoutManager(context, spanCount)
     this.adapter = adapter
@@ -34,21 +34,31 @@ fun RecyclerView.setVStack(
 
 fun RecyclerView.setGrid(
     adapter: RecyclerView.Adapter<*>,
-    numOfColumns: Float,
-    hasFixed: Boolean = false
+    @DimenRes columnWidthRes: Int,
+    hasFixed: Boolean = true
 ) {
-    layoutManager = GridLayoutManager(context, context.numOfColumns(numOfColumns))
+    val displayMetrics = context.resources.displayMetrics
+    val columnWidthPx = context.resources.getDimension(columnWidthRes)
+    val screenWidthPx = displayMetrics.widthPixels
+    val columnCount = ((screenWidthPx / columnWidthPx) + 0.5).toInt()
+
+    layoutManager = GridLayoutManager(context, columnCount)
     this.adapter = adapter
     setHasFixedSize(hasFixed)
 }
 
 fun RecyclerView.setStag(
     adapter: RecyclerView.Adapter<*>,
-    numOfColumns: Float,
+    @DimenRes columnWidthRes: Int,
     hasFixed: Boolean = false
 ) {
+    val displayMetrics = context.resources.displayMetrics
+    val columnWidthPx = context.resources.getDimension(columnWidthRes)
+    val screenWidthPx = displayMetrics.widthPixels
+    val columnCount = ((screenWidthPx / columnWidthPx) + 0.5).toInt()
+
     val layoutManager = StaggeredGridLayoutManager(
-        context.numOfColumns(numOfColumns),
+        columnCount,
         LinearLayoutManager.VERTICAL
     )
     layoutManager.gapStrategy = StaggeredGridLayoutManager.GAP_HANDLING_MOVE_ITEMS_BETWEEN_SPANS
@@ -80,10 +90,4 @@ fun RecyclerView.sync(swipeRefreshLayout: SwipeRefreshLayout) {
     swipeRefreshLayout.setOnChildScrollUpCallback { _, _ ->
         canScrollVertically(-1)
     }
-}
-
-private fun Context.numOfColumns(columnWidthDp: Float): Int {
-    val displayMetrics = resources.displayMetrics
-    val screenWidthDp = displayMetrics.widthPixels / displayMetrics.density
-    return (screenWidthDp / columnWidthDp + 0.5).toInt()
 }
