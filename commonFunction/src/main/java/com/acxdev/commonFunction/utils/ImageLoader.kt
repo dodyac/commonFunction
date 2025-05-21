@@ -42,7 +42,6 @@ object ImageLoader {
             .clear(this)
     }
 
-    @Deprecated("use setImage instead")
     fun ImageView.setImageUrl(
         url: String?,
         imageStyle: ImageStyle = ImageStyle.None,
