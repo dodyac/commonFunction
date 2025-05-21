@@ -18,8 +18,10 @@ abstract class BaseAdapter<VB : ViewBinding, T>(
     private val adapterListener: AdapterListener<T>? = null
 ) : RecyclerView.Adapter<ViewHolder<VB>>(), Filterable {
 
+    //full list
     var currentList = emptyList<T>()
-    protected val listFilter = MutableListDelegate<T> {
+    //showed
+    protected val filteredList = MutableListDelegate<T> {
         adapterListener?.onListChanged(
             size = size,
             isEmpty = isEmpty()
@@ -47,13 +49,13 @@ abstract class BaseAdapter<VB : ViewBinding, T>(
         holder: ViewHolder<VB>,
         position: Int
     ) {
-        val item = listFilter[position]
+        val item = filteredList[position]
 
         holder.binding.setViews(item, holder.adapterPosition)
     }
 
     override fun getItemCount(): Int {
-        return listFilter.size
+        return filteredList.size
     }
 
     override fun getFilter() = object : Filter() {
@@ -134,11 +136,11 @@ abstract class BaseAdapter<VB : ViewBinding, T>(
     }
 
     private fun setFilteredItems(newList: List<T>) {
-        val diff = Diff(listFilter, newList)
+        val diff = Diff(filteredList, newList)
         val diffResult = DiffUtil.calculateDiff(diff)
 
-        listFilter.clear()
-        listFilter.addAll(newList)
+        filteredList.clear()
+        filteredList.addAll(newList)
         diffResult.dispatchUpdatesTo(this)
     }
 

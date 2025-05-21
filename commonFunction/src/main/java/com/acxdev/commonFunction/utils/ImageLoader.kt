@@ -49,7 +49,8 @@ object ImageLoader {
         @DrawableRes
         placeHolderDrawable: Int? = null,
         @DrawableRes
-        errorDrawable: Int? = null
+        errorDrawable: Int? = null,
+        isAnimating: Boolean = true
     ) {
         val glide = Glide.with(context)
             .load(url)
@@ -63,15 +64,32 @@ object ImageLoader {
 
         when(imageStyle) {
             ImageStyle.None -> {
-                glide.into(this)
+                if (isAnimating) {
+                    glide.into(this)
+                } else {
+                    glide.dontAnimate()
+                        .into(this)
+                }
             }
             is ImageStyle.Rounded -> {
-                glide.transform(RoundedCorners(imageStyle.radius))
-                    .into(this)
+                if (isAnimating) {
+                    glide.transform(RoundedCorners(imageStyle.radius))
+                        .into(this)
+                } else {
+                    glide.transform(RoundedCorners(imageStyle.radius))
+                        .dontAnimate()
+                        .into(this)
+                }
             }
             ImageStyle.Circle -> {
-                glide.transform(CircleCrop())
-                    .into(this)
+                if (isAnimating) {
+                    glide.transform(CircleCrop())
+                        .into(this)
+                } else {
+                    glide.transform(CircleCrop())
+                        .dontAnimate()
+                        .into(this)
+                }
             }
         }
     }
@@ -82,7 +100,8 @@ object ImageLoader {
         @DrawableRes
         placeHolderDrawable: Int? = null,
         @DrawableRes
-        errorDrawable: Int? = null
+        errorDrawable: Int? = null,
+        isAnimating: Boolean = true
     ) {
         val glide = Glide.with(context)
             .load(Base64.decode(base64, Base64.DEFAULT))
@@ -96,15 +115,32 @@ object ImageLoader {
 
         when(imageStyle) {
             ImageStyle.None -> {
-                glide.into(this)
+                if (isAnimating) {
+                    glide.into(this)
+                } else {
+                    glide.dontAnimate()
+                        .into(this)
+                }
             }
             is ImageStyle.Rounded -> {
-                glide.transform(RoundedCorners(imageStyle.radius))
-                    .into(this)
+                if (isAnimating) {
+                    glide.transform(RoundedCorners(imageStyle.radius))
+                        .into(this)
+                } else {
+                    glide.transform(RoundedCorners(imageStyle.radius))
+                        .dontAnimate()
+                        .into(this)
+                }
             }
             ImageStyle.Circle -> {
-                glide.transform(CircleCrop())
-                    .into(this)
+                if (isAnimating) {
+                    glide.transform(CircleCrop())
+                        .into(this)
+                } else {
+                    glide.transform(CircleCrop())
+                        .dontAnimate()
+                        .into(this)
+                }
             }
         }
     }
@@ -115,7 +151,8 @@ object ImageLoader {
         @DrawableRes
         placeHolderDrawable: Int? = null,
         @DrawableRes
-        errorDrawable: Int? = null
+        errorDrawable: Int? = null,
+        isAnimating: Boolean = true
     ) {
         val glide = Glide.with(context)
             .load(uri)
@@ -129,19 +166,35 @@ object ImageLoader {
 
         when(imageStyle) {
             ImageStyle.None -> {
-                glide.into(this)
+                if (isAnimating) {
+                    glide.into(this)
+                } else {
+                    glide.dontAnimate()
+                        .into(this)
+                }
             }
             is ImageStyle.Rounded -> {
-                glide.transform(RoundedCorners(imageStyle.radius))
-                    .into(this)
+                if (isAnimating) {
+                    glide.transform(RoundedCorners(imageStyle.radius))
+                        .into(this)
+                } else {
+                    glide.transform(RoundedCorners(imageStyle.radius))
+                        .dontAnimate()
+                        .into(this)
+                }
             }
             ImageStyle.Circle -> {
-                glide.transform(CircleCrop())
-                    .into(this)
+                if (isAnimating) {
+                    glide.transform(CircleCrop())
+                        .into(this)
+                } else {
+                    glide.transform(CircleCrop())
+                        .dontAnimate()
+                        .into(this)
+                }
             }
         }
     }
-
 
     sealed class ImageStyle {
         data object Circle: ImageStyle()
