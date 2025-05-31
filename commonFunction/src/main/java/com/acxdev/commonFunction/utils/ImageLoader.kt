@@ -18,12 +18,27 @@ import kotlinx.coroutines.withContext
 
 object ImageLoader {
 
-    suspend fun Context.loadImageAsBitmap(url: String): Bitmap? = withContext(Dispatchers.IO) {
+    enum class Caching {
+        ALL,
+        NONE,
+        DATA,
+        RESOURCE,
+        AUTOMATIC
+    }
+
+    suspend fun Context.loadImageAsBitmap(url: String, caching: Caching = Caching.AUTOMATIC): Bitmap? = withContext(Dispatchers.IO) {
         try {
+            val cacheStrategy = when(caching) {
+                Caching.ALL -> DiskCacheStrategy.ALL // Cache both original and resized images
+                Caching.NONE -> DiskCacheStrategy.NONE
+                Caching.DATA -> DiskCacheStrategy.DATA
+                Caching.RESOURCE -> DiskCacheStrategy.RESOURCE
+                Caching.AUTOMATIC -> DiskCacheStrategy.AUTOMATIC
+            }
             Glide.with(this@loadImageAsBitmap)
                 .asBitmap()
                 .load(url)
-                .diskCacheStrategy(DiskCacheStrategy.ALL) // Cache both original and resized images
+                .diskCacheStrategy(cacheStrategy)
                 .submit()
                 .get()
         } catch (e: Exception) {
@@ -49,10 +64,20 @@ object ImageLoader {
         placeHolderDrawable: Int? = null,
         @DrawableRes
         errorDrawable: Int? = null,
-        isAnimating: Boolean = true
+        isAnimating: Boolean = true,
+        caching: Caching = Caching.AUTOMATIC
     ) {
+        val cacheStrategy = when(caching) {
+            Caching.ALL -> DiskCacheStrategy.ALL
+            Caching.NONE -> DiskCacheStrategy.NONE
+            Caching.DATA -> DiskCacheStrategy.DATA
+            Caching.RESOURCE -> DiskCacheStrategy.RESOURCE
+            Caching.AUTOMATIC -> DiskCacheStrategy.AUTOMATIC
+        }
+
         val glide = Glide.with(context)
             .load(url)
+            .diskCacheStrategy(cacheStrategy)
 
         placeHolderDrawable?.let {
             glide.placeholder(placeHolderDrawable)
@@ -100,10 +125,19 @@ object ImageLoader {
         placeHolderDrawable: Int? = null,
         @DrawableRes
         errorDrawable: Int? = null,
-        isAnimating: Boolean = true
+        isAnimating: Boolean = true,
+        caching: Caching = Caching.AUTOMATIC
     ) {
+        val cacheStrategy = when(caching) {
+            Caching.ALL -> DiskCacheStrategy.ALL
+            Caching.NONE -> DiskCacheStrategy.NONE
+            Caching.DATA -> DiskCacheStrategy.DATA
+            Caching.RESOURCE -> DiskCacheStrategy.RESOURCE
+            Caching.AUTOMATIC -> DiskCacheStrategy.AUTOMATIC
+        }
         val glide = Glide.with(context)
             .load(Base64.decode(base64, Base64.DEFAULT))
+            .diskCacheStrategy(cacheStrategy)
 
         placeHolderDrawable?.let {
             glide.placeholder(placeHolderDrawable)
@@ -151,10 +185,19 @@ object ImageLoader {
         placeHolderDrawable: Int? = null,
         @DrawableRes
         errorDrawable: Int? = null,
-        isAnimating: Boolean = true
+        isAnimating: Boolean = true,
+        caching: Caching = Caching.AUTOMATIC
     ) {
+        val cacheStrategy = when(caching) {
+            Caching.ALL -> DiskCacheStrategy.ALL
+            Caching.NONE -> DiskCacheStrategy.NONE
+            Caching.DATA -> DiskCacheStrategy.DATA
+            Caching.RESOURCE -> DiskCacheStrategy.RESOURCE
+            Caching.AUTOMATIC -> DiskCacheStrategy.AUTOMATIC
+        }
         val glide = Glide.with(context)
             .load(uri)
+            .diskCacheStrategy(cacheStrategy)
 
         placeHolderDrawable?.let {
             glide.placeholder(placeHolderDrawable)
