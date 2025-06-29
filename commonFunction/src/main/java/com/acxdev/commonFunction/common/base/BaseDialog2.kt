@@ -19,13 +19,8 @@ import com.acxdev.commonFunction.common.ConstantLib
 import com.acxdev.commonFunction.model.BlurBackground
 import com.acxdev.commonFunction.utils.ext.setBackgroundBlurRadius
 import com.acxdev.commonFunction.utils.ext.toClass
-import com.acxdev.sqlitez.SqliteZ
 
 abstract class BaseDialog2(@LayoutRes contentLayoutId: Int) : AppCompatDialogFragment(contentLayoutId) {
-
-    protected val sqliteZ by lazy {
-        SqliteZ(context)
-    }
 
     val TAG = javaClass.simpleName
 
@@ -62,14 +57,6 @@ abstract class BaseDialog2(@LayoutRes contentLayoutId: Int) : AppCompatDialogFra
         doFetch()
         setViews()
         doAction()
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        val db = sqliteZ.readableDatabase
-        if (db.isOpen) {
-            db.close()
-        }
     }
 
     override fun onDismiss(dialog: DialogInterface) {

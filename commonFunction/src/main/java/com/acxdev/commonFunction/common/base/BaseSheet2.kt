@@ -16,16 +16,12 @@ import com.acxdev.commonFunction.common.ConstantLib
 import com.acxdev.commonFunction.model.BlurBackground
 import com.acxdev.commonFunction.utils.ext.setBackgroundBlurRadius
 import com.acxdev.commonFunction.utils.ext.toClass
-import com.acxdev.sqlitez.SqliteZ
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
 abstract class BaseSheet2(@LayoutRes contentLayoutId: Int) : BottomSheetDialogFragment(contentLayoutId) {
 
-    protected val sqliteZ by lazy {
-        SqliteZ(context)
-    }
     protected var sheetBehavior: BottomSheetBehavior<View>? = null
 
     val TAG = javaClass.simpleName
@@ -73,14 +69,6 @@ abstract class BaseSheet2(@LayoutRes contentLayoutId: Int) : BottomSheetDialogFr
         doFetch()
         setViews()
         doAction()
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        val db = sqliteZ.readableDatabase
-        if (db.isOpen) {
-            db.close()
-        }
     }
 
     override fun onDismiss(dialog: DialogInterface) {

@@ -8,13 +8,8 @@ import androidx.annotation.LayoutRes
 import androidx.fragment.app.Fragment
 import com.acxdev.commonFunction.common.ConstantLib
 import com.acxdev.commonFunction.utils.ext.toClass
-import com.acxdev.sqlitez.SqliteZ
 
 abstract class BaseFragment2(@LayoutRes contentLayoutId: Int) : Fragment(contentLayoutId) {
-
-    protected val sqliteZ by lazy {
-        SqliteZ(context)
-    }
 
     val TAG = javaClass.simpleName
 
@@ -23,14 +18,6 @@ abstract class BaseFragment2(@LayoutRes contentLayoutId: Int) : Fragment(content
         doFetch()
         setViews()
         doAction()
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        val db = sqliteZ.readableDatabase
-        if (db.isOpen) {
-            db.close()
-        }
     }
 
     protected fun safeContext(result: Context.() -> Unit) {
