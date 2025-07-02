@@ -1,7 +1,6 @@
 package com.acxdev.commonFunction.common.base
 
 import android.content.Context
-import android.content.DialogInterface
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
@@ -16,9 +15,8 @@ import androidx.annotation.StyleRes
 import androidx.appcompat.app.AppCompatDialogFragment
 import androidx.fragment.app.FragmentManager
 import com.acxdev.commonFunction.common.ConstantLib
-import com.acxdev.commonFunction.model.BlurBackground
-import com.acxdev.commonFunction.utils.ext.setBackgroundBlurRadius
 import com.acxdev.commonFunction.utils.ext.toClass
+import androidx.core.graphics.drawable.toDrawable
 
 abstract class BaseDialog2(@LayoutRes contentLayoutId: Int) : AppCompatDialogFragment(contentLayoutId) {
 
@@ -47,8 +45,6 @@ abstract class BaseDialog2(@LayoutRes contentLayoutId: Int) : AppCompatDialogFra
                     keyCode == KeyEvent.KEYCODE_BACK && event.action == KeyEvent.ACTION_UP
                 }
             }
-
-            setBackgroundBlurRadius(blurBackground)
         }
     }
 
@@ -59,26 +55,12 @@ abstract class BaseDialog2(@LayoutRes contentLayoutId: Int) : AppCompatDialogFra
         doAction()
     }
 
-    override fun onDismiss(dialog: DialogInterface) {
-        setBackgroundBlurRadius(blurBackground,true)
-        super.onDismiss(dialog)
-    }
-
     fun show(fragmentManager: FragmentManager) {
         show(fragmentManager, TAG)
     }
 
-    protected fun safeContext(result: Context.() -> Unit) {
-        context?.let {
-            result.invoke(it)
-        } ?: run {
-            Log.e(TAG, "no attached Context")
-        }
-    }
-
     protected open val canDismiss: Boolean = true
-    protected open val blurBackground: BlurBackground = BlurBackground.None
-    protected open val backgroundDrawable = ColorDrawable(Color.TRANSPARENT)
+    protected open val backgroundDrawable = Color.TRANSPARENT.toDrawable()
     protected open val layout: Layout = Layout(
         width = ViewGroup.LayoutParams.WRAP_CONTENT,
         height = ViewGroup.LayoutParams.WRAP_CONTENT,

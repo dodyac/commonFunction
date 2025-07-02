@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.annotation.*
+import androidx.appcompat.widget.AppCompatTextView
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.app.ShareCompat
 import androidx.core.view.ViewCompat
@@ -174,3 +175,16 @@ val View.removeViewIfNeeded: View
                 ?.removeView(this)
             return this
         }
+
+fun AppCompatTextView.removeDrawables() {
+    setCompoundDrawablesWithIntrinsicBounds(null, null, null, null)
+}
+
+fun AppCompatTextView.setDrawable(
+    @DrawableRes start: Int = 0,
+    @DrawableRes top: Int = 0,
+    @DrawableRes end: Int = 0,
+    @DrawableRes bottom: Int = 0
+) {
+    setCompoundDrawablesWithIntrinsicBounds(start, top, end, bottom)
+}

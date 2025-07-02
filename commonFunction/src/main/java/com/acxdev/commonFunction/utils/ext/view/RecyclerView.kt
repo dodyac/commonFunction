@@ -1,5 +1,6 @@
 package com.acxdev.commonFunction.utils.ext.view
 
+import android.view.ViewTreeObserver
 import androidx.annotation.DimenRes
 import androidx.recyclerview.widget.*
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
@@ -18,7 +19,9 @@ fun RecyclerView.setHStack(
     setHasFixedSize(hasFixed)
     if (isSnap) {
         val snapHelper = LinearSnapHelper()
-        if (onFlingListener == null) snapHelper.attachToRecyclerView(this)
+        if (onFlingListener == null) {
+            snapHelper.attachToRecyclerView(this)
+        }
     }
 }
 
@@ -27,7 +30,11 @@ fun RecyclerView.setVStack(
     spanCount: Int = 1,
     hasFixed: Boolean = true,
 ) {
-    layoutManager = GridLayoutManager(context, spanCount)
+    layoutManager = if (spanCount == 1) {
+        LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+    } else {
+        GridLayoutManager(context, spanCount)
+    }
     this.adapter = adapter
     setHasFixedSize(hasFixed)
 }
@@ -37,27 +44,19 @@ fun RecyclerView.setGrid(
     @DimenRes columnWidthRes: Int,
     hasFixed: Boolean = true
 ) {
-    val displayMetrics = context.resources.displayMetrics
-    val columnWidthPx = context.resources.getDimension(columnWidthRes)
-    val screenWidthPx = displayMetrics.widthPixels
-    val columnCount = ((screenWidthPx / columnWidthPx) + 0.5).toInt()
+    viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
+        override fun onGlobalLayout() {
+            viewTreeObserver.removeOnGlobalLayoutListener(this)
 
-    layoutManager = GridLayoutManager(context, columnCount)
-    this.adapter = adapter
-    setHasFixedSize(hasFixed)
+            val columnWidthPx = context.resources.getDimension(columnWidthRes)
+            val columnCount = ((width / columnWidthPx) + 0.5).toInt()
+
+            layoutManager = GridLayoutManager(context, columnCount)
+            this@setGrid.adapter = adapter
+            setHasFixedSize(hasFixed)
+        }
+    })
 }
-
-fun RecyclerView.setGridFixed(
-    adapter: RecyclerView.Adapter<*>,
-    spanCount: Int,
-    hasFixed: Boolean = true
-) {
-
-    layoutManager = GridLayoutManager(context, spanCount)
-    this.adapter = adapter
-    setHasFixedSize(hasFixed)
-}
-
 
 fun RecyclerView.setStag(
     adapter: RecyclerView.Adapter<*>,
@@ -101,5 +100,19 @@ fun RecyclerView.sync(swipeRefreshLayout: SwipeRefreshLayout) {
 
     swipeRefreshLayout.setOnChildScrollUpCallback { _, _ ->
         canScrollVertically(-1)
+    }
+}
+
+fun RecyclerView.disableAnimation() {
+    (itemAnimator as? SimpleItemAnimator)?.supportsChangeAnimations = false
+}
+
+fun <T : RecyclerView.Adapter<*>> RecyclerView.getOrCreateAdapter(
+    id: Int,
+    factory: () -> T
+): T {
+    @Suppress("UNCHECKED_CAST")
+    return (getTag(id) as? T) ?: factory().also {
+        setTag(id, it)
     }
 }

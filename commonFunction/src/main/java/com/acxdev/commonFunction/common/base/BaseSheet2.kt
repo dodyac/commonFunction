@@ -1,24 +1,19 @@
 package com.acxdev.commonFunction.common.base
 
 import android.app.Dialog
-import android.content.Context
-import android.content.DialogInterface
 import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
-import android.util.Log
 import android.view.KeyEvent
 import android.view.View
 import android.view.WindowManager
 import androidx.annotation.LayoutRes
 import androidx.fragment.app.FragmentManager
 import com.acxdev.commonFunction.common.ConstantLib
-import com.acxdev.commonFunction.model.BlurBackground
-import com.acxdev.commonFunction.utils.ext.setBackgroundBlurRadius
 import com.acxdev.commonFunction.utils.ext.toClass
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import androidx.core.graphics.drawable.toDrawable
 
 abstract class BaseSheet2(@LayoutRes contentLayoutId: Int) : BottomSheetDialogFragment(contentLayoutId) {
 
@@ -36,8 +31,6 @@ abstract class BaseSheet2(@LayoutRes contentLayoutId: Int) : BottomSheetDialogFr
                     keyCode == KeyEvent.KEYCODE_BACK && event.action == KeyEvent.ACTION_UP
                 }
             }
-
-            setBackgroundBlurRadius(blurBackground)
         }
     }
 
@@ -47,7 +40,7 @@ abstract class BaseSheet2(@LayoutRes contentLayoutId: Int) : BottomSheetDialogFr
                 (it as BottomSheetDialog)
                     .findViewById<View>(com.google.android.material.R.id.design_bottom_sheet)
                     ?.apply {
-                        background = ColorDrawable(Color.TRANSPARENT)
+                        background = Color.TRANSPARENT.toDrawable()
 
                         sheetBehavior = BottomSheetBehavior.from(this)
 
@@ -71,25 +64,11 @@ abstract class BaseSheet2(@LayoutRes contentLayoutId: Int) : BottomSheetDialogFr
         doAction()
     }
 
-    override fun onDismiss(dialog: DialogInterface) {
-        setBackgroundBlurRadius(blurBackground,true)
-        super.onDismiss(dialog)
-    }
-
     fun show(fragmentManager: FragmentManager) {
         show(fragmentManager, TAG)
     }
 
-    protected fun safeContext(result: Context.() -> Unit) {
-        context?.let {
-            result.invoke(it)
-        } ?: run {
-            Log.e(TAG, "no attached Context")
-        }
-    }
-
     protected open val canDismiss: Boolean = true
-    protected open val blurBackground: BlurBackground = BlurBackground.None
     protected open val isFullScreen: Boolean = false
 
     protected open fun doFetch() {}
