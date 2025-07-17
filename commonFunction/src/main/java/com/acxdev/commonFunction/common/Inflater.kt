@@ -1,5 +1,7 @@
 package com.acxdev.commonFunction.common
 
+import android.content.res.Configuration
+import android.view.ContextThemeWrapper
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
@@ -54,6 +56,26 @@ object Inflater {
             Boolean::class.java
         )
         return inflateMethod.invoke(null, inflater, container, false) as VB
+    }
+
+    fun ViewGroup.getInflaterBasedOnTheme(
+        isDarkMode: Boolean,
+        theme: Int
+    ): LayoutInflater {
+        val nightMode = if (isDarkMode) {
+            Configuration.UI_MODE_NIGHT_YES
+        } else {
+            Configuration.UI_MODE_NIGHT_NO
+        }
+
+        val config = Configuration(context.resources.configuration).apply {
+            uiMode = (uiMode and Configuration.UI_MODE_NIGHT_MASK.inv()) or nightMode
+        }
+        val configContext = context.createConfigurationContext(config)
+
+        val themedContext = ContextThemeWrapper(configContext, theme)
+        val inflater = LayoutInflater.from(themedContext)
+        return inflater
     }
 }
 

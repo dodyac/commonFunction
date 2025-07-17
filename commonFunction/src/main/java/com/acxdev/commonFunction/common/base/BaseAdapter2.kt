@@ -1,7 +1,6 @@
 package com.acxdev.commonFunction.common.base
 
 import android.content.Context
-import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.Filter
 import android.widget.Filterable
@@ -10,6 +9,7 @@ import androidx.annotation.StringRes
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewbinding.ViewBinding
+import com.acxdev.commonFunction.common.Inflater.getInflaterBasedOnTheme
 import com.acxdev.commonFunction.common.Inflater.inflateBinding
 import com.acxdev.commonFunction.model.ViewHolder
 import java.lang.ref.WeakReference
@@ -38,7 +38,11 @@ abstract class BaseAdapter2<VB : ViewBinding, T>(
         parent: ViewGroup,
         viewType: Int
     ): ViewHolder<VB> {
-        val binding = inflateBinding(LayoutInflater.from(parent.context), parent)
+        val inflater = parent.getInflaterBasedOnTheme(
+            isDarkMode,
+            theme
+        )
+        val binding = inflateBinding(inflater, parent)
         return ViewHolder(binding).also {
             it.binding.onCreate(parent.context, it.adapterPosition)
         }
@@ -105,6 +109,9 @@ abstract class BaseAdapter2<VB : ViewBinding, T>(
         item: T,
         position: Int
     )
+
+    protected abstract val isDarkMode: Boolean
+    protected abstract val theme: Int
 
     fun filter(charSequence: CharSequence?) {
         filter.filter(charSequence)
