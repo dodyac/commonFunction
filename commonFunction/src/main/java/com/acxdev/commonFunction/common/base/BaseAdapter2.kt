@@ -129,7 +129,7 @@ abstract class BaseAdapter2<VB : ViewBinding, T>(
         @StringRes resId: Int,
         vararg formatArgs: Any
     ): String {
-        return root.context.getString(resId, formatArgs)
+        return root.context.getString(resId, *formatArgs)
     }
 
     protected fun VB.getColor(@ColorRes resId: Int): Int {
