@@ -26,9 +26,9 @@ fun Fragment.putExtras(vararg extras: Extra) {
     arguments = args
 }
 
-fun Fragment.toast(@StringRes string: Int, isLengthLong: Boolean = true) {
-    context?.toast(string, isLengthLong)
-}
+//fun Fragment.toast(@StringRes string: Int, isLengthLong: Boolean = true) {
+//    context?.toast(string, isLengthLong)
+//}
 
 fun Fragment.toast(string: String, isLengthLong: Boolean = true) {
     context?.toast(string, isLengthLong)
