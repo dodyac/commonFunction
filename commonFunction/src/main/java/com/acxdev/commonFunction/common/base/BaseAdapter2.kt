@@ -15,17 +15,14 @@ import com.acxdev.commonFunction.model.ViewHolder
 import java.lang.ref.WeakReference
 
 abstract class BaseAdapter2<VB : ViewBinding, T>(
-    adapterListener: AdapterListener<T>? = null
+    private val adapterListener: AdapterListener<T>? = null
 ) : RecyclerView.Adapter<ViewHolder<VB>>(), Filterable {
-
-    // Use weak reference for listener
-    private val adapterListenerRef = WeakReference(adapterListener)
 
     //full list
     var currentList = emptyList<T>()
     //showed
     protected val filteredList = MutableListDelegate<T> {
-        adapterListenerRef.get()?.onListChanged(
+        adapterListener?.onListChanged(
             size = size,
             isEmpty = isEmpty()
         )
@@ -95,7 +92,7 @@ abstract class BaseAdapter2<VB : ViewBinding, T>(
             val result = results.values as List<T>
             val finalList = result.distinct()
             setFilteredItems(finalList)
-            adapterListenerRef.get()?.onFilteredResult(finalList)
+            adapterListener?.onFilteredResult(finalList)
         }
     }
 
