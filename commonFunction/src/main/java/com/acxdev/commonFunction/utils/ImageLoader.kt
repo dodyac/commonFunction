@@ -57,6 +57,13 @@ object ImageLoader {
             .clear(this)
     }
 
+    fun ImageView.setImageGIF(gifUri: Uri?) {
+        Glide.with(this)
+            .asGif()
+            .load(gifUri)
+            .into(this)
+    }
+
     fun ImageView.setImageUrl(
         url: String?,
         imageStyle: ImageStyle = ImageStyle.None,
